@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { loginCredentials, registerCredentials } from "./schema";
+import { loginSchema, registerSchema } from "./schema";
 
-export type LoginCredentials = z.infer<typeof loginCredentials>;
-export type RegisterCredentials = z.infer<typeof registerCredentials>;
+export type LoginCredentials = z.infer<typeof loginSchema>;
+export type RegisterCredentials = z.infer<typeof registerSchema>;
 
 export type User = {
 	id: string;
@@ -25,7 +25,7 @@ export type UserAvatar = {
 	imageUrl: string;
 };
 
-export type AuthResponse = {
+export type LoginResponse = {
 	tokens: Tokens;
 	user: User;
 };

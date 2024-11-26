@@ -1,7 +1,7 @@
 import { Popover, PasswordInput, Progress } from "@mantine/core";
 import { useState } from "react";
 
-import classes from "../../features/auth/auth.module.css";
+import classes from "../../auth.module.css";
 import { Lock } from "lucide-react";
 import { UseFormReturnType } from "@mantine/form";
 import { passwordRequirements, testPasswordStrength } from "../../utils/utils";

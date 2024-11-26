@@ -11,19 +11,19 @@ import {
 } from "@mantine/core";
 import { AtSign, Lock, User2, Check } from "lucide-react";
 
-import classes from "./auth.module.css";
+import classes from "../auth.module.css";
 
 import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import MaleA from "../../assets/male_a.png";
-import MaleB from "../../assets/male_b.png";
-import FemaleA from "../../assets/female_a.png";
-import FemaleB from "../../assets/female_b.png";
+import MaleA from "../../../assets/male_a.png";
+import MaleB from "../../../assets/male_b.png";
+import FemaleA from "../../../assets/female_a.png";
+import FemaleB from "../../../assets/female_b.png";
 import { useNavigate } from "@tanstack/react-router";
-import ValidatedPasswordInput from "../../components/inputs/ValidatedPasswordInput";
+import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
 
 const registerFormSchema = z
 	.object({
