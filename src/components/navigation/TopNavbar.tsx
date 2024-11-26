@@ -1,6 +1,5 @@
 import {
 	AppShell,
-	Box,
 	Burger,
 	Button,
 	Center,
@@ -14,9 +13,10 @@ import {
 } from "@mantine/core";
 
 import Logo from "../../assets/logo.png";
-import useGetColorTheme from "../../hooks/useGetColorScheme";
+import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "@tanstack/react-router";
+import ThemeToggle from "../theme/ThemeToggle";
 
 function TopNavbar() {
 	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -88,6 +88,7 @@ function TopNavbar() {
 							<Group visibleFrom="sm">
 								<Button variant="default">Log in</Button>
 								<Button>Sign up</Button>
+								<ThemeToggle />
 							</Group>
 
 							<Burger

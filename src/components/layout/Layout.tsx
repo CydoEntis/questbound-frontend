@@ -13,6 +13,7 @@ import { Link, Outlet } from "@tanstack/react-router";
 
 import Logo from "../../assets/logo.png";
 import NavButton from "../buttons/NavButton";
+import ThemeToggle from "../theme/ThemeToggle";
 
 export function Layout() {
 	const [opened, { toggle }] = useDisclosure();
@@ -62,6 +63,7 @@ export function Layout() {
 									to="/register"
 									variant={"outline"}
 								/>
+								<ThemeToggle />
 							</Group>
 							<Burger
 								opened={opened}
