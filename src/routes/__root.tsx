@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRootRouteWithContext, Link } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Layout } from "../components/layout/Layout";
+import theme from "../components/theme/theme.config";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
@@ -25,7 +26,10 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
 	return (
-		<MantineProvider defaultColorScheme="auto">
+		<MantineProvider
+			theme={theme}
+			defaultColorScheme="auto"
+		>
 			<Notifications />
 			<Layout />
 			<ReactQueryDevtools buttonPosition="bottom-right" />

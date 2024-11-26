@@ -1,12 +1,12 @@
 import { Container, Group, Title } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
-import NavButton from "../buttons/NavButton";
-import ThemeToggle from "../theme/ThemeToggle";
+import NavButton from "../../../buttons/NavButton";
+import ThemeToggle from "../../../theme/ThemeToggle";
 import { ReactElement } from "react";
 
-type UnauthenicatedNavProps = { mobileNavToggle: ReactElement };
+type HeaderNavGuestProps = { mobileNavToggle: ReactElement };
 
-function UnauthenticatedNav({ mobileNavToggle }: UnauthenicatedNavProps) {
+function HeaderNavGuest({ mobileNavToggle }: HeaderNavGuestProps) {
 	return (
 		<Container
 			size="lg"
@@ -46,4 +46,4 @@ function UnauthenticatedNav({ mobileNavToggle }: UnauthenicatedNavProps) {
 	);
 }
 
-export default UnauthenticatedNav;
+export default HeaderNavGuest;

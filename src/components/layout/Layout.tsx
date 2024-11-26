@@ -1,33 +1,23 @@
-import {
-	AppShell,
-	Box,
-	Burger,
-	Container,
-	Flex,
-	Group,
-	Image,
-	Stack,
-} from "@mantine/core";
+import { AppShell, Container } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Link, Outlet } from "@tanstack/react-router";
+import { Outlet } from "@tanstack/react-router";
 
-import Logo from "../../assets/logo.png";
-import NavButton from "../buttons/NavButton";
-import ThemeToggle from "../theme/ThemeToggle";
-import TopBar from "./TopBar";
+import TopBar from "./navigation/header/Header";
+import useGetColorTheme from "../theme/hooks/useGetColorScheme";
+import Sidebar from "./navigation/sidebar/Sidebar";
 
 export function Layout() {
-	const [opened, { toggle }] = useDisclosure();
+	const isLightMode = useGetColorTheme();
+	const [opened, { toggle, close }] = useDisclosure();
 
 	return (
 		<AppShell
 			header={{ height: 60 }}
 			navbar={{
-				width: 300,
+				width: { base: 200, md: 300 },
 				breakpoint: "sm",
-				collapsed: { desktop: true, mobile: !opened },
+				collapsed: { mobile: !opened },
 			}}
-			padding="md"
 		>
 			<AppShell.Header>
 				<TopBar
@@ -38,33 +28,20 @@ export function Layout() {
 			</AppShell.Header>
 
 			<AppShell.Navbar
-				py="md"
-				px={16}
+				p="md"
+				bg="secondary"
+				style={{
+					navbar: {
+						borderColor: isLightMode ? "#DCDEE0" : "#3A3A3A",
+						overflowY: "auto",
+						height: "100vh",
+					},
+				}}
 			>
-				<Stack
-					justify="space-between"
-					h="100%"
-				>
-					<Box>Something goes here soon</Box>
-					<Flex
-						direction={{ base: "row" }}
-						gap="xs"
-						w="100%"
-					>
-						<NavButton
-							text="Login"
-							to="/login"
-							variant={"subtle"}
-							fullWidth
-						/>
-						<NavButton
-							text="Register"
-							to="/register"
-							variant={"outline"}
-							fullWidth
-						/>
-					</Flex>
-				</Stack>
+				<Sidebar
+					isAuthenticated={true}
+					onClose={close}
+				/>
 			</AppShell.Navbar>
 
 			<AppShell.Main px={0}>

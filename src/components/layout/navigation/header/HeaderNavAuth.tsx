@@ -2,11 +2,11 @@ import { Flex, Group, Title } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { ReactElement } from "react";
 
-type AuthenticatedNavProps = {
+type HeaderNavAuthProps = {
 	mobileNavToggle: ReactElement;
 };
 
-function AuthenticatedNav({ mobileNavToggle }: AuthenticatedNavProps) {
+function HeaderNavAuth({ mobileNavToggle }: HeaderNavAuthProps) {
 	return (
 		<Flex
 			align="center"
@@ -21,4 +21,4 @@ function AuthenticatedNav({ mobileNavToggle }: AuthenticatedNavProps) {
 	);
 }
 
-export default AuthenticatedNav;
+export default HeaderNavAuth;

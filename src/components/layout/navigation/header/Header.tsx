@@ -1,16 +1,16 @@
 import { AppShell } from "@mantine/core";
-import useGetColorTheme from "../theme/hooks/useGetColorScheme";
-import UnauthenticatedNav from "../navigation/UnauthenticatedNav";
-import AuthenticatedNav from "../navigation/AuthenticatedNav";
-import MobileNavToggle from "./MobileNavToggle";
+import useGetColorTheme from "../../../theme/hooks/useGetColorScheme";
+import UnauthenticatedNav from "./HeaderNavGuest";
+import AuthenticatedNav from "./HeaderNavAuth";
+import MobileNavToggle from "../mobile/MobileNavToggle";
 
-type TopBarProps = {
+type HeaderProps = {
 	isAuthenticated: boolean;
 	opened: boolean;
 	toggle: () => void;
 };
 
-function TopBar({ isAuthenticated, opened, toggle }: TopBarProps) {
+function Header({ isAuthenticated, opened, toggle }: HeaderProps) {
 	const { isLightMode } = useGetColorTheme();
 
 	return (
@@ -45,4 +45,4 @@ function TopBar({ isAuthenticated, opened, toggle }: TopBarProps) {
 	);
 }
 
-export default TopBar;
+export default Header;
