@@ -1,5 +1,7 @@
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -24,6 +26,7 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
 	return (
 		<MantineProvider defaultColorScheme="auto">
+			<Notifications />
 			<Layout />
 			<ReactQueryDevtools buttonPosition="bottom-right" />
 			<TanStackRouterDevtools />
