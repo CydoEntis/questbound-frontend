@@ -31,11 +31,17 @@ export function useLogin() {
 				title: "Success",
 				message: "Login successful!",
 				color: "green",
-				position: "top-right"
+				position: "top-right",
 			});
 		},
 		onError: (error: Error) => {
-			console.error("Login Failed", error);
+			notifications.show({
+				title: "Login Failed",
+				message: "Something went wrong!",
+				color: "red",
+				position: "top-right",
+			});
+			throw error;
 		},
 	});
 }
