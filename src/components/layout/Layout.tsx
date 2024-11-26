@@ -14,6 +14,7 @@ import { Link, Outlet } from "@tanstack/react-router";
 import Logo from "../../assets/logo.png";
 import NavButton from "../buttons/NavButton";
 import ThemeToggle from "../theme/ThemeToggle";
+import TopBar from "./TopBar";
 
 export function Layout() {
 	const [opened, { toggle }] = useDisclosure();
@@ -29,51 +30,11 @@ export function Layout() {
 			padding="md"
 		>
 			<AppShell.Header>
-				<Container
-					size="lg"
-					h="100%"
-				>
-					<Group
-						h="100%"
-						align="center"
-					>
-						<Group
-							justify="space-between"
-							align="center"
-							style={{ flex: 1 }}
-						>
-							<Link to="/">
-								<Image
-									src={Logo}
-									h={40}
-								/>
-							</Link>
-							<Group
-								ml="xl"
-								gap={8}
-								visibleFrom="xs"
-							>
-								<NavButton
-									text="Login"
-									to="/login"
-									variant={"subtle"}
-								/>
-								<NavButton
-									text="Register"
-									to="/register"
-									variant={"outline"}
-								/>
-								<ThemeToggle />
-							</Group>
-							<Burger
-								opened={opened}
-								onClick={toggle}
-								hiddenFrom="xs"
-								size="sm"
-							/>
-						</Group>
-					</Group>
-				</Container>
+				<TopBar
+					isAuthenticated={true}
+					opened={opened}
+					toggle={toggle}
+				/>
 			</AppShell.Header>
 
 			<AppShell.Navbar
