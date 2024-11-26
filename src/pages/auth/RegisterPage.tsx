@@ -1,5 +1,5 @@
 import { Box, Container } from "@mantine/core";
-import AuthCard from "../../features/auth/AuthCard";
+import AuthCard from "../../features/auth/components/AuthCard";
 import RegisterForm from "../../features/auth/RegisterForm";
 
 type Props = {};

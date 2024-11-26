@@ -1,8 +1,8 @@
 import { Anchor, Box, Container, Paper, Text, Title } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import React from "react";
-import AuthCard from "../../features/auth/AuthCard";
-import LoginForm from "../../features/auth/LoginForm";
+import AuthCard from "../../features/auth/components/AuthCard";
+import LoginForm from "../../features/auth/login/LoginForm";
 
 type Props = {};
 

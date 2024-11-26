@@ -1,22 +1,14 @@
 import { Anchor, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 
-import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
 import { AxiosError } from "axios";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 
 import classes from "./auth.module.css";
-
-const loginFormSchema = z.object({
-	email: z
-		.string()
-		.min(1, "Email is required")
-		.email("Please enter a valid email"),
-	password: z.string().min(1, "Password is required"),
-});
-type LoginFormData = z.infer<typeof loginFormSchema>;
+import { loginCredentials } from "../shared/schema";
+import { LoginCredentials } from "../shared/types";
 
 type Props = {};
 
@@ -27,15 +19,15 @@ function LoginForm({}: Props) {
 
 	const from = (location.state as { from?: string })?.from || "/";
 
-	const form = useForm<LoginFormData>({
-		validate: zodResolver(loginFormSchema),
+	const form = useForm<LoginCredentials>({
+		validate: zodResolver(loginCredentials),
 		initialValues: {
 			email: "",
 			password: "",
 		},
 	});
 
-	async function onSubmit(data: LoginFormData) {
+	async function onSubmit(data: LoginCredentials) {
 		try {
 			// await loginUser(data);
 
@@ -60,7 +52,7 @@ function LoginForm({}: Props) {
 					input: classes.input,
 				}}
 				leftSection={<AtSign size={20} />}
-				{...form.getInputProps("email")} 
+				{...form.getInputProps("email")}
 			/>
 			<PasswordInput
 				label="Password"
