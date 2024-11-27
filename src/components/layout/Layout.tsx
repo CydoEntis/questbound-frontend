@@ -1,14 +1,16 @@
 import { AppShell, Container } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, useLocation } from "@tanstack/react-router";
 
 import TopBar from "./navigation/header/Header";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import Sidebar from "./navigation/sidebar/Sidebar";
+import Page from "../page/Page";
 
 export function Layout() {
 	const isLightMode = useGetColorTheme();
 	const [opened, { toggle, close }] = useDisclosure();
+	const location = useLocation();
 
 	return (
 		<AppShell
@@ -21,7 +23,7 @@ export function Layout() {
 		>
 			<AppShell.Header>
 				<TopBar
-					isAuthenticated={true}
+					isAuthenticated={false}
 					opened={opened}
 					toggle={toggle}
 				/>
@@ -44,10 +46,12 @@ export function Layout() {
 				/>
 			</AppShell.Navbar>
 
-			<AppShell.Main px={0}>
-				<Container size="lg">
+			<AppShell.Main
+				style={{ backgroundColor: "orangered" }}
+			>
+				<Page key={location.pathname}>
 					<Outlet />
-				</Container>
+				</Page>
 			</AppShell.Main>
 		</AppShell>
 	);

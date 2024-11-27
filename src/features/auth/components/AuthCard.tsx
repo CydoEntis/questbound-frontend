@@ -22,7 +22,7 @@ function AuthCard({
 			withBorder
 			shadow="md"
 			p={{base: 16, md: 32}}
-			mt={30}
+			pt={30}
 			radius="md"
 		>
 			<Title ta="center">{title}</Title>

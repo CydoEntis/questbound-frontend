@@ -1,18 +1,31 @@
-import { Anchor, Box, Container, Paper, Text, Title } from "@mantine/core";
-import { Link } from "@tanstack/react-router";
-import React from "react";
+import { Box, Container } from "@mantine/core";
 import AuthCard from "../../features/auth/components/AuthCard";
 import LoginForm from "../../features/auth/login/LoginForm";
 
 type Props = {};
-
+// TODO: Make the Box/Container into a reusable Page wrapper for auth related components.
 function LoginPage({}: Props) {
 	return (
-		<Box p={0}>
+		<Box
+			style={{
+				display: "flex", 
+				justifyContent: "center", 
+				alignItems: "flex-start", 
+				minHeight: "calc(100vh - 60px)", 
+				height: "100%",
+				position: "relative", 
+			}}
+		>
 			<Container
 				p={0}
 				w="100%"
 				maw={520}
+				style={{
+					position: "absolute",
+					top: "20%", 
+					left: "50%", 
+					transform: "translateX(-50%)",
+				}}
 			>
 				<AuthCard
 					title="Welcome Back"
