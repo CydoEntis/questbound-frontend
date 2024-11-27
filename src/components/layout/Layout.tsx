@@ -46,7 +46,7 @@ export function Layout() {
 				/>
 			</AppShell.Navbar>
 
-			<AppShell.Main>
+			<AppShell.Main bg="primary">
 				<SlideInRightTransition key={location.pathname}>
 					<Outlet />
 				</SlideInRightTransition>

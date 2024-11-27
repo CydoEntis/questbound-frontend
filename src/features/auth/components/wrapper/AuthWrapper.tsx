@@ -1,11 +1,26 @@
 import { Box, Container } from "@mantine/core";
-import { ReactElement } from "react";
+import { useState, useEffect, ReactElement } from "react";
+import useGetColorTheme from "../../../../components/theme/hooks/useGetColorScheme";
 
-type AuthWrapperProps = { children: ReactElement };
+import classes from "./auth-wrapper.module.css";
+
+type AuthWrapperProps = {
+	children: ReactElement;
+};
 
 function AuthWrapper({ children }: AuthWrapperProps) {
+	const {isLightMode} = useGetColorTheme();
+	const [themeClass, setThemeClass] = useState("");
+
+	useEffect(() => {
+		setThemeClass(isLightMode ? classes.lightBg : classes.darkBg);
+	}, [isLightMode]); 
+
+	console.log(themeClass)
+
 	return (
 		<Box
+			className={themeClass}
 			style={{
 				display: "flex",
 				justifyContent: "center",

@@ -1,0 +1,17 @@
+.darkBg {
+	background-color: #111111;
+	opacity: 1;
+	background-image: radial-gradient(#232323 2px, transparent 2px),
+		radial-gradient(#232323 2px, #111111 2px);
+	background-size: 80px 80px;
+	background-position: 0 0, 40px 40px;
+}
+
+.lightBg {
+	background-color: #f5f4f4;
+	opacity: 1;
+	background-image: radial-gradient(#cfcfcf 2px, transparent 2px),
+		radial-gradient(#cfcfcf 2px, #f5f4f4 2px);
+	background-size: 80px 80px;
+	background-position: 0 0, 40px 40px;
+}

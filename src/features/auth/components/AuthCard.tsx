@@ -24,6 +24,7 @@ function AuthCard({
 			p={{base: 16, md: 32}}
 			pt={30}
 			radius="md"
+			bg="card"
 		>
 			<Title ta="center">{title}</Title>
 			<Text
