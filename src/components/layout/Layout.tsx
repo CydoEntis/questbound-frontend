@@ -1,11 +1,11 @@
-import { AppShell, Container } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Outlet, useLocation } from "@tanstack/react-router";
 
 import TopBar from "./navigation/header/Header";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import Sidebar from "./navigation/sidebar/Sidebar";
-import Page from "../page/Page";
+import SlideInRightTransition from "../page-transitions/SlideInRightTransition";
 
 export function Layout() {
 	const isLightMode = useGetColorTheme();
@@ -46,12 +46,10 @@ export function Layout() {
 				/>
 			</AppShell.Navbar>
 
-			<AppShell.Main
-				style={{ backgroundColor: "orangered" }}
-			>
-				<Page key={location.pathname}>
+			<AppShell.Main>
+				<SlideInRightTransition key={location.pathname}>
 					<Outlet />
-				</Page>
+				</SlideInRightTransition>
 			</AppShell.Main>
 		</AppShell>
 	);

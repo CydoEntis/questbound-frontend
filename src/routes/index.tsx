@@ -1,5 +1,5 @@
 import { createFileRoute, useLocation } from "@tanstack/react-router";
-import Page from "../components/page/Page";
+import Page from "../components/page-transitions/SlideInRightTransition";
 import { Title } from "@mantine/core";
 
 export const Route = createFileRoute("/")({

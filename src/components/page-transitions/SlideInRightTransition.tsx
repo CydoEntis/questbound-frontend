@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
-type PageProps = {
+type SlideInRightTransitionProps = {
 	children: React.ReactNode;
 };
 
-const Page: React.FC<PageProps> = ({ children }) => {
+function SlideInRightTransition({ children }: SlideInRightTransitionProps) {
 	return (
 		<motion.div
 			initial={{ x: "-100%", opacity: 0 }}
@@ -13,15 +13,14 @@ const Page: React.FC<PageProps> = ({ children }) => {
 			transition={{ duration: 0.5, ease: "easeInOut" }}
 			style={{
 				width: "100%",
-				minHeight: "calc(100vh - 60px)", 
-				height: "100%", 
-				position: "relative", 
-				backgroundColor: "purple", 
+				minHeight: "calc(100vh - 60px)",
+				height: "100%",
+				position: "relative",
 			}}
 		>
 			{children}
 		</motion.div>
 	);
-};
+}
 
-export default Page;
+export default SlideInRightTransition;
