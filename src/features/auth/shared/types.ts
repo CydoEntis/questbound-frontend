@@ -11,7 +11,6 @@ export type User = {
 	currentExp: number;
 	expToNextLevel: number;
 	avatar: UserAvatar;
-	isLoggedIn: boolean;
 };
 
 export type Tokens = {
@@ -32,4 +31,9 @@ export type LoginResponse = {
 
 export type AuthenticatedUser = User & {
 	isLoggedIn: boolean;
+};
+
+export type StoredUser = {
+	user: AuthenticatedUser;
+	tokens: Tokens;
 };

@@ -12,6 +12,8 @@ export function Layout() {
 	const [opened, { toggle, close }] = useDisclosure();
 	const location = useLocation();
 
+	
+
 	return (
 		<AppShell
 			header={{ height: 60 }}
