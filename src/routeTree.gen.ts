@@ -13,10 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
-import { Route as DashboardImport } from './routes/dashboard'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as PartiesIndexImport } from './routes/parties/index'
-import { Route as PartiesIdImport } from './routes/parties/$id'
+import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedPartiesIndexImport } from './routes/_authenticated/parties/index'
+import { Route as AuthenticatedPartiesIdImport } from './routes/_authenticated/parties/$id'
 
 // Create/Update Routes
 
@@ -32,9 +33,8 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -44,16 +44,22 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PartiesIndexRoute = PartiesIndexImport.update({
-  id: '/parties/',
-  path: '/parties/',
-  getParentRoute: () => rootRoute,
+const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const PartiesIdRoute = PartiesIdImport.update({
+const AuthenticatedPartiesIndexRoute = AuthenticatedPartiesIndexImport.update({
+  id: '/parties/',
+  path: '/parties/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedPartiesIdRoute = AuthenticatedPartiesIdImport.update({
   id: '/parties/$id',
   path: '/parties/$id',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -67,11 +73,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -88,91 +94,122 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
-    '/parties/$id': {
-      id: '/parties/$id'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/parties/$id': {
+      id: '/_authenticated/parties/$id'
       path: '/parties/$id'
       fullPath: '/parties/$id'
-      preLoaderRoute: typeof PartiesIdImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedPartiesIdImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/parties/': {
-      id: '/parties/'
+    '/_authenticated/parties/': {
+      id: '/_authenticated/parties/'
       path: '/parties'
       fullPath: '/parties'
-      preLoaderRoute: typeof PartiesIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedPartiesIndexImport
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedPartiesIdRoute: typeof AuthenticatedPartiesIdRoute
+  AuthenticatedPartiesIndexRoute: typeof AuthenticatedPartiesIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedPartiesIdRoute: AuthenticatedPartiesIdRoute,
+  AuthenticatedPartiesIndexRoute: AuthenticatedPartiesIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/parties/$id': typeof PartiesIdRoute
-  '/parties': typeof PartiesIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/parties': typeof AuthenticatedPartiesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/parties/$id': typeof PartiesIdRoute
-  '/parties': typeof PartiesIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/parties': typeof AuthenticatedPartiesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/parties/$id': typeof PartiesIdRoute
-  '/parties/': typeof PartiesIndexRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/_authenticated/parties/': typeof AuthenticatedPartiesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
+    | ''
     | '/login'
     | '/register'
+    | '/dashboard'
     | '/parties/$id'
     | '/parties'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/register' | '/parties/$id' | '/parties'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/register'
+    | '/dashboard'
+    | '/parties/$id'
+    | '/parties'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
+    | '/_authenticated'
     | '/login'
     | '/register'
-    | '/parties/$id'
-    | '/parties/'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/parties/$id'
+    | '/_authenticated/parties/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
-  PartiesIdRoute: typeof PartiesIdRoute
-  PartiesIndexRoute: typeof PartiesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
-  PartiesIdRoute: PartiesIdRoute,
-  PartiesIndexRoute: PartiesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -186,18 +223,21 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard",
+        "/_authenticated",
         "/login",
-        "/register",
-        "/parties/$id",
-        "/parties/"
+        "/register"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/dashboard": {
-      "filePath": "dashboard.tsx"
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/dashboard",
+        "/_authenticated/parties/$id",
+        "/_authenticated/parties/"
+      ]
     },
     "/login": {
       "filePath": "login.tsx"
@@ -205,11 +245,17 @@ export const routeTree = rootRoute
     "/register": {
       "filePath": "register.tsx"
     },
-    "/parties/$id": {
-      "filePath": "parties/$id.tsx"
+    "/_authenticated/dashboard": {
+      "filePath": "_authenticated/dashboard.tsx",
+      "parent": "/_authenticated"
     },
-    "/parties/": {
-      "filePath": "parties/index.tsx"
+    "/_authenticated/parties/$id": {
+      "filePath": "_authenticated/parties/$id.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/parties/": {
+      "filePath": "_authenticated/parties/index.tsx",
+      "parent": "/_authenticated"
     }
   }
 }
