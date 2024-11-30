@@ -1,4 +1,4 @@
-import { Button, Flex, Indicator, NavLink, Stack } from "@mantine/core";
+import { Button, NavLink, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -12,6 +12,7 @@ import { User } from "../../../../features/auth/shared/types";
 import ThemeToggle from "../../../theme/ThemeToggle";
 import { useLogout } from "../../../../features/auth/api/auth";
 import useAuthStore from "../../../../stores/useAuthStore";
+import UserInfo from "../../../../features/user/user-info/UserInfo";
 
 type SidebarNavAuthProps = {
 	user: User;
@@ -54,16 +55,22 @@ function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
 	return (
 		<Stack
 			style={{
-				flexGrow: 1,
-				overflowY: "auto",
-				maxHeight: "calc(100vh - 120px)",
+				display: "flex",
+				flexDirection: "column",
+				height: "calc(100vh - 120px)", 
 			}}
 		>
-			<Stack gap={8}>
-				{/* <AccountIndicator
+			<Stack
+				gap={8}
+				style={{
+					flexGrow: 1,
+					overflowY: "auto",
+				}}
+			>
+				<UserInfo
 					user={user!}
 					onOpen={handleOpenAccountDetails}
-				/> */}
+				/>
 				<Button
 					color="violet"
 					variant="light"
@@ -92,49 +99,12 @@ function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
 					color="violet"
 					onClick={handleClose}
 				/>
-				{/* <NavLink
-					label="Most Recent"
-					className="rounded-md"
-					leftSection={
-						isRecentOpen ? <BookOpen size={20} /> : <Book size={20} />
-					}
-					variant="subtle"
-					color="gray"
-					opened={isRecentOpen}
-					onClick={toggleRecentOpen}
-				> */}
-				{/* {recentParties.length === 0 ? (
-						<Text size="xs">No recent parties</Text>
-					) : null}
-					{recentParties?.map((party) => (
-						<NavLink
-							key={party.id}
-							component={Link}
-							to={`/parties/${party.id}/quests`}
-							label={
-								<Flex
-									align="center"
-									gap={16}
-									px={10}
-								>
-									<Indicator
-										inline
-										color={party.color}
-										processing
-										size={10}
-									/>
-									{party.title}
-								</Flex>
-							}
-							color="violet"
-							className="rounded-md"
-							mt={8}
-							onClick={handleClose}
-						/>
-					))}
-				</NavLink> */}
 			</Stack>
-			<Stack mt="auto">
+
+			{/* Bottom Buttons */}
+			<Stack
+				mt="auto" // Moves this section to the bottom
+			>
 				<Button
 					justify="start"
 					leftSection={<ShoppingBag size={20} />}

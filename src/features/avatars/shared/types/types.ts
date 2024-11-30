@@ -7,3 +7,4 @@ export type Avatar = {
 	cost: number;
 	isUnlocked: boolean;
 };
+
