@@ -17,9 +17,14 @@ import UserInfo from "../../../../features/user/user-info/UserInfo";
 type SidebarNavAuthProps = {
 	user: User;
 	closeNav: () => void;
+	onOpenUserManagement: () => void;
 };
 
-function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
+function SidebarNavAuth({
+	user,
+	closeNav,
+	onOpenUserManagement,
+}: SidebarNavAuthProps) {
 	const navigate = useNavigate();
 	const { tokens } = useAuthStore();
 	const logout = useLogout();
@@ -38,7 +43,7 @@ function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
 	};
 
 	const handleOpenAccountDetails = () => {
-		// openAccountDetails();
+		onOpenUserManagement();
 		handleClose();
 	};
 
@@ -57,7 +62,7 @@ function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
 			style={{
 				display: "flex",
 				flexDirection: "column",
-				height: "calc(100vh - 120px)", 
+				height: "calc(100vh - 120px)",
 			}}
 		>
 			<Stack
