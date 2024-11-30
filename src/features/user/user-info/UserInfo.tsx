@@ -3,6 +3,8 @@ import { ChevronRight } from "lucide-react";
 import { User } from "../../auth/shared/types";
 import UserLevel from "../user-level/UserLevel";
 
+import classes from "./user-info.module.css";
+
 type UserInfoProps = { user: User; onOpen: () => void };
 
 function UserInfo({ user, onOpen }: UserInfoProps) {
@@ -10,7 +12,7 @@ function UserInfo({ user, onOpen }: UserInfoProps) {
 		<>
 			<Paper
 				p={16}
-				className="hover:brightness-90 cursor-pointer"
+				className={classes.userInfo}
 				withBorder
 				onClick={onOpen}
 			>

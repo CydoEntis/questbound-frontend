@@ -1,0 +1,8 @@
+.userInfo {
+	cursor: pointer;
+	transition: ease-in-out all 200ms;
+}
+
+.userInfo:hover {
+	filter: brightness(90%);
+}

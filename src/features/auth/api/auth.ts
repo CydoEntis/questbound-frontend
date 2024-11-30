@@ -47,6 +47,37 @@ export function useLogin() {
 	});
 }
 
+export function useRefreshTokens() {
+	const { setTokens } = useAuthStore();
+
+	return useMutation({
+		mutationFn: async (tokens: Tokens): Promise<Tokens> => {
+			return await authServices.refreshTokens(tokens);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+			setTokens(data);
+
+			const collabParty = { token: data.accessToken };
+			const existingData = localStorageService.getItem("collabParty") || {};
+			const updatedData = { ...existingData, ...collabParty };
+
+			localStorageService.setItem("collabParty", updatedData);
+
+			return data;
+		},
+		onError: (error: Error) => {
+			notifications.show({
+				title: "Login Expired",
+				message: "You are no longer logged in.",
+				color: "red",
+				position: "top-right",
+			});
+			throw error;
+		},
+	});
+}
+
 export function useLogout() {
 	const { setUser, setTokens } = useAuthStore();
 
