@@ -1,6 +1,5 @@
 import { AppShell } from "@mantine/core";
 import useGetColorTheme from "../../../theme/hooks/useGetColorScheme";
-import UnauthenticatedNav from "./HeaderNavGuest";
 import MobileNavToggle from "../mobile/MobileNavToggle";
 import HeaderNavAuth from "./HeaderNavAuth";
 import HeaderNavGuest from "./HeaderNavGuest";

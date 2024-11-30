@@ -16,6 +16,8 @@ export function useLogin() {
 			return await authServices.loginUser(credentials);
 		},
 		onSuccess: (data) => {
+			console.log(data);
+
 			setUser(data.user);
 			setTokens(data.tokens);
 

@@ -2,11 +2,10 @@ import useAuthStore from "../../../../stores/useAuthStore";
 import SidebarNavAuth from "./SidebarNavAuth";
 
 type SidebarProps = {
-	isAuthenticated: boolean;
 	onClose: () => void;
 };
 
-function Sidebar({ isAuthenticated, onClose }: SidebarProps) {
+function Sidebar({ onClose }: SidebarProps) {
 	const { user } = useAuthStore();
 
 	return (

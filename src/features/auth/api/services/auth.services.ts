@@ -20,10 +20,12 @@ const registerUser = async (
 const loginUser = async (
 	credentials: LoginCredentials,
 ): Promise<LoginResponse> => {
+
 	const response = (
 		await apiClient.post(`${endpoints.auth}/login`, credentials)
 	).data;
 
+	console.log("Response: ", response);
 
 	if (!response.isSuccess) throw new Error();
 

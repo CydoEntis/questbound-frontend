@@ -1,9 +1,17 @@
 import { Button, Flex, Indicator, NavLink, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { Link } from "@tanstack/react-router";
-import { LayoutGrid, LogOut, PlusCircle, ShoppingBag, SquareLibrary } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import {
+	LayoutGrid,
+	LogOut,
+	PlusCircle,
+	ShoppingBag,
+	SquareLibrary,
+} from "lucide-react";
 import { User } from "../../../../features/auth/shared/types";
 import ThemeToggle from "../../../theme/ThemeToggle";
+import { useLogout } from "../../../../features/auth/api/auth";
+import useAuthStore from "../../../../stores/useAuthStore";
 
 type SidebarNavAuthProps = {
 	user: User;
@@ -11,15 +19,20 @@ type SidebarNavAuthProps = {
 };
 
 function SidebarNavAuth({ user, closeNav }: SidebarNavAuthProps) {
+	const navigate = useNavigate();
+	const { tokens } = useAuthStore();
+	const logout = useLogout();
 	const isMobile = useMediaQuery("(max-width: 768px)");
 
 	const handleClose = () => {
 		if (isMobile) closeNav();
 	};
 
-	const logoutHandler = () => {
-		// logout();
-		// navigate("/login");
+	const logoutHandler = async () => {
+		await logout.mutateAsync(tokens!);
+		navigate({
+			to: "/login",
+		});
 		handleClose();
 	};
 
