@@ -15,7 +15,8 @@ import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
-import { Route as PartiesIdImport } from./routes/parties/$id/$id'
+import { Route as PartiesIndexImport } from './routes/parties/index'
+import { Route as PartiesIdImport } from './routes/parties/$id'
 
 // Create/Update Routes
 
@@ -40,6 +41,12 @@ const DashboardRoute = DashboardImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PartiesIndexRoute = PartiesIndexImport.update({
+  id: '/parties/',
+  path: '/parties/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,6 +95,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartiesIdImport
       parentRoute: typeof rootRoute
     }
+    '/parties/': {
+      id: '/parties/'
+      path: '/parties'
+      fullPath: '/parties'
+      preLoaderRoute: typeof PartiesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/parties/$id': typeof PartiesIdRoute
+  '/parties': typeof PartiesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +122,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/parties/$id': typeof PartiesIdRoute
+  '/parties': typeof PartiesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -116,14 +132,28 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/parties/$id': typeof PartiesIdRoute
+  '/parties/': typeof PartiesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/register' | '/parties/$id'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/parties/$id'
+    | '/parties'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/register' | '/parties/$id'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/register' | '/parties/$id'
+  to: '/' | '/dashboard' | '/login' | '/register' | '/parties/$id' | '/parties'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/parties/$id'
+    | '/parties/'
   fileRoutesById: FileRoutesById
 }
 
@@ -133,6 +163,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   PartiesIdRoute: typeof PartiesIdRoute
+  PartiesIndexRoute: typeof PartiesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -141,6 +172,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   PartiesIdRoute: PartiesIdRoute,
+  PartiesIndexRoute: PartiesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -157,7 +189,8 @@ export const routeTree = rootRoute
         "/dashboard",
         "/login",
         "/register",
-        "/parties/$id"
+        "/parties/$id",
+        "/parties/"
       ]
     },
     "/": {
@@ -174,6 +207,9 @@ export const routeTree = rootRoute
     },
     "/parties/$id": {
       "filePath": "parties/$id.tsx"
+    },
+    "/parties/": {
+      "filePath": "parties/index.tsx"
     }
   }
 }
