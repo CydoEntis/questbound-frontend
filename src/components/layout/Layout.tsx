@@ -25,11 +25,15 @@ export function Layout() {
 	return (
 		<AppShell
 			header={{ height: 60 }}
-			navbar={{
-				width: { base: 200, md: 300 },
-				breakpoint: "sm",
-				collapsed: { mobile: !opened },
-			}}
+			navbar={
+				checkIsAuthenticated()
+					? {
+							width: { base: 200, md: 300 },
+							breakpoint: "sm",
+							collapsed: { mobile: !opened },
+						}
+					: undefined
+			}
 		>
 			<AppShell.Header>
 				<TopBar
