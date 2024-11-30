@@ -1,3 +1,14 @@
+import apiClient from "../../../../lib/api/apiClient";
+import endpoints from "../../../../lib/api/endpoints";
+import { QueryParams } from "../../../../shared/types/types";
+import {
+	PaginatedParties,
+	Party,
+	CreateParty,
+	UpdateParty,
+	NewPartyCreator,
+} from "../../shared/types";
+
 const getAllParties = async (
 	params?: QueryParams,
 ): Promise<PaginatedParties> => {
@@ -8,7 +19,7 @@ const getAllParties = async (
 	});
 
 	const response = (
-		await apiClient.get(`${endpoints.parties}?${queryParams.toString()}`)
+		await apiClient.get(`${endpoints.userParties}?${queryParams.toString()}`)
 	).data;
 
 	if (!response.isSuccess) throw new Error();
@@ -16,14 +27,15 @@ const getAllParties = async (
 };
 
 const getPartyById = async (partyId: number): Promise<Party> => {
-	const response = (await apiClient.get(`${endpoints.parties}/${partyId}`))
+	const response = (await apiClient.get(`${endpoints.userParties}/${partyId}`))
 		.data;
 	if (!response.isSuccess) throw new Error();
 	return response.result;
 };
 
 const createParty = async (party: CreateParty): Promise<Party> => {
-	const response = (await apiClient.post(`${endpoints.parties}`, party)).data;
+	const response = (await apiClient.post(`${endpoints.userParties}`, party))
+		.data;
 	if (!response.isSuccess) throw new Error();
 
 	return response.result;
@@ -35,7 +47,7 @@ const updateParty = async (
 ): Promise<Party> => {
 	const response = (
 		await apiClient.put(
-			`${endpoints.parties}/${partyId}/details`,
+			`${endpoints.userParties}/${partyId}/details`,
 			updatedPartyDetails,
 		)
 	).data;
@@ -51,7 +63,7 @@ const updatePartyCreator = async (
 ): Promise<Party> => {
 	const response = (
 		await apiClient.put(
-			`${endpoints.parties}/${newPartyCreator.partyId}/change-creator`,
+			`${endpoints.userParties}/${newPartyCreator.partyId}/change-creator`,
 			newPartyCreator,
 		)
 	).data;
@@ -60,8 +72,9 @@ const updatePartyCreator = async (
 };
 
 const deleteParty = async (partyId: number): Promise<void> => {
-	const response = (await apiClient.delete(`${endpoints.parties}/${partyId}`))
-		.data;
+	const response = (
+		await apiClient.delete(`${endpoints.userParties}/${partyId}`)
+	).data;
 	if (!response.isSuccess) throw new Error();
 };
 

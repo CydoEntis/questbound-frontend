@@ -1,3 +1,5 @@
+import { Member } from "../../members/shared/types";
+
 export type Party = {
 	id: number;
 	title: string;
