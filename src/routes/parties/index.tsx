@@ -1,9 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import partiesService from "../../features/party/api/services/parties.service";
 import { QueryParams } from "../../shared/types/types";
+import useAuthStore from "../../stores/useAuthStore";
 
-// TODO: Need to finish implementing
 export const Route = createFileRoute("/parties/")({
+	beforeLoad: ({ context }) => {
+		const isAuthenticated = context.authState.checkIsAuthenticated();
+		if (!isAuthenticated) {
+			throw redirect({
+				to: "/login",
+			});
+		}
+	},
 	component: PartiesPage,
 	validateSearch: (search: Record<string, unknown>): QueryParams => {
 		return {

@@ -1,8 +1,9 @@
 import { AppShell } from "@mantine/core";
 import useGetColorTheme from "../../../theme/hooks/useGetColorScheme";
 import UnauthenticatedNav from "./HeaderNavGuest";
-import AuthenticatedNav from "./HeaderNavAuth";
 import MobileNavToggle from "../mobile/MobileNavToggle";
+import HeaderNavAuth from "./HeaderNavAuth";
+import HeaderNavGuest from "./HeaderNavGuest";
 
 type HeaderProps = {
 	isAuthenticated: boolean;
@@ -23,7 +24,7 @@ function Header({ isAuthenticated, opened, toggle }: HeaderProps) {
 			}}
 		>
 			{isAuthenticated ? (
-				<AuthenticatedNav
+				<HeaderNavAuth
 					mobileNavToggle={
 						<MobileNavToggle
 							opened={opened}
@@ -32,7 +33,7 @@ function Header({ isAuthenticated, opened, toggle }: HeaderProps) {
 					}
 				/>
 			) : (
-				<UnauthenticatedNav
+				<HeaderNavGuest
 					mobileNavToggle={
 						<MobileNavToggle
 							opened={opened}

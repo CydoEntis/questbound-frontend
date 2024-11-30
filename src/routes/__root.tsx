@@ -10,13 +10,16 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Layout } from "../components/layout/Layout";
 import theme from "../components/theme/theme.config";
 import { useEffect } from "react";
-import useAuthStore from "../stores/useAuthStore";
+import useAuthStore, { AuthState } from "../stores/useAuthStore";
 import LocalStorageService from "../features/auth/api/services/localStorage.service";
 import { StoredUser } from "../features/auth/shared/types";
 
-export const Route = createRootRouteWithContext<{
+export type RouterContext = {
+	authState: AuthState;
 	queryClient: QueryClient;
-}>()({
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
 	notFoundComponent: () => {
 		return (
@@ -30,13 +33,14 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
 	const { setUser, setTokens } = useAuthStore();
+
 	useEffect(() => {
 		const storedData = LocalStorageService.getItem<StoredUser>("collabparty");
 		if (storedData) {
 			setUser(storedData.user);
 			setTokens(storedData.tokens);
 		}
-	}, []);
+	}, [setUser, setTokens]);
 
 	return (
 		<MantineProvider

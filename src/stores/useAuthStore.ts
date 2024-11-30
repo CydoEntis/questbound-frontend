@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { AuthenticatedUser, Tokens, User } from "../features/auth/shared/types";
 
-type AuthState = {
+export type AuthState = {
 	user: AuthenticatedUser | null;
 	tokens: Tokens | null;
 	loading: {
@@ -11,11 +11,12 @@ type AuthState = {
 		login: boolean;
 		logout: boolean;
 	};
-	setUser: (user: User) => void;
-	setTokens: (tokens: Tokens) => void;
+	setUser: (user: User | null) => void;
+	setTokens: (tokens: Tokens | null) => void;
+	checkIsAuthenticated: () => boolean;
 };
 
-const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set, get) => ({
 	user: null,
 	tokens: null,
 	loading: {
@@ -25,16 +26,24 @@ const useAuthStore = create<AuthState>((set) => ({
 		login: false,
 		logout: false,
 	},
-	setUser: (user: User) => {
-		const authenticatedUser: AuthenticatedUser = {
-			...user,
-			isLoggedIn: true,
-		};
+	setUser: (user: User | null) => {
+		if (user) {
+			const authenticatedUser: AuthenticatedUser = {
+				...user,
+				isAuthenticated: true,
+			};
 
-		set({ user: authenticatedUser });
+			set({ user: authenticatedUser });
+		} else {
+			set({ user: null });
+		}
 	},
-	setTokens: (tokens: Tokens) => {
+	setTokens: (tokens: Tokens | null) => {
 		set({ tokens });
+	},
+	checkIsAuthenticated: () => {
+		const user = get().user;
+		return user ? user.isAuthenticated : false; // If user is null, return false
 	},
 }));
 

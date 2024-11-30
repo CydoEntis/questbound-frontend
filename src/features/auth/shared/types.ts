@@ -30,7 +30,7 @@ export type LoginResponse = {
 };
 
 export type AuthenticatedUser = User & {
-	isLoggedIn: boolean;
+	isAuthenticated: boolean;
 };
 
 export type StoredUser = {
