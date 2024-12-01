@@ -2,8 +2,7 @@ import { Member } from "../../members/shared/types";
 
 export type Party = {
 	id: number;
-	title: string;
-	description: string;
+	partyName: string;
 	creatorId: string;
 	creator: string;
 	// color: Color;

@@ -4,19 +4,26 @@ import partiesService from "./services/parties.service";
 import { useMemo } from "react";
 
 export const useGetParties = (queryParams: QueryParams) => {
-	const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
+  const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
-	return useQuery({
-		queryKey: ["parties", "list", memoizedQueryParams],
-		queryFn: () => partiesService.getAllParties(queryParams),
-	});
+  return useQuery({
+    queryKey: ["parties", "list", memoizedQueryParams],
+    queryFn: () => partiesService.getAllParties(queryParams),
+  });
 };
 
 export const useGetPartyDetails = (id: number) => {
-	return useQuery({
-		queryKey: ["parties", "detail", id],
-		queryFn: () => partiesService.getPartyById(id),
-	});
+  return useQuery({
+    queryKey: ["parties", "detail", id],
+    queryFn: () => partiesService.getPartyById(id),
+  });
+};
+
+export const useGetRecentParties = () => {
+  return useQuery({
+    queryKey: ["parties", "recent"],
+    queryFn: () => partiesService.getRecentParties(),
+  });
 };
 
 // export const useContactsCount = () =>
