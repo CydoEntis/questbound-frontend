@@ -1,7 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import authServices from "./services/auth.services";
 import useAuthStore from "../../../stores/useAuthStore";
-import { LoginResponse, LoginCredentials, Tokens, RegisterCredentials } from "../shared/types";
+import {
+	LoginResponse,
+	LoginCredentials,
+	Tokens,
+	RegisterCredentials,
+	ForgotPasswordRequest,
+	ChangePasswordRequest,
+} from "../shared/types";
 import localStorageService from "./services/localStorage.service";
 import { notifications } from "@mantine/notifications";
 
@@ -141,6 +148,60 @@ export function useLogout() {
 				title: "Login Failed",
 				message: "Something went wrong!",
 				color: "red",
+				position: "top-right",
+			});
+			throw error;
+		},
+	});
+}
+
+export function useForgotPassword() {
+	return useMutation({
+		mutationFn: async (email: ForgotPasswordRequest): Promise<void> => {
+			await authServices.forgotPassword(email);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+
+			notifications.show({
+				title: "Success",
+				message: "Email has been sent.",
+				color: "green",
+				position: "top-right",
+			});
+		},
+		onError: (error: Error) => {
+			notifications.show({
+				title: "Success",
+				message: "Email has been sent.",
+				color: "green",
+				position: "top-right",
+			});
+			throw error;
+		},
+	});
+}
+
+export function useChangePassword() {
+	return useMutation({
+		mutationFn: async (request: ChangePasswordRequest): Promise<void> => {
+			await authServices.changePassword(request);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+
+			notifications.show({
+				title: "Success",
+				message: "Email has been sent.",
+				color: "green",
+				position: "top-right",
+			});
+		},
+		onError: (error: Error) => {
+			notifications.show({
+				title: "Success",
+				message: "Email has been sent.",
+				color: "green",
 				position: "top-right",
 			});
 			throw error;
