@@ -13,6 +13,7 @@ import ThemeToggle from "../../../theme/ThemeToggle";
 import { useLogout } from "../../../../features/auth/api/auth";
 import useAuthStore from "../../../../stores/useAuthStore";
 import UserInfo from "../../../../features/user/user-info/UserInfo";
+import { useEffect } from "react";
 
 type SidebarNavAuthProps = {
 	user: User;
@@ -56,6 +57,10 @@ function SidebarNavAuth({
 		// onOpenAvatarShop();
 		handleClose();
 	};
+
+	useEffect(() => {
+		
+	}, [recentParties])
 
 	return (
 		<Stack

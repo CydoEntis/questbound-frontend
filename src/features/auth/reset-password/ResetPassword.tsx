@@ -2,7 +2,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Alert, Button, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 
 import classes from "../auth.module.css";
@@ -10,22 +10,17 @@ import { useResetPassword } from "../api/auth";
 import { ResetPasswordRequest } from "../shared/types";
 import { resetPasswordSchema } from "../shared/schema";
 import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
+import { useState } from "react";
 
 type Props = {};
 
 function ResetPassword({}: Props) {
   const resetPassword = useResetPassword();
   const router = useRouter();
+  const [error, setError] = useState("");
 
-  // Extract the token from the URL query string
   const searchParams = new URLSearchParams(window.location.search);
   const token = searchParams.get("token");
-
-//   if (!token) {
-//     router.history.push("/error");
-//     return null;
-//   }
-
 
   const form = useForm<ResetPasswordRequest>({
     validate: zodResolver(resetPasswordSchema),
@@ -33,7 +28,7 @@ function ResetPassword({}: Props) {
       email: "",
       newPassword: "",
       confirmNewPassword: "",
-      token, // Add token to form data
+      token
     },
   });
 
@@ -47,7 +42,7 @@ function ResetPassword({}: Props) {
           ...request,
           token: encodedToken, // Send the encoded token
         });
-        
+
         const searchParams = new URLSearchParams(window.location.search);
         const redirectTo = searchParams.get("redirect") || "/";
 
@@ -61,6 +56,10 @@ function ResetPassword({}: Props) {
         Object.entries(errors).forEach(([field, messages]) => {
           form.setErrors({ [field]: (messages as string[]).join(" ") });
         });
+
+        if (errors["token"]) {
+          setError(errors["token"]);
+        }
       }
     }
   }
@@ -69,6 +68,11 @@ function ResetPassword({}: Props) {
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
+      {error && (
+        <Alert my={16} variant="light" color="red" title="Error resetting password">
+          {error}
+        </Alert>
+      )}
       <TextInput
         label="Email"
         placeholder="you@example.com"
@@ -86,7 +90,7 @@ function ResetPassword({}: Props) {
         onChange={(event) =>
           form.setFieldValue("newPassword", event.currentTarget.value)
         }
-        error={form.errors.password}
+        error={form.errors.newPassword}
       />
       <PasswordInput
         label="Confirm New Password"
@@ -95,13 +99,22 @@ function ResetPassword({}: Props) {
         classNames={{
           input: classes.input,
         }}
-        {...form.getInputProps("confirmNewPassword")}
-        onChange={(event) => {
-          form.setFieldValue("confirmNewPassword", event.currentTarget.value);
-        }}
+		{...form.getInputProps("confirmNewPassword")}
+		// value={form.values.confirmNewPassword}
+        // onChange={(event) => {
+        //   form.setFieldValue("confirmNewPassword", event.currentTarget.value);
+        // }}
         leftSection={<Lock size={20} />}
+		
       />
-      <Button fullWidth mt="xl" color="violet" variant="light" type="submit">
+      <Button
+        fullWidth
+        mt="xl"
+        color="violet"
+        variant="light"
+        type="submit"
+        loading={resetPassword.isPending}
+      >
         Reset Password
       </Button>
     </form>

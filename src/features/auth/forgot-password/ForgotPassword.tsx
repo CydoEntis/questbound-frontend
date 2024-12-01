@@ -27,7 +27,7 @@ function ForgotPassword({}: Props) {
 		try {
 			await forgotPassword.mutateAsync(email);
 			const searchParams = new URLSearchParams(window.location.search);
-			const redirectTo = searchParams.get("redirect") || "/";
+			const redirectTo = searchParams.get("redirect") || "/login";
 			router.history.push(redirectTo);
 			form.reset();
 		} catch (error) {
@@ -58,6 +58,7 @@ function ForgotPassword({}: Props) {
 				color="violet"
 				variant="light"
 				type="submit"
+				loading={forgotPassword.isPending}
 			>
 				Forgot Password
 			</Button>
