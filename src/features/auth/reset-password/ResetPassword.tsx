@@ -3,7 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { AtSign } from "lucide-react";
+import { AtSign, Lock } from "lucide-react";
 
 import classes from "../auth.module.css";
 import { useChangePassword } from "../api/auth";
@@ -57,6 +57,8 @@ function ResetPassword({}: Props) {
 				onChange={(event) => {
 					form.setFieldValue("oldPassword", event.currentTarget.value);
 				}}
+				leftSection={<Lock size={20}/>}
+
 			/>
 			<ValidatedPasswordInput
 				required
@@ -79,6 +81,7 @@ function ResetPassword({}: Props) {
 				onChange={(event) => {
 					form.setFieldValue("confirmNewPassword", event.currentTarget.value);
 				}}
+				leftSection={<Lock size={20}/>}
 			/>
 			<Button
 				fullWidth
