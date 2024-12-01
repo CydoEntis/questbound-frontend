@@ -7,6 +7,7 @@ import {
 	Tokens,
 	ForgotPasswordRequest,
 	ChangePasswordRequest,
+	ResetPasswordRequest,
 } from "../../shared/types";
 
 const registerUser = async (
@@ -66,6 +67,16 @@ const changePassword = async (
 	return response.result;
 };
 
+const resetPassword = async (
+	request: ResetPasswordRequest,
+): Promise<void> => {
+	const response = (
+		await apiClient.post(`${endpoints.auth}/reset-password`, request)
+	).data;
+	if (!response.isSuccess) throw new Error();
+	return response.result;
+};
+
 export default {
 	registerUser,
 	loginUser,
@@ -73,4 +84,5 @@ export default {
 	refreshTokens,
 	forgotPassword,
 	changePassword,
+	resetPassword
 };

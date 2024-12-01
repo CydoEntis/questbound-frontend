@@ -1,42 +1,49 @@
 import { z } from "zod";
-import { changePasswordSchema, forgotPasswordSchema, loginSchema, registerSchema } from "./schema";
+import {
+  changePasswordSchema,
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+} from "./schema";
 
 export type LoginCredentials = z.infer<typeof loginSchema>;
 export type RegisterCredentials = z.infer<typeof registerSchema>;
 export type ForgotPasswordRequest = z.infer<typeof forgotPasswordSchema>;
 export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
+export type ResetPasswordRequest = z.infer<typeof resetPasswordSchema>;
+
 
 export type User = {
-	id: string;
-	username: string;
-	currentLevel: number;
-	currentExp: number;
-	expToNextLevel: number;
-	avatar: UserAvatar;
+  id: string;
+  username: string;
+  currentLevel: number;
+  currentExp: number;
+  expToNextLevel: number;
+  avatar: UserAvatar;
 };
 
 export type Tokens = {
-	accessToken: string;
-	refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 export type UserAvatar = {
-	name: string;
-	displayName: string;
-	imageUrl: string;
+  name: string;
+  displayName: string;
+  imageUrl: string;
 };
 
 export type LoginResponse = {
-	tokens: Tokens;
-	user: User;
+  tokens: Tokens;
+  user: User;
 };
 
 export type AuthenticatedUser = User & {
-	isAuthenticated: boolean;
+  isAuthenticated: boolean;
 };
 
 export type StoredUser = {
-	user: AuthenticatedUser;
-	tokens: Tokens;
+  user: AuthenticatedUser;
+  tokens: Tokens;
 };
-

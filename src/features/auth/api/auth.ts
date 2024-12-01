@@ -8,6 +8,7 @@ import {
 	RegisterCredentials,
 	ForgotPasswordRequest,
 	ChangePasswordRequest,
+	ResetPasswordRequest,
 } from "../shared/types";
 import localStorageService from "./services/localStorage.service";
 import { notifications } from "@mantine/notifications";
@@ -202,6 +203,33 @@ export function useChangePassword() {
 				title: "Success",
 				message: "Email has been sent.",
 				color: "green",
+				position: "top-right",
+			});
+			throw error;
+		},
+	});
+}
+
+export function useResetPassword() {
+	return useMutation({
+		mutationFn: async (request: ResetPasswordRequest): Promise<void> => {
+			await authServices.resetPassword(request);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+
+			notifications.show({
+				title: "Success",
+				message: "Password has been reset.",
+				color: "green",
+				position: "top-right",
+			});
+		},
+		onError: (error: Error) => {
+			notifications.show({
+				title: "Error",
+				message: "Unable to reset password.",
+				color: "red",
 				position: "top-right",
 			});
 			throw error;
