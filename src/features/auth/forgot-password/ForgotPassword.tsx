@@ -59,7 +59,7 @@ function ForgotPassword({}: Props) {
 				variant="light"
 				type="submit"
 			>
-				Sign in
+				Forgot Password
 			</Button>
 		</form>
 	);

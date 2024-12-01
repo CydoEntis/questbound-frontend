@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
@@ -20,6 +21,12 @@ import { Route as AuthenticatedPartiesIndexImport } from './routes/_authenticate
 import { Route as AuthenticatedPartiesIdImport } from './routes/_authenticated/parties/$id'
 
 // Create/Update Routes
+
+const ResetPasswordRoute = ResetPasswordImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegisterRoute = RegisterImport.update({
   id: '/register',
@@ -94,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -141,6 +155,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
@@ -151,6 +166,7 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
@@ -162,6 +178,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/_authenticated/parties/': typeof AuthenticatedPartiesIndexRoute
@@ -174,6 +191,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/dashboard'
     | '/parties/$id'
     | '/parties'
@@ -183,6 +201,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/dashboard'
     | '/parties/$id'
     | '/parties'
@@ -192,6 +211,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/_authenticated/dashboard'
     | '/_authenticated/parties/$id'
     | '/_authenticated/parties/'
@@ -203,6 +223,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -210,6 +231,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 
 export const routeTree = rootRoute
@@ -225,7 +247,8 @@ export const routeTree = rootRoute
         "/",
         "/_authenticated",
         "/login",
-        "/register"
+        "/register",
+        "/reset-password"
       ]
     },
     "/": {
@@ -244,6 +267,9 @@ export const routeTree = rootRoute
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/reset-password": {
+      "filePath": "reset-password.tsx"
     },
     "/_authenticated/dashboard": {
       "filePath": "_authenticated/dashboard.tsx",

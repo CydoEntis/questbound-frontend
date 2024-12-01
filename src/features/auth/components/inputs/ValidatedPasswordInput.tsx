@@ -1,19 +1,31 @@
 import { Popover, PasswordInput, Progress } from "@mantine/core";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import classes from "../../auth.module.css";
 import { Lock } from "lucide-react";
-import { UseFormReturnType } from "@mantine/form";
 import { passwordRequirements, testPasswordStrength } from "../../utils/utils";
 import PasswordRequirement from "./PasswordRequirement";
 
 type ValidatedPasswordInputProps = {
-	form: UseFormReturnType<any>;
+	required?: boolean;
+	label: string;
+	placeholder: string;
+	value: string;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	error?: ReactNode;
+	disabled?: boolean;
 };
 
-function ValidatedPasswordInput({ form }: ValidatedPasswordInputProps) {
+function ValidatedPasswordInput({
+	label,
+	placeholder,
+	value,
+	onChange,
+	error,
+	disabled = false,
+}: ValidatedPasswordInputProps) {
 	const [popoverOpened, setPopoverOpened] = useState(false);
-	const [passwordValue, setPasswordValue] = useState("");
+	const [passwordValue, setPasswordValue] = useState(value);
 	const checks = passwordRequirements.map((requirement, index) => (
 		<PasswordRequirement
 			key={index}
@@ -38,18 +50,20 @@ function ValidatedPasswordInput({ form }: ValidatedPasswordInputProps) {
 					onBlurCapture={() => setPopoverOpened(false)}
 				>
 					<PasswordInput
-						label="Password"
-						placeholder="Your password"
+						className={classes.auth}
+						required
+						label={label}
+						placeholder={placeholder}
 						mt="md"
-						classNames={{
-							input: classes.input,
-						}}
-						leftSection={<Lock size={20} />}
-						{...form.getInputProps("password")}
+						value={passwordValue}
 						onChange={(event) => {
 							setPasswordValue(event.currentTarget.value);
-							form.setFieldValue("password", event.currentTarget.value);
+							onChange(event);
 						}}
+						error={error}
+						radius="md"
+						disabled={disabled}
+						leftSection={<Lock size={20}/>}
 					/>
 				</div>
 			</Popover.Target>
@@ -60,14 +74,9 @@ function ValidatedPasswordInput({ form }: ValidatedPasswordInputProps) {
 					size={5}
 					mb="xs"
 				/>
-				<PasswordRequirement
-					label="Includes at least 6 characters"
-					meets={passwordValue.length > 5}
-				/>
 				{checks}
 			</Popover.Dropdown>
 		</Popover>
 	);
 }
-
 export default ValidatedPasswordInput;

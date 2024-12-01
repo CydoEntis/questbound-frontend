@@ -24,31 +24,13 @@ import FemaleA from "../../../assets/female_a.png";
 import FemaleB from "../../../assets/female_b.png";
 import { useNavigate } from "@tanstack/react-router";
 import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
-
-const registerFormSchema = z
-	.object({
-		email: z.string().email("Please enter a valid email"),
-		displayName: z
-			.string()
-			.min(3, "Display name must be at least 3 characters long."),
-		password: z
-			.string()
-			.min(8, "Password must be at least 8 characters long")
-			.regex(/[A-Z]/, "Password must have at least one uppercase letter")
-			.regex(/[a-z]/, "Password must have at least one lowercase letter")
-			.regex(/\d/, "Password must have at least one number")
-			.regex(/[\W_]/, "Password must have at least one special character"),
-		confirmPassword: z.string(),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: "Passwords don't match",
-		path: ["confirmPassword"],
-	});
-
-type RegisterFormData = z.infer<typeof registerFormSchema>;
+import { RegisterCredentials } from "../shared/types";
+import { registerSchema } from "../shared/schema";
+import { useRegister } from "../api/auth";
 
 function RegisterForm() {
 	const [selectedAvatar, setSelectedAvatar] = useState(1);
+	const register = useRegister();
 	const navigate = useNavigate();
 	const startAvatars = [
 		{ id: 1, src: MaleA, name: "Male A" },
@@ -57,8 +39,8 @@ function RegisterForm() {
 		{ id: 4, src: FemaleB, name: "Female B" },
 	];
 
-	const form = useForm<RegisterFormData>({
-		validate: zodResolver(registerFormSchema),
+	const form = useForm<RegisterCredentials>({
+		validate: zodResolver(registerSchema),
 		initialValues: {
 			email: "",
 			displayName: "",
@@ -67,14 +49,14 @@ function RegisterForm() {
 		},
 	});
 
-	async function onSubmit(data: RegisterFormData) {
+	async function onSubmit(data: RegisterCredentials) {
 		try {
 			const newUser = {
 				...data,
 				avatarId: selectedAvatar,
 			};
 
-			// await register(newUser);
+			await register.mutateAsync(newUser);
 			form.reset();
 			navigate({ to: "/" });
 		} catch (error) {
@@ -162,7 +144,16 @@ function RegisterForm() {
 					))}
 				</SimpleGrid>
 			</Stack>
-			<ValidatedPasswordInput form={form} />
+			<ValidatedPasswordInput
+				required
+				label="Password"
+				placeholder="Your password"
+				value={form.values.password}
+				onChange={(event) =>
+					form.setFieldValue("password", event.currentTarget.value)
+				}
+				error={form.errors.password}
+			/>
 			<PasswordInput
 				label="Confirm Password"
 				placeholder="Confirm your password"
