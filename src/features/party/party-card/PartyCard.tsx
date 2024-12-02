@@ -12,8 +12,9 @@ import {
 import { CalendarFoldIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../shared/types";
+import { color } from "framer-motion";
 
-type PartyCardProps = { party: Party };
+type PartyCardProps = { party: Party; color: string };
 
 const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString("en-US", {
@@ -30,9 +31,9 @@ function PartyCard({ party }: PartyCardProps) {
       to={`/parties/${party.id}/quests`}
       key={party.id}
       className="transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
-      bg={"card"}
       shadow="sm"
       padding="lg"
+      bg="card"
       radius="md"
       withBorder
       mih={350}
@@ -54,32 +55,19 @@ function PartyCard({ party }: PartyCardProps) {
           >
             {party.partyName}
           </Title>
-
         </Group>
         <Text>Created At: {formatDate(party.createdAt)}</Text>
         <Text>Updated At: {formatDate(party.updatedAt)}</Text>
       </Stack>
 
       <Flex justify="space-between" align="center">
-        {/* {creator && (
-          <Stack gap={8}>
-            <Group gap={4}>
-              <Crown color="yellow" size={14} />
-              <Text size="xs">Creator</Text>
-            </Group>
-            <Tooltip label={creator.displayName}>
-              <UserAvatar avatar={creator.avatar} />
-            </Tooltip>
-          </Stack>
-        )} */}
-
-        {/* <Stack gap={4}>
+        <Stack gap={4}>
           <Group gap={4}>
             <Users size={14} />
             <Text size="xs">Members</Text>
           </Group>
           <Members members={party.members} numOfMembersToShow={3} />
-        </Stack> */}
+        </Stack>
       </Flex>
 
       <Stack>

@@ -3,6 +3,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import useAuthStore from "./stores/useAuthStore";
+import '@mantine/dates/styles.css';
 
 const queryClient = new QueryClient();
 

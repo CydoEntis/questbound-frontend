@@ -18,6 +18,8 @@ const getAllParties = async (
     if (value) queryParams.append(key, value.toString());
   });
 
+  console.log(`${endpoints.userParties}?${queryParams.toString()}`);
+
   const response = (
     await apiClient.get(`${endpoints.userParties}?${queryParams.toString()}`)
   ).data;

@@ -4,6 +4,7 @@ import {
   Divider,
   Flex,
   Modal,
+  SimpleGrid,
   Stack,
   Text,
 } from "@mantine/core";
@@ -11,6 +12,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
 import { Route } from "../../../routes/_authenticated/parties/index";
+import DateRangePicker from "../../../components/date-picker/DateRangePicker";
 
 type FilterModalProps = {
   filterOpened: boolean;
@@ -21,7 +23,12 @@ function PartyFilter({
   filterOpened,
   handleCloseFilterModal,
 }: FilterModalProps) {
-  const { sortField, dateFilterField } = useSearch({
+  const {
+    sortField,
+    dateFilterField,
+    startDate: initialStartDate,
+    endDate: initialEndDate,
+  } = useSearch({
     from: "/_authenticated/parties/",
   });
 
@@ -29,11 +36,6 @@ function PartyFilter({
     { label: "Title", value: "title" },
     { label: "Created At", value: "created-at" },
     { label: "Updated At", value: "updated-at" },
-  ];
-
-  const dateOptions = [
-    { label: "Created On", value: "created-at" },
-    { label: "Updated On", value: "updated-at" },
   ];
 
   const orderOptions = [
@@ -46,6 +48,8 @@ function PartyFilter({
   const filterFormSchema = z.object({
     sortBy: z.string(),
     filterDate: z.string(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
   });
 
   type FilterFormValues = z.infer<typeof filterFormSchema>;
@@ -55,6 +59,8 @@ function PartyFilter({
     initialValues: {
       sortBy: sortField ?? "title",
       filterDate: dateFilterField ?? "created-at",
+      startDate: initialStartDate ?? "",
+      endDate: initialEndDate ?? "",
     },
   });
 
@@ -77,6 +83,8 @@ function PartyFilter({
           ...prevSearch,
           sortField: result.data.sortBy,
           dateFilterField: result.data.filterDate,
+          startDate: result.data.startDate || undefined,
+          endDate: result.data.endDate || undefined,
         }),
       });
 
@@ -93,10 +101,14 @@ function PartyFilter({
         ...prevSearch,
         sortField: undefined,
         dateFilterField: undefined,
+        startDate: undefined,
+        endDate: undefined,
       }),
     });
     handleCloseFilterModal();
   };
+
+  console.log(form.values)
 
   return (
     <Modal
@@ -108,8 +120,27 @@ function PartyFilter({
     >
       <form onSubmit={handleSubmit}>
         <Stack gap={8} w="100%">
-          {/* Sort Options */}
-          {sortOptions && (
+          {/* Date Range Picker */}
+          <DateRangePicker
+            onDateChange={(startDate, endDate) => {
+              form.setValues({
+                ...form.values,
+                startDate,
+                endDate,
+              });
+            }}
+            resetCallback={(resetFn) => {
+              form.setValues({
+                ...form.values,
+                startDate: "",
+                endDate: "",
+              });
+              resetFn();
+            }}
+          />
+
+          <SimpleGrid cols={2}>
+            {/* Sort Options */}
             <Stack py={8}>
               <Text>Sort</Text>
               <Divider />
@@ -122,14 +153,12 @@ function PartyFilter({
                 />
               ))}
             </Stack>
-          )}
 
-          {/* Date Options */}
-          {dateOptions && (
+            {/* Order Options */}
             <Stack py={8}>
-              <Text>Date</Text>
+              <Text>Order</Text>
               <Divider />
-              {dateOptions.map(({ label, value }) => (
+              {orderOptions.map(({ label, value }) => (
                 <Checkbox
                   key={value}
                   checked={form.values.filterDate === value}
@@ -138,7 +167,7 @@ function PartyFilter({
                 />
               ))}
             </Stack>
-          )}
+          </SimpleGrid>
 
           {/* Action Buttons */}
           <Flex gap={8}>

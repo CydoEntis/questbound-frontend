@@ -6,6 +6,7 @@ import { useMemo } from "react";
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
+
   return useQuery({
     queryKey: ["parties", "list", memoizedQueryParams],
     queryFn: () => partiesService.getAllParties(queryParams),

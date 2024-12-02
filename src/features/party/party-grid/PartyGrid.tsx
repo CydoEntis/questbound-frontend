@@ -7,6 +7,7 @@ type PartyGridProps = {
 };
 
 function PartyGrid({ parties }: PartyGridProps) {
+
   return (
     <div>
       <SimpleGrid
@@ -21,7 +22,12 @@ function PartyGrid({ parties }: PartyGridProps) {
         }}
       >
         {parties &&
-          parties.map((party) => <PartyCard key={party.id} party={party} />)}
+          parties.map((party, index) => (
+            <PartyCard
+              key={party.id}
+              party={party}
+            />
+          ))}
       </SimpleGrid>
     </div>
   );

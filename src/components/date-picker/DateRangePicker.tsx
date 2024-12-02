@@ -8,33 +8,22 @@ type DateRangePickerProps = {
   resetCallback?: (resetFunction: () => void) => void;
 };
 
-function DateRangePicker({
-  onDateChange,
-  resetCallback,
-}: DateRangePickerProps) {
-  const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
+function DateRangePicker({ onDateChange, resetCallback }: DateRangePickerProps) {
+  const [value, setValue] = useState<[Date | null, Date | null] | undefined>();
 
-  const handleFilterDates = () => {
-    const [startDate, endDate] = value;
+  const handleFilterDates = (updatedValue: [Date | null, Date | null] | undefined) => {
+    setValue(updatedValue); // Update the state with the new value
+    const [startDate, endDate] = updatedValue || [null, null];
     const stringifiedStartDate = startDate ? startDate.toISOString() : "";
     const stringifiedEndDate = endDate ? endDate.toISOString() : "";
     onDateChange(stringifiedStartDate, stringifiedEndDate);
   };
 
   const resetDateRange = () => {
-    setValue([null, null]);
-    onDateChange("", "");
+    setValue(undefined); // Reset the value to undefined
+    onDateChange("", ""); // Notify parent about the reset
   };
 
-  useEffect(() => {
-    if (resetCallback) {
-      resetCallback(resetDateRange);
-    }
-  }, [resetCallback]);
-
-  useEffect(() => {
-    handleFilterDates();
-  }, [value]);
 
   return (
     <div>
@@ -48,7 +37,7 @@ function DateRangePicker({
             type="range"
             allowSingleDateInRange
             value={value}
-            onChange={setValue}
+            onChange={(updatedValue) => handleFilterDates(updatedValue)}
             style={{ flex: 1 }}
           />
           <ActionIcon
