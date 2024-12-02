@@ -1,9 +1,27 @@
-import { Card, Flex, Group, Paper, Stack, Tooltip, Badge, Title } from "@mantine/core";
+import {
+  Card,
+  Flex,
+  Group,
+  Paper,
+  Stack,
+  Tooltip,
+  Badge,
+  Title,
+  Text,
+} from "@mantine/core";
 import { CalendarFoldIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../shared/types";
 
 type PartyCardProps = { party: Party };
+
+const formatDate = (date: Date) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
 function PartyCard({ party }: PartyCardProps) {
   return (
@@ -36,7 +54,10 @@ function PartyCard({ party }: PartyCardProps) {
           >
             {party.partyName}
           </Title>
+
         </Group>
+        <Text>Created At: {formatDate(party.createdAt)}</Text>
+        <Text>Updated At: {formatDate(party.updatedAt)}</Text>
       </Stack>
 
       <Flex justify="space-between" align="center">

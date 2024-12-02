@@ -5,15 +5,15 @@ import PartiesPage from "../../../pages/parties/PartiesPage";
 
 export const Route = createFileRoute("/_authenticated/parties/")({
 	component: PartiesPage,
-	validateSearch: (search: Record<string, unknown>): QueryParams => {
+	validateSearch: (params: Record<string, unknown>): QueryParams => {
 		return {
-			searchTerm: search.query as string | undefined,
-			sortDirection: search.sortDirection as string | undefined,
-			sortField: search.sortField as string | undefined,
-			dateFilterField: search.dateFilterField as string | undefined,
-			pageNumber: search.pageNumber as number | undefined,
-			startDate: search.startDate as string | undefined,
-			endDate: search.endDate as string | undefined,
+			searchTerm: params.query as string | undefined,
+			sortDirection: params.sortDirection as string | undefined,
+			sortField: params.sortField as string | undefined,
+			dateFilterField: params.dateFilterField as string | undefined,
+			pageNumber: params.pageNumber as number | undefined,
+			startDate: params.startDate as string | undefined,
+			endDate: params.endDate as string | undefined,
 		};
 	},
 	loader: async () => {
