@@ -19,6 +19,7 @@ import classes from "./user-info.module.css";
 import ActiveAvatar from "../../avatars/active-avatar/ActiveAvatar";
 import { getPercentage } from "../utils/utils";
 import { useDisclosure } from "@mantine/hooks";
+import ChangePassword from "../../auth/change-password/ChangePassword";
 
 type UserInfoProps = {
   user: User;
@@ -38,7 +39,7 @@ function UserInfo({ user }: UserInfoProps) {
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
   return (
     <>
-      <Modal opened={isChangeAvatarOpened} onClose={closeChangeAvatar}>
+      <Modal opened={isChangeAvatarOpened} onClose={closeChangeAvatar} title="Change Your Avatar">
         <ScrollArea h={250}>
           <SimpleGrid cols={3} spacing="xs">
             {/* {unlockedAvatars?.map((avatar) => (
@@ -47,8 +48,8 @@ function UserInfo({ user }: UserInfoProps) {
           </SimpleGrid>
         </ScrollArea>
       </Modal>
-      <Modal opened={isChangePasswordOpened} onClose={closeChangePassword}>
-        <p>Change Password</p>
+      <Modal opened={isChangePasswordOpened} onClose={closeChangePassword} title="Change Your Password">
+        <ChangePassword />
       </Modal>
 
       <Menu shadow="md" withArrow>
