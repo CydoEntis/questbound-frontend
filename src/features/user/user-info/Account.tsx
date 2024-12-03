@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Flex,
   Group,
   Menu,
@@ -10,16 +9,19 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Title,
+  Box,
+  Image,
 } from "@mantine/core";
 import { ChevronRight } from "lucide-react";
 import { User } from "../../auth/shared/types";
-import UserLevel from "../user-level/UserLevel";
 
-import classes from "./user-info.module.css";
-import ActiveAvatar from "../../avatars/active-avatar/ActiveAvatar";
+import styles from "./user-info.module.css";
 import { getPercentage } from "../utils/utils";
 import { useDisclosure } from "@mantine/hooks";
 import ChangePassword from "../../auth/change-password/ChangePassword";
+import Avatar from "../../avatars/active-avatar/ActiveAvatar";
+import Gold from "../../../assets/gold.png";
 
 type UserInfoProps = {
   user: User;
@@ -28,18 +30,27 @@ type UserInfoProps = {
 
 function UserInfo({ user }: UserInfoProps) {
   const [
-    isChangeAvatarOpened,
-    { open: openChangeAvatar, close: closeChangeAvatar },
+    isUpdateAvatarOpened,
+    { open: openUpdateAvatar, close: closeUpdateAvatar },
   ] = useDisclosure(false);
   const [
-    isChangePasswordOpened,
-    { open: openChangePassword, close: closeChangePassword },
+    isUpdatePasswordOpened,
+    { open: openUpdatePassword, close: closeUpdatePassword },
+  ] = useDisclosure(false);
+
+  const [
+    isUpdateProfileOpen,
+    { open: openUpdateProfile, close: closeUpdateProfile },
   ] = useDisclosure(false);
 
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
   return (
     <>
-      <Modal opened={isChangeAvatarOpened} onClose={closeChangeAvatar} title="Change Your Avatar">
+      <Modal
+        opened={isUpdateAvatarOpened}
+        onClose={closeUpdateAvatar}
+        title="Change Your Avatar"
+      >
         <ScrollArea h={250}>
           <SimpleGrid cols={3} spacing="xs">
             {/* {unlockedAvatars?.map((avatar) => (
@@ -48,48 +59,73 @@ function UserInfo({ user }: UserInfoProps) {
           </SimpleGrid>
         </ScrollArea>
       </Modal>
-      <Modal opened={isChangePasswordOpened} onClose={closeChangePassword} title="Change Your Password">
+      <Modal
+        opened={isUpdateProfileOpen}
+        onClose={closeUpdateProfile}
+        title="Change Your Password"
+      >
+        <ChangePassword />
+      </Modal>
+      <Modal
+        opened={isUpdatePasswordOpened}
+        onClose={closeUpdatePassword}
+        title="Change Your Password"
+      >
         <ChangePassword />
       </Modal>
 
       <Menu shadow="md" withArrow>
         <Menu.Target>
-          <Paper className={classes.userInfo} withBorder>
-            <Flex px={12} py={8} justify="space-between" align="center">
-              <Group>
-                <ActiveAvatar avatar={user.avatar} />
+          <Paper className={styles.profile} withBorder bg="card">
+            <Flex w="100%" h="100%" align="center">
+              <Box w="90%" p={8}>
                 <Stack gap={2}>
-                  <Text>{user.username}</Text>
+                  <Flex gap={8}>
+                    <Avatar avatar={user.avatar} />
+                    <Stack gap={2} w="100%">
+                      <Flex justify="space-between">
+                        <Title size="md">{user.username}</Title>
+                        <Group gap={4} align="center" justify="center">
+                          <Text size="xs">{user.gold}</Text>
+                          <Image w={12} src={Gold} />
+                        </Group>
+                      </Flex>
+                      <Text size="xs">{user.email}</Text>
+                    </Stack>
+                  </Flex>
+                  <Stack gap={4} pt={8}>
+                    <Flex justify="space-between">
+                      <Text size="xs">Lv: {user.currentLevel}</Text>
+                      <Text size="xs">
+                        {user.expToNextLevel - user.currentExp} exp to go
+                      </Text>
+                    </Flex>
+                    <Box w="100%">
+                      <Progress
+                        radius="sm"
+                        value={percentage}
+                        size="md"
+                        animated
+                        color="violet"
+                      />
+                    </Box>
+                  </Stack>
                 </Stack>
-              </Group>
-              <ChevronRight size={16} />
+              </Box>
+              <Box w="10%" bg="secondary" h="100%">
+                <Stack justify="center" align="center" h="100%">
+                  <ChevronRight size={20} />
+                </Stack>
+              </Box>
             </Flex>
-            <Flex
-              px={12}
-              py={2}
-              w="100%"
-              justify="space-between"
-              align="center"
-            >
-              <Text size="xs">Lv. {user.currentLevel}</Text>
-              <Text size="xs">
-                {user.currentExp} / {user.expToNextLevel}
-              </Text>
-            </Flex>
-            <Progress
-              radius={0}
-              value={percentage}
-              size="xs"
-              animated
-              color="violet"
-            />
           </Paper>
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Label>Account Settings</Menu.Label>
-          <Menu.Item onClick={openChangeAvatar}>Change Avatar</Menu.Item>
-          <Menu.Item onClick={openChangePassword}>Change Password</Menu.Item>
+          <Menu.Label>Profile Options</Menu.Label>
+          <Menu.Item onClick={openUpdateAvatar}>Update Avatar</Menu.Item>
+          <Menu.Item onClick={openUpdateProfile}>Update Profile</Menu.Item>
+          <Menu.Item onClick={openUpdatePassword}>Update Password</Menu.Item>
         </Menu.Dropdown>
       </Menu>
     </>

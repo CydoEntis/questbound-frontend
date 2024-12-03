@@ -17,6 +17,8 @@ export type ResetPasswordRequest = z.infer<typeof resetPasswordSchema>;
 export type User = {
   id: string;
   username: string;
+  email: string;
+  gold: number;
   currentLevel: number;
   currentExp: number;
   expToNextLevel: number;

@@ -1,8 +1,10 @@
-.userInfo {
-	cursor: pointer;
-	transition: ease-in-out all 200ms;
+.profile {
+  cursor: pointer;
+  transition: ease-in-out all 200ms;
+  color: inherit;
+  text-decoration: none;
 }
 
-.userInfo:hover {
-	filter: brightness(90%);
+.profile:hover {
+  filter: brightness(80%);
 }
