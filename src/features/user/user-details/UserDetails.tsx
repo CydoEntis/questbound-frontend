@@ -56,7 +56,7 @@ function UserDetails({ user }: UserDetailsProps) {
 					</>
 				)}
 			</Flex>
-			<UserLevel user={user} />
+			{/* <UserLevel user={user} /> */}
 		</Stack>
 	);
 }

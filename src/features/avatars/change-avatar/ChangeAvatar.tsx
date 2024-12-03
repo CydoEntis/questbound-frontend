@@ -10,6 +10,8 @@ import {
 // import { useEffect } from "react";
 import { Edit2 } from "lucide-react";
 import { User } from "../../auth/shared/types";
+import classes from "./change-avatar.module.css";
+
 
 type ChangeAvatarProps = {
 	user: User;
@@ -35,13 +37,13 @@ function ChangeAvatar({ user }: ChangeAvatarProps) {
 			<Popover.Target>
 				<Box>
 					<Tooltip label="Change Avatar">
-						<Box className="relative">
+						<Box className={classes["change-avatar-container"]}>
 							<Avatar
 								src={`https://localhost:7059${user.avatar.imageUrl}`}
 								alt="User's avatar"
 								bg="violet"
 								size="xl"
-								className="cursor-pointer"
+								className={classes["change-avatar-icon"]}
 							/>
 
 							<Paper
@@ -49,7 +51,7 @@ function ChangeAvatar({ user }: ChangeAvatarProps) {
 								bg="violet"
 								p={6}
 								withBorder
-								className="absolute -bottom-1 right-0 cursor-pointer"
+								className={classes["change-avatar-btn"]}
 							>
 								<Edit2 size={14} />
 							</Paper>
