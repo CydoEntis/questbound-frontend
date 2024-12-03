@@ -6,6 +6,8 @@ import {
   Modal,
   Paper,
   Progress,
+  ScrollArea,
+  SimpleGrid,
   Stack,
   Text,
 } from "@mantine/core";
@@ -37,7 +39,13 @@ function UserInfo({ user }: UserInfoProps) {
   return (
     <>
       <Modal opened={isChangeAvatarOpened} onClose={closeChangeAvatar}>
-        <p>Change Avatar</p>
+        <ScrollArea h={250}>
+          <SimpleGrid cols={3} spacing="xs">
+            {/* {unlockedAvatars?.map((avatar) => (
+              <Avatar avatar={avatar} />
+            ))} */}
+          </SimpleGrid>
+        </ScrollArea>
       </Modal>
       <Modal opened={isChangePasswordOpened} onClose={closeChangePassword}>
         <p>Change Password</p>
