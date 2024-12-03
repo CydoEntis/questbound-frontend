@@ -13,8 +13,9 @@ import { CalendarFoldIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../shared/types";
 import { color } from "framer-motion";
+import AvatarList from "../../avatars/avatar-list/AvatarList";
 
-type PartyCardProps = { party: Party; color: string };
+type PartyCardProps = { party: Party };
 
 const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString("en-US", {
@@ -25,6 +26,9 @@ const formatDate = (date: Date) => {
 };
 
 function PartyCard({ party }: PartyCardProps) {
+
+  console.log(party);
+
   return (
     <Card
       component={Link}
@@ -63,10 +67,10 @@ function PartyCard({ party }: PartyCardProps) {
       <Flex justify="space-between" align="center">
         <Stack gap={4}>
           <Group gap={4}>
-            <Users size={14} />
+            {/* <Users size={14} /> */}
             <Text size="xs">Members</Text>
           </Group>
-          <Members members={party.members} numOfMembersToShow={3} />
+          <AvatarList members={party.members} />
         </Stack>
       </Flex>
 
