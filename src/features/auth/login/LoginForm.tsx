@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { Link, useRouter } from "@tanstack/react-router";
 
 import classes from "../auth.module.css";
-import { LoginCredentials } from "../shared/types";
+import { LoginRequest } from "../shared/types";
 import { useLogin } from "../api/auth";
 import { loginSchema } from "../shared/schema";
 
@@ -17,7 +17,7 @@ function LoginForm({}: Props) {
 	const login = useLogin();
 	const router = useRouter();
 
-	const form = useForm<LoginCredentials>({
+	const form = useForm<LoginRequest>({
 		validate: zodResolver(loginSchema),
 		initialValues: {
 			email: "",
@@ -25,7 +25,7 @@ function LoginForm({}: Props) {
 		},
 	});
 
-	async function onSubmit(credentials: LoginCredentials) {
+	async function onSubmit(credentials: LoginRequest) {
 		try {
 			await login.mutateAsync(credentials);
 			const searchParams = new URLSearchParams(window.location.search);

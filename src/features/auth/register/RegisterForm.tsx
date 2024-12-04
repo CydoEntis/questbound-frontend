@@ -24,7 +24,7 @@ import FemaleA from "../../../assets/female_a.png";
 import FemaleB from "../../../assets/female_b.png";
 import { useNavigate } from "@tanstack/react-router";
 import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
-import { RegisterCredentials } from "../shared/types";
+import { RegisterRequest } from "../shared/types";
 import { registerSchema } from "../shared/schema";
 import { useRegister } from "../api/auth";
 
@@ -39,7 +39,7 @@ function RegisterForm() {
 		{ id: 4, src: FemaleB, name: "Female B" },
 	];
 
-	const form = useForm<RegisterCredentials>({
+	const form = useForm<RegisterRequest>({
 		validate: zodResolver(registerSchema),
 		initialValues: {
 			email: "",
@@ -49,7 +49,7 @@ function RegisterForm() {
 		},
 	});
 
-	async function onSubmit(data: RegisterCredentials) {
+	async function onSubmit(data: RegisterRequest) {
 		try {
 			const newUser = {
 				...data,

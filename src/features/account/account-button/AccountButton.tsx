@@ -1,6 +1,6 @@
 import { Flex, Paper, Stack, Text, Title } from "@mantine/core";
 import { ChevronRight } from "lucide-react";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 
 import { useDisclosure } from "@mantine/hooks";
 import Avatar from "../../avatars/avatar/Avatar";
@@ -8,7 +8,7 @@ import styles from "./account-button.module.css";
 import AccountModal from "../account-modal/AccountModal";
 
 type AccountButtonProps = {
-  user: User;
+  user: UserResponse;
 };
 
 function AccountButton({ user }: AccountButtonProps) {

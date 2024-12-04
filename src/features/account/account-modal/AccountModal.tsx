@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { Edit, Save, X } from "lucide-react";
 import Avatar from "../../avatars/avatar/Avatar";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import { getPercentage } from "../../user/utils/utils";
 import styles from "./account-modal.module.css";
 import { useState } from "react";
@@ -21,7 +21,7 @@ import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccou
 import ChangePassword from "../../auth/change-password/ChangePassword";
 
 type AccountModalProps = {
-  user: User;
+  user: UserResponse;
   isProfileOpen: boolean;
   handleCloseProfile: () => void;
 };

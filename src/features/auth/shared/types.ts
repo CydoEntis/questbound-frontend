@@ -7,14 +7,14 @@ import {
   resetPasswordSchema,
 } from "./schema";
 
-export type LoginCredentials = z.infer<typeof loginSchema>;
-export type RegisterCredentials = z.infer<typeof registerSchema>;
+export type LoginRequest = z.infer<typeof loginSchema>;
+export type RegisterRequest = z.infer<typeof registerSchema>;
 export type ForgotPasswordRequest = z.infer<typeof forgotPasswordSchema>;
 export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
 export type ResetPasswordRequest = z.infer<typeof resetPasswordSchema>;
 
 
-export type User = {
+export type UserResponse = {
   id: string;
   username: string;
   email: string;
@@ -25,7 +25,7 @@ export type User = {
   avatar: UserAvatar;
 };
 
-export type Tokens = {
+export type TokensResponse = {
   accessToken: string;
   refreshToken: string;
 };
@@ -37,15 +37,15 @@ export type UserAvatar = {
 };
 
 export type LoginResponse = {
-  tokens: Tokens;
-  user: User;
+  tokens: TokensResponse;
+  user: UserResponse;
 };
 
-export type AuthenticatedUser = User & {
+export type AuthenticatedUser = UserResponse & {
   isAuthenticated: boolean;
 };
 
 export type StoredUser = {
   user: AuthenticatedUser;
-  tokens: Tokens;
+  tokens: TokensResponse;
 };

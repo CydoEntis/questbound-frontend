@@ -10,7 +10,7 @@ import {
   ShoppingBag,
   SquareLibrary,
 } from "lucide-react";
-import { User } from "../../../../features/auth/shared/types";
+import { UserResponse } from "../../../../features/auth/shared/types";
 import ThemeToggle from "../../../theme/ThemeToggle";
 import { useLogout } from "../../../../features/auth/api/auth";
 import useAuthStore from "../../../../stores/useAuthStore";
@@ -19,7 +19,7 @@ import { useGetRecentParties } from "../../../../features/party/api/parties";
 import AccountButton from "../../../../features/account/account-button/AccountButton";
 
 type SidebarNavAuthProps = {
-  user: User;
+  user: UserResponse;
   closeNav: () => void;
   onOpenUserManagement: () => void;
 };

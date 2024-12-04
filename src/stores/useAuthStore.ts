@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { AuthenticatedUser, Tokens, User } from "../features/auth/shared/types";
+import { AuthenticatedUser, TokensResponse, UserResponse } from "../features/auth/shared/types";
 
 export type AuthState = {
 	user: AuthenticatedUser | null;
-	tokens: Tokens | null;
+	tokens: TokensResponse | null;
 	loading: {
 		session: boolean;
 		refresh: boolean;
@@ -11,8 +11,8 @@ export type AuthState = {
 		login: boolean;
 		logout: boolean;
 	};
-	setUser: (user: User | null) => void;
-	setTokens: (tokens: Tokens | null) => void;
+	setUser: (user: UserResponse | null) => void;
+	setTokens: (tokens: TokensResponse | null) => void;
 	checkIsAuthenticated: () => boolean;
 };
 
@@ -26,7 +26,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
 		login: false,
 		logout: false,
 	},
-	setUser: (user: User | null) => {
+	setUser: (user: UserResponse | null) => {
 		if (user) {
 			const authenticatedUser: AuthenticatedUser = {
 				...user,
@@ -38,7 +38,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
 			set({ user: null });
 		}
 	},
-	setTokens: (tokens: Tokens | null) => {
+	setTokens: (tokens: TokensResponse | null) => {
 		set({ tokens });
 	},
 	checkIsAuthenticated: () => {

@@ -1,11 +1,11 @@
 import { Flex, Group, Progress, Stack, Text } from "@mantine/core";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import { getPercentage } from "../utils/utils";
 import UserAvatar from "../../avatars/avatar/Avatar";
 
 
 type UserLevelProps = {
-	user: User;
+	user: UserResponse;
 };
 
 function UserLevel({ user }: UserLevelProps) {

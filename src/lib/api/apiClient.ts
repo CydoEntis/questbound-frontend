@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "./endpoints";
 import useAuthStore from "../../stores/useAuthStore";
-import authServices from "../../features/auth/api/services/auth.services";
+import authServices from "../../features/auth/api/services/auth.service";
 import LocalStorageService from "../../features/auth/api/services/localStorage.service";
 
 const apiClient = axios.create({

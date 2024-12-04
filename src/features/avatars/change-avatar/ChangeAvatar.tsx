@@ -9,12 +9,12 @@ import {
 } from "@mantine/core";
 // import { useEffect } from "react";
 import { Edit2 } from "lucide-react";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import classes from "./change-avatar.module.css";
 
 
 type ChangeAvatarProps = {
-	user: User;
+	user: UserResponse;
 };
 
 function ChangeAvatar({ user }: ChangeAvatarProps) {

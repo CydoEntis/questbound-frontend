@@ -2,10 +2,10 @@ import { Box, Flex, Stack } from "@mantine/core";
 // import ChangePassword from "./ChangePassword";
 import ChangeAvatar from "../../avatars/change-avatar/ChangeAvatar";
 import UserDetails from "../user-details/UserDetails";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import NextUnlock from "../../avatars/next-unlock/NextUnlock";
 
-type UserManagementProps = { user: User };
+type UserManagementProps = { user: UserResponse };
 
 function UserManagement({ user }: UserManagementProps) {
 	return (

@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { AxiosError } from "axios";
 import { Stack, TextInput } from "@mantine/core";
 // import classes from "../../features/auth/auth.module.css";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import { UpdateUsername } from "../shared/types";
 import { updateUsernameSchema } from "../shared/schemas";
 
-type UpdateUsernameFormProps = { user: User; onClose: () => void };
+type UpdateUsernameFormProps = { user: UserResponse; onClose: () => void };
 
 function UpdateUsernameForm({ user, onClose }: UpdateUsernameFormProps) {
 	// const { updateUserUsername } = useAuthStore();

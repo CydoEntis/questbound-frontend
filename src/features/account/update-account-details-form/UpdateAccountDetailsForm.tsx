@@ -10,10 +10,10 @@ import { UpdateAccountDetails } from "../shared/types";
 
 import { useState } from "react";
 import { updateAccountDetailsSchema } from "../shared/schema";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 
 type UpdateAccountDetailsFormProps = {
-  user: User;
+  user: UserResponse;
   handleClose: () => void;
 };
 

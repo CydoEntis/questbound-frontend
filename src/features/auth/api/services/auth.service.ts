@@ -2,16 +2,16 @@ import apiClient from "../../../../lib/api/apiClient";
 import endpoints from "../../../../lib/api/endpoints";
 import {
 	LoginResponse,
-	LoginCredentials,
-	RegisterCredentials,
-	Tokens,
+	LoginRequest,
+	RegisterRequest,
+	TokensResponse,
 	ForgotPasswordRequest,
 	ChangePasswordRequest,
 	ResetPasswordRequest,
 } from "../../shared/types";
 
 const registerUser = async (
-	credentials: RegisterCredentials,
+	credentials: RegisterRequest,
 ): Promise<LoginResponse> => {
 	const response = (
 		await apiClient.post(`${endpoints.auth}/register`, credentials)
@@ -21,7 +21,7 @@ const registerUser = async (
 };
 
 const loginUser = async (
-	credentials: LoginCredentials,
+	credentials: LoginRequest,
 ): Promise<LoginResponse> => {
 	const response = (
 		await apiClient.post(`${endpoints.auth}/login`, credentials)
@@ -34,7 +34,7 @@ const loginUser = async (
 	return response.result;
 };
 
-const logoutUser = async (tokens: Tokens): Promise<boolean> => {
+const logoutUser = async (tokens: TokensResponse): Promise<boolean> => {
 	const response = (await apiClient.post(`${endpoints.auth}/logout`, tokens))
 		.data;
 	if (!response.isSuccess) throw new Error();
@@ -42,7 +42,7 @@ const logoutUser = async (tokens: Tokens): Promise<boolean> => {
 	return response.isSuccess;
 };
 
-const refreshTokens = async (tokens: Tokens): Promise<Tokens> => {
+const refreshTokens = async (tokens: TokensResponse): Promise<TokensResponse> => {
 	const response = (await apiClient.post(`${endpoints.auth}/refresh`, tokens))
 		.data;
 	if (!response.isSuccess) throw new Error();

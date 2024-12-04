@@ -1,7 +1,7 @@
 import { Stack, Text } from "@mantine/core";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 
-type UsernameDetailProps = { user: User };
+type UsernameDetailProps = { user: UserResponse };
 
 function UsernameDetail({ user }: UsernameDetailProps) {
 	return (

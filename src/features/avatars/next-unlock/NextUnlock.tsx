@@ -2,10 +2,10 @@ import { Overlay, Center, SimpleGrid, Box, Divider } from "@mantine/core";
 import { Lock } from "lucide-react";
 
 import { useEffect } from "react";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 
 type NextUnlockProps = {
-	user: User;
+	user: UserResponse;
 };
 
 function NextUnlock({ user }: NextUnlockProps) {

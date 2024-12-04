@@ -1,13 +1,13 @@
 import { ActionIcon, Flex, Stack } from "@mantine/core";
 import { Edit, Save } from "lucide-react";
 import { useState } from "react";
-import { User } from "../../auth/shared/types";
+import { UserResponse } from "../../auth/shared/types";
 import UpdateUsernameForm from "../update-username/UpdateUsername";
 import UsernameDetail from "../username-detail/UsernameDetail";
 import UserLevel from "../user-level/UserLevel";
 // import AccountLevel from "../account/AccountLevel";
 
-type UserDetailsProps = { user: User };
+type UserDetailsProps = { user: UserResponse };
 
 function UserDetails({ user }: UserDetailsProps) {
 	const [isEditing, setIsEditing] = useState(false);

@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import authServices from "./services/auth.services";
+import authServices from "./services/auth.service";
 import useAuthStore from "../../../stores/useAuthStore";
 import {
 	LoginResponse,
-	LoginCredentials,
-	Tokens,
-	RegisterCredentials,
+	LoginRequest,
+	TokensResponse,
+	RegisterRequest,
 	ForgotPasswordRequest,
 	ChangePasswordRequest,
 	ResetPasswordRequest,
@@ -18,7 +18,7 @@ export function useLogin() {
 
 	return useMutation({
 		mutationFn: async (
-			credentials: LoginCredentials,
+			credentials: LoginRequest,
 		): Promise<LoginResponse> => {
 			return await authServices.loginUser(credentials);
 		},
@@ -59,7 +59,7 @@ export function useRegister() {
 
 	return useMutation({
 		mutationFn: async (
-			credentials: RegisterCredentials,
+			credentials: RegisterRequest,
 		): Promise<LoginResponse> => {
 			return await authServices.registerUser(credentials);
 		},
@@ -97,7 +97,7 @@ export function useRefreshTokens() {
 	const { setTokens } = useAuthStore();
 
 	return useMutation({
-		mutationFn: async (tokens: Tokens): Promise<Tokens> => {
+		mutationFn: async (tokens: TokensResponse): Promise<TokensResponse> => {
 			return await authServices.refreshTokens(tokens);
 		},
 		onSuccess: (data) => {
@@ -128,7 +128,7 @@ export function useLogout() {
 	const { setUser, setTokens } = useAuthStore();
 
 	return useMutation({
-		mutationFn: async (tokens: Tokens): Promise<void> => {
+		mutationFn: async (tokens: TokensResponse): Promise<void> => {
 			await authServices.logoutUser(tokens);
 		},
 		onSuccess: () => {
