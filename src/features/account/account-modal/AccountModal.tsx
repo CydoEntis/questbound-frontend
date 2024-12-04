@@ -11,7 +11,7 @@ import {
   Text,
 } from "@mantine/core";
 import { Edit } from "lucide-react";
-import Avatar from "../../avatars/active-avatar/ActiveAvatar";
+import Avatar from "../../avatars/avatar/Avatar";
 import { User } from "../../auth/shared/types";
 import { getPercentage } from "../../user/utils/utils";
 import styles from "./account-modal.module.css";

@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
-import Avatar from "../../../features/avatars/active-avatar/ActiveAvatar";
+import Avatar from "../../../features/avatars/avatar/Avatar";
 import useAuthStore from "../../../stores/useAuthStore";
 import { getPercentage } from "../../../features/user/utils/utils";
 import classes from "./Profile.module.css"; // Import the CSS module

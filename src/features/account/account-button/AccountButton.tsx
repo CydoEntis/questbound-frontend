@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { User } from "../../auth/shared/types";
 
 import { useDisclosure } from "@mantine/hooks";
-import Avatar from "../../avatars/active-avatar/ActiveAvatar";
+import Avatar from "../../avatars/avatar/Avatar";
 import styles from "./account-button.module.css";
 import AccountModal from "../account-modal/AccountModal";
 

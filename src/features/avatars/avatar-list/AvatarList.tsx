@@ -1,6 +1,6 @@
 import { Avatar, Tooltip } from "@mantine/core";
 import React from "react";
-import ActiveAvatar from "../active-avatar/ActiveAvatar";
+import ActiveAvatar from "../avatar/Avatar";
 import { Member } from "../../members/shared/types";
 
 type AvatarListProps = { members: Member[] };
