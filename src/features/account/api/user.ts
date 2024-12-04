@@ -7,7 +7,7 @@ import { UpdateUserRequest, UpdateUserResponse } from "../shared/types";
 import userServices from "./services/user.services";
 
 export function useUpdateUserDetails() {
-  const { setUser, setTokens } = useAuthStore();
+  const { updateUserDetails } = useAuthStore();
 
   return useMutation({
     mutationFn: async (
@@ -18,9 +18,7 @@ export function useUpdateUserDetails() {
     onSuccess: (data) => {
       console.log(data);
 
-      setUser(data);
-
-
+      updateUserDetails(data);
 
       localStorageService.setItem("collabParty", collabParty);
 
