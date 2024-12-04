@@ -17,6 +17,7 @@ import { getPercentage } from "../../user/utils/utils";
 import styles from "./account-modal.module.css";
 import { useState } from "react";
 import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccountDetailsForm";
+import ChangePassword from "../../auth/change-password/ChangePassword";
 
 type AccountModalProps = {
   user: User;
@@ -32,6 +33,7 @@ function AccountModal({
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
 
   const [showAccontUpdateForm, setShowAccountUpdateForm] = useState(false);
+  const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
 
   const showUpdateAccountFormHandler = (
     e: React.MouseEvent<HTMLButtonElement>
@@ -42,6 +44,14 @@ function AccountModal({
 
   const closeUpdateAccountFormHandler = () => {
     setShowAccountUpdateForm(false);
+  };
+
+  const showChangePasswordHandler = () => {
+    setShowChangePasswordForm(true);
+  };
+
+  const closeChangePasswordHandler = () => {
+    setShowChangePasswordForm(false);
   };
 
   return (
@@ -111,16 +121,19 @@ function AccountModal({
           </Tooltip>
         </Stack>
       </Stack>
-      <Flex justify="end" pt={8}>
-        <Button variant="outline" color="violet">
-          Change Password
-        </Button>
-      </Flex>
-      {/* <Box>
-      <KeySquare />
-      <Text>Need to change your password?</Text>
-    </Box> */}
-      {/* <ChangePassword /> */}
+      {showChangePasswordForm ? (
+        <ChangePassword handleClose={closeChangePasswordHandler} />
+      ) : (
+        <Flex justify="end" pt={8}>
+          <Button
+            variant="outline"
+            color="violet"
+            onClick={showChangePasswordHandler}
+          >
+            Change Password
+          </Button>
+        </Flex>
+      )}
     </Modal>
   );
 }

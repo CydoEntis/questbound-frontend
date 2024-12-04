@@ -2,7 +2,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
-import { Alert, Button, PasswordInput, TextInput } from "@mantine/core";
+import { Alert, Button, Flex, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 
 import classes from "../auth.module.css";
@@ -12,9 +12,11 @@ import { changePasswordSchema, resetPasswordSchema } from "../shared/schema";
 import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
 import { useState } from "react";
 
-type Props = {};
+type ChangePasswordProps = {
+  handleClose: () => void;
+};
 
-function ChangePassword({}: Props) {
+function ChangePassword({ handleClose }: ChangePasswordProps) {
   const changePassword = useChangePassword();
   const router = useRouter();
   const [error, setError] = useState("");
@@ -31,6 +33,11 @@ function ChangePassword({}: Props) {
     },
   });
 
+  const handleCancel = () => {
+    handleClose();
+    form.reset();
+  };
+
   async function onSubmit(request: ChangePasswordRequest) {
     try {
       if (token) {
@@ -40,6 +47,7 @@ function ChangePassword({}: Props) {
         const redirectTo = searchParams.get("redirect") || "/";
 
         router.history.push(redirectTo);
+        handleClose();
         form.reset();
       }
     } catch (error) {
@@ -99,16 +107,28 @@ function ChangePassword({}: Props) {
         {...form.getInputProps("confirmNewPassword")}
         leftSection={<Lock size={20} />}
       />
-      <Button
-        fullWidth
-        mt="xl"
-        color="violet"
-        variant="light"
-        type="submit"
-        loading={changePassword.isPending}
-      >
-        Change Password
-      </Button>
+      <Flex gap={8}>
+        <Button
+          fullWidth
+          mt="xl"
+          color="violet"
+          variant="light"
+          type="submit"
+          loading={changePassword.isPending}
+        >
+          Change Password
+        </Button>
+        <Button
+          fullWidth
+          mt="xl"
+          color="red"
+          variant="light"
+          type="button"
+          onClick={handleCancel}
+        >
+          Cancel
+        </Button>
+      </Flex>
     </form>
   );
 }
