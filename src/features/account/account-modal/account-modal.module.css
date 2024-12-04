@@ -1,13 +1,4 @@
-.profile {
-  cursor: pointer;
-  transition: ease-in-out all 200ms;
-  color: inherit;
-  text-decoration: none;
-}
 
-.profile:hover {
-  filter: brightness(80%);
-}
 
 .avatarWrapper {
     position: relative;

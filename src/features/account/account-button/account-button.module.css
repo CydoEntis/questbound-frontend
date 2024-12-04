@@ -1,0 +1,10 @@
+.account-btn {
+    cursor: pointer;
+    transition: ease-in-out all 200ms;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .account-btn:hover {
+    filter: brightness(80%);
+  }

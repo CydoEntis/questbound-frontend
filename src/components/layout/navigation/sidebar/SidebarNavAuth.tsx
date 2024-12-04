@@ -14,10 +14,9 @@ import { User } from "../../../../features/auth/shared/types";
 import ThemeToggle from "../../../theme/ThemeToggle";
 import { useLogout } from "../../../../features/auth/api/auth";
 import useAuthStore from "../../../../stores/useAuthStore";
-import UserInfo from "../../../../features/user/user-info/Account";
 import { useState } from "react";
 import { useGetRecentParties } from "../../../../features/party/api/parties";
-import Account from "../../../../features/user/user-info/Account";
+import AccountButton from "../../../../features/account/account-button/AccountButton";
 
 type SidebarNavAuthProps = {
   user: User;
@@ -85,7 +84,7 @@ function SidebarNavAuth({
           overflowY: "auto",
         }}
       >
-        <Account user={user!}  />
+        <AccountButton user={user!}  />
         <Button
           color="violet"
           variant="light"
