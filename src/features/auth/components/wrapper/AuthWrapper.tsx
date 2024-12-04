@@ -16,8 +16,6 @@ function AuthWrapper({ children }: AuthWrapperProps) {
 		setThemeClass(isLightMode ? classes.lightBg : classes.darkBg);
 	}, [isLightMode]); 
 
-	console.log(themeClass)
-
 	return (
 		<Box
 			className={themeClass}

@@ -22,6 +22,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   tokens: null,
   loginUser: (response: LoginResponse) => {
+    console.log(response);
     if (response.user && response.tokens) {
       const authenticatedUser: AuthenticatedUser = {
         ...response.user,
@@ -39,7 +40,16 @@ const useAuthStore = create<AuthState>((set, get) => ({
       set({ tokens });
     }
   },
-  updateUserDetails: (response: UpdateUserResponse) => {},
+  updateUserDetails: (response: UpdateUserResponse) => {
+    set((state) => ({
+      user: state.user
+        ? {
+            ...state.user,
+            ...response,
+          }
+        : state.user,
+    }));
+  },
   checkIsAuthenticated: () => {
     const user = get().user;
     return user ? user.isAuthenticated : false;

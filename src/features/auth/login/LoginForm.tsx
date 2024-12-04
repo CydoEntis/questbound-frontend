@@ -1,11 +1,9 @@
 import { Anchor, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
-
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
 import { AxiosError } from "axios";
 import { Link, useRouter } from "@tanstack/react-router";
-
 import classes from "../auth.module.css";
 import { LoginRequest } from "../shared/types";
 import { useLogin } from "../api/auth";

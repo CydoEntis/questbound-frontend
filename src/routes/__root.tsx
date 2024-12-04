@@ -12,70 +12,59 @@ import theme from "../components/theme/theme.config";
 import { useEffect } from "react";
 import useAuthStore, { AuthState } from "../stores/useAuthStore";
 import LocalStorageService from "../features/auth/api/services/localStorage.service";
-import { StoredUser } from "../features/auth/shared/types";
+import { AuthenticatedUser, StoredUser } from "../features/auth/shared/types";
 
 export type RouterContext = {
-	authState: AuthState;
-	queryClient: QueryClient;
+  authState: AuthState;
+  queryClient: QueryClient;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-	component: RootComponent,
-	notFoundComponent: () => {
-		return (
-			<Center style={{ minHeight: "calc(100vh - 60px)", height: "100%" }}>
-				<Container style={{ textAlign: "center", maxWidth: 600 }}>
-					<Title
-						order={1}
-						c="violet"
-						style={{ fontSize: "5rem", margin: 0 }}
-					>
-						404
-					</Title>
-					<Text
-						size="lg"
-						mt="md"
-					>
-						Oops! The page you're looking for doesn't exist.
-					</Text>
-					<Button
-						component={Link}
-						to="/"
-						variant="outline"
-						color="violet"
-						size="md"
-						mt="xl"
-					>
-						Go Back Home
-					</Button>
-				</Container>
-			</Center>
-		);
-	},
+  component: RootComponent,
+  notFoundComponent: () => {
+    return (
+      <Center style={{ minHeight: "calc(100vh - 60px)", height: "100%" }}>
+        <Container style={{ textAlign: "center", maxWidth: 600 }}>
+          <Title order={1} c="violet" style={{ fontSize: "5rem", margin: 0 }}>
+            404
+          </Title>
+          <Text size="lg" mt="md">
+            Oops! The page you're looking for doesn't exist.
+          </Text>
+          <Button
+            component={Link}
+            to="/"
+            variant="outline"
+            color="violet"
+            size="md"
+            mt="xl"
+          >
+            Go Back Home
+          </Button>
+        </Container>
+      </Center>
+    );
+  },
 });
 
 function RootComponent() {
-	const { setUser, setTokens } = useAuthStore();
+  const { loginUser } = useAuthStore();
 
-	useEffect(() => {
-		const storedData = LocalStorageService.getItem<StoredUser>("questbound");
-		console.log(storedData);
+  useEffect(() => {
+    const storedData = LocalStorageService.getItem<StoredUser>("questbound");
+    console.log(storedData);
 
-		if (storedData) {
-			setUser(storedData.user);
-			setTokens(storedData.tokens);
-		}
-	}, [setUser, setTokens]);
+    if (storedData) {
+      loginUser(storedData);
+    }
+  }, [loginUser]);
 
-	return (
-		<MantineProvider
-			theme={theme}
-			defaultColorScheme="auto"
-		>
-			<Notifications />
-			<Layout />
-			<ReactQueryDevtools buttonPosition="bottom-right" />
-			<TanStackRouterDevtools />
-		</MantineProvider>
-	);
+  return (
+    <MantineProvider theme={theme} defaultColorScheme="auto">
+      <Notifications />
+      <Layout />
+      <ReactQueryDevtools buttonPosition="bottom-right" />
+      <TanStackRouterDevtools />
+    </MantineProvider>
+  );
 }

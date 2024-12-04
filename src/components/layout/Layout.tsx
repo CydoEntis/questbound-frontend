@@ -17,6 +17,8 @@ export function Layout() {
 
 	useEffect(() => {
 		const isAuthenticated = checkIsAuthenticated();
+		console.log(isAuthenticated);
+		console.log(user);
 		if (!isAuthenticated) {
 			console.log("User is not authenticated");
 		}

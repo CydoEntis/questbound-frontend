@@ -9,6 +9,7 @@ import {
   ForgotPasswordRequest,
   ChangePasswordRequest,
   ResetPasswordRequest,
+  AuthenticatedUser,
 } from "../shared/types";
 import localStorageService from "./services/localStorage.service";
 import { notifications } from "@mantine/notifications";
@@ -23,7 +24,15 @@ export function useLogin() {
     onSuccess: (data) => {
       loginUser(data);
 
-      localStorageService.setItem("questbound", data);
+      const authenticatedUser: AuthenticatedUser = {
+        ...data.user,
+        isAuthenticated: true,
+      };
+
+      localStorageService.setItem("questbound", {
+        user: authenticatedUser,
+        tokens: data.tokens,
+      });
 
       notifications.show({
         title: "Success",
