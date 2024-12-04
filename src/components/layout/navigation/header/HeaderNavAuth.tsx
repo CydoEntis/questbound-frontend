@@ -14,7 +14,7 @@ function HeaderNavAuth({ mobileNavToggle }: HeaderNavAuthProps) {
 			h="100%"
 			px={16}
 		>
-			<Title component={Link}>CollabParty</Title>
+			<Title component={Link}>Questbound</Title>
 
 			<Group>{mobileNavToggle}</Group>
 		</Flex>

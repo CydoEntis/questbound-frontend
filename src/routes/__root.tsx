@@ -58,7 +58,7 @@ function RootComponent() {
 	const { setUser, setTokens } = useAuthStore();
 
 	useEffect(() => {
-		const storedData = LocalStorageService.getItem<StoredUser>("collabParty");
+		const storedData = LocalStorageService.getItem<StoredUser>("questbound");
 		console.log(storedData);
 
 		if (storedData) {

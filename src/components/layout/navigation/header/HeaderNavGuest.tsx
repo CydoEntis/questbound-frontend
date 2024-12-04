@@ -27,7 +27,7 @@ function HeaderNavGuest({ mobileNavToggle }: HeaderNavGuestProps) {
 							src={Logo}
 							w={200}
 						/>
-						{/* <Title component={Link}>CollabParty</Title> */}
+						{/* <Title component={Link}>Questbound</Title> */}
 					</Group>
 					<Group
 						ml="xl"

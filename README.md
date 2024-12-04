@@ -48,5 +48,5 @@ export default tseslint.config({
   },
 })
 ```
-# CollabParty_frontend
-# CollabParty_frontend
+# Questbound_frontend
+# Questbound_frontend

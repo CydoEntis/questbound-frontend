@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import useAuthStore from "../../../stores/useAuthStore";
 
-import localStorageService from "./services/localStorage.service";
 import { notifications } from "@mantine/notifications";
 import { UpdateUserRequest, UpdateUserResponse } from "../shared/types";
 import userServices from "./services/user.services";
+import localStorageService from "../../auth/api/services/localStorage.service";
 
 export function useUpdateUserDetails() {
   const { updateUserDetails } = useAuthStore();
@@ -20,11 +20,11 @@ export function useUpdateUserDetails() {
 
       updateUserDetails(data);
 
-      localStorageService.setItem("collabParty", collabParty);
+      localStorageService.updateItem("questbound", data);
 
       notifications.show({
         title: "Success",
-        message: "Login successful!",
+        message: "User details updated.",
         color: "green",
         position: "top-right",
       });
@@ -32,7 +32,7 @@ export function useUpdateUserDetails() {
     onError: (error: Error) => {
       notifications.show({
         title: "Login Failed",
-        message: "Something went wrong!",
+        message: "User details update failed.",
         color: "red",
         position: "top-right",
       });

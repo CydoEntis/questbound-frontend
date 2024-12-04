@@ -34,6 +34,9 @@ apiClient.interceptors.response.use(
         if (user && tokens && tokens.refreshToken) {
           const newTokens = await authServices.refreshTokens(tokens);
           refreshTokens(newTokens);
+
+          LocalStorageService.updateItem("questbound", newTokens);
+
           originalRequest.headers["Authorization"] =
             `Bearer ${newTokens.accessToken}`;
 

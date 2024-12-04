@@ -23,7 +23,7 @@ export function useLogin() {
     onSuccess: (data) => {
       loginUser(data);
 
-      localStorageService.setItem("collabParty", data);
+      localStorageService.setItem("questbound", data);
 
       notifications.show({
         title: "Success",
@@ -56,7 +56,7 @@ export function useRegister() {
     onSuccess: (data) => {
       loginUser(data);
 
-      localStorageService.setItem("collabParty", data);
+      localStorageService.setItem("questbound", data);
 
       notifications.show({
         title: "Success",
@@ -87,11 +87,11 @@ export function useRefreshTokens() {
     onSuccess: (data) => {
       refreshTokens(data);
 
-      const collabParty = { token: data.accessToken };
-      const existingData = localStorageService.getItem("collabParty") || {};
-      const updatedData = { ...existingData, ...collabParty };
+      const questbound = { token: data.accessToken };
+      const existingData = localStorageService.getItem("questbound") || {};
+      const updatedData = { ...existingData, ...questbound };
 
-      localStorageService.setItem("collabParty", updatedData);
+      localStorageService.setItem("questbound", updatedData);
 
       return data;
     },
@@ -116,7 +116,7 @@ export function useLogout() {
     },
     onSuccess: () => {
       logoutUser();
-      localStorageService.removeItem("collabParty");
+      localStorageService.removeItem("questbound");
 
       notifications.show({
         title: "Success",
