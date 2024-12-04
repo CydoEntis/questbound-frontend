@@ -11,6 +11,7 @@ import { UpdateAccountDetails } from "../shared/types";
 import { useState } from "react";
 import { updateAccountDetailsSchema } from "../shared/schema";
 import { UserResponse } from "../../auth/shared/types";
+import { useUpdateUserDetails } from "../api/user";
 
 type UpdateAccountDetailsFormProps = {
   user: UserResponse;
@@ -21,7 +22,7 @@ function UpdateAccountDetailsForm({
   user,
   handleClose,
 }: UpdateAccountDetailsFormProps) {
-  //   const changePassword = useChangePassword();
+  const updateUserDetails = useUpdateUserDetails();
   const router = useRouter();
   const [error, setError] = useState("");
 
@@ -36,8 +37,9 @@ function UpdateAccountDetailsForm({
   console.log(form.errors);
   async function onSubmit(request: UpdateAccountDetails) {
     try {
-      // await changePassword.mutateAsync(request);
+      console.log("request");
       console.log("SUBMIT");
+      await updateUserDetails.mutateAsync(request);
       const searchParams = new URLSearchParams(window.location.search);
       const redirectTo = searchParams.get("redirect") || "/";
 

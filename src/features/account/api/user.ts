@@ -3,8 +3,8 @@ import useAuthStore from "../../../stores/useAuthStore";
 
 import { notifications } from "@mantine/notifications";
 import { UpdateUserRequest, UpdateUserResponse } from "../shared/types";
-import userServices from "./services/user.services";
 import localStorageService from "../../auth/api/services/localStorage.service";
+import userService from "./services/user.service";
 
 export function useUpdateUserDetails() {
   const { updateUserDetails } = useAuthStore();
@@ -13,10 +13,9 @@ export function useUpdateUserDetails() {
     mutationFn: async (
       request: UpdateUserRequest
     ): Promise<UpdateUserResponse> => {
-      return await userServices.updateUserDetails(request);
+      return await userService.updateUserDetails(request);
     },
     onSuccess: (data) => {
-      console.log(data);
 
       updateUserDetails(data);
 

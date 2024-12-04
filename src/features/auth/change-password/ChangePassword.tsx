@@ -11,6 +11,8 @@ import { ChangePasswordRequest, ResetPasswordRequest } from "../shared/types";
 import { changePasswordSchema, resetPasswordSchema } from "../shared/schema";
 import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
 import { useState } from "react";
+import { transformErrorsToCamelCase } from "../../../shared/utils/password.utils";
+import { CamelCasedErrors, Errors } from "../../../shared/types/types";
 
 type ChangePasswordProps = {
   handleClose: () => void;
@@ -39,29 +41,25 @@ function ChangePassword({ handleClose }: ChangePasswordProps) {
   };
 
   async function onSubmit(request: ChangePasswordRequest) {
+    console.log("IS THIS WORKING??");
     try {
-      if (token) {
-        await changePassword.mutateAsync(request);
+      await changePassword.mutateAsync(request);
 
-        const searchParams = new URLSearchParams(window.location.search);
-        const redirectTo = searchParams.get("redirect") || "/";
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirect") || "/";
 
-        router.history.push(redirectTo);
-        handleClose();
-        form.reset();
-      }
+      router.history.push(redirectTo);
+      handleClose();
+      form.reset();
     } catch (error) {
-      console.log("Error: ", error);
       if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors = error.response.data.errors;
-        Object.entries(errors).forEach(([field, messages]) => {
-          form.setErrors({ [field]: (messages as string[]).join(" ") });
-        });
-
-        if (errors["token"]) {
-          setError(errors["token"]);
-        }
+        const errors: Errors = error.response.data.errors;
+        const transformedErrors: CamelCasedErrors =
+          transformErrorsToCamelCase(errors);
+        console.log("Transformed: ", transformErrorsToCamelCase);
+        form.setErrors(transformedErrors);
       }
+      console.log(error);
     }
   }
 
