@@ -6,12 +6,21 @@ import { Alert, Button, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock, User2 } from "lucide-react";
 import { UpdateAccountDetails } from "../shared/types";
 
-import classes from "../auth.module.css";
+// import classes from "../auth.module.css";
 
 import { useState } from "react";
 import { updateAccountDetailsSchema } from "../shared/schema";
+import { User } from "../../auth/shared/types";
 
-function UpdateAccountDetailsForm() {
+type UpdateAccountDetailsFormProps = {
+  user: User;
+  handleClose: () => void;
+};
+
+function UpdateAccountDetailsForm({
+  user,
+  handleClose,
+}: UpdateAccountDetailsFormProps) {
   //   const changePassword = useChangePassword();
   const router = useRouter();
   const [error, setError] = useState("");
@@ -19,19 +28,21 @@ function UpdateAccountDetailsForm() {
   const form = useForm<UpdateAccountDetails>({
     validate: zodResolver(updateAccountDetailsSchema),
     initialValues: {
-      email: "",
-      username: "",
+      email: user.email,
+      username: user.username,
     },
   });
 
+  console.log(form.errors);
   async function onSubmit(request: UpdateAccountDetails) {
     try {
       // await changePassword.mutateAsync(request);
-
+      console.log("SUBMIT");
       const searchParams = new URLSearchParams(window.location.search);
       const redirectTo = searchParams.get("redirect") || "/";
 
       router.history.push(redirectTo);
+      handleClose();
       form.reset();
     } catch (error) {
       console.log("Error: ", error);
@@ -49,26 +60,30 @@ function UpdateAccountDetailsForm() {
   }
 
   return (
-    <form onSubmit={form.onSubmit(onSubmit)}>
+    <form onSubmit={form.onSubmit(onSubmit)} id="updateAccountDetailsForm">
       <TextInput
         label="Username"
         placeholder="Your Username"
-        classNames={{
-          input: classes.input,
-        }}
+        classNames={
+          {
+            // input: classes.input,
+          }
+        }
         leftSection={<User2 size={20} />}
-        {...form.getInputProps("email")}
+        {...form.getInputProps("username")}
       />
       <TextInput
         label="Email"
         placeholder="you@example.com"
-        classNames={{
-          input: classes.input,
-        }}
+        classNames={
+          {
+            // input: classes.input,
+          }
+        }
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}
       />
-      <Button
+      {/* <Button
         fullWidth
         mt="xl"
         color="violet"
@@ -77,7 +92,7 @@ function UpdateAccountDetailsForm() {
         // loading={changePassword.isPending}
       >
         Update Details
-      </Button>
+      </Button> */}
     </form>
   );
 }

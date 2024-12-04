@@ -10,11 +10,13 @@ import {
   Box,
   Text,
 } from "@mantine/core";
-import { Edit } from "lucide-react";
+import { Edit, Save } from "lucide-react";
 import Avatar from "../../avatars/avatar/Avatar";
 import { User } from "../../auth/shared/types";
 import { getPercentage } from "../../user/utils/utils";
 import styles from "./account-modal.module.css";
+import { useState } from "react";
+import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccountDetailsForm";
 
 type AccountModalProps = {
   user: User;
@@ -29,6 +31,19 @@ function AccountModal({
 }: AccountModalProps) {
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
 
+  const [showAccontUpdateForm, setShowAccountUpdateForm] = useState(false);
+
+  const showUpdateAccountFormHandler = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    setShowAccountUpdateForm(true);
+  };
+
+  const closeUpdateAccountFormHandler = () => {
+    setShowAccountUpdateForm(false);
+  };
+
   return (
     <Modal opened={isProfileOpen} onClose={handleCloseProfile} title="Profile">
       <Stack gap={2}>
@@ -40,18 +55,43 @@ function AccountModal({
               Change
             </Text>
           </Box>
-          <ActionIcon
-            variant="light"
-            color="violet"
-            pos="absolute"
-            top={5}
-            right={5}
-          >
-            <Edit size={20} />
-          </ActionIcon>
+          {showAccontUpdateForm ? (
+            <ActionIcon
+              variant="light"
+              color="violet"
+              pos="absolute"
+              top={5}
+              right={5}
+              form="updateAccountDetailsForm"
+              type="submit"
+            >
+              <Save size={20} />
+            </ActionIcon>
+          ) : (
+            <ActionIcon
+              type="button"
+              variant="light"
+              color="violet"
+              pos="absolute"
+              top={5}
+              right={5}
+              onClick={showUpdateAccountFormHandler}
+            >
+              <Edit size={20} />
+            </ActionIcon>
+          )}
           <Stack gap={4}>
-            <Title size="1.75rem">{user.username}</Title>
-            <Text>{user.email}</Text>
+            {showAccontUpdateForm ? (
+              <UpdateAccountDetailsForm
+                user={user}
+                handleClose={closeUpdateAccountFormHandler}
+              />
+            ) : (
+              <>
+                <Title size="1.75rem">{user.username}</Title>
+                <Text>{user.email}</Text>
+              </>
+            )}
           </Stack>
         </Flex>
         <Stack gap={4} py={8} w="100%">
