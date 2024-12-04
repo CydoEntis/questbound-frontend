@@ -9,8 +9,9 @@ import {
   Tooltip,
   Box,
   Text,
+  Group,
 } from "@mantine/core";
-import { Edit, Save } from "lucide-react";
+import { Edit, Save, X } from "lucide-react";
 import Avatar from "../../avatars/avatar/Avatar";
 import { User } from "../../auth/shared/types";
 import { getPercentage } from "../../user/utils/utils";
@@ -66,17 +67,24 @@ function AccountModal({
             </Text>
           </Box>
           {showAccontUpdateForm ? (
-            <ActionIcon
-              variant="light"
-              color="violet"
-              pos="absolute"
-              top={5}
-              right={5}
-              form="updateAccountDetailsForm"
-              type="submit"
-            >
-              <Save size={20} />
-            </ActionIcon>
+            <Group pos="absolute" top={5} right={5} gap={4}>
+              <ActionIcon
+                variant="light"
+                color="violet"
+                form="updateAccountDetailsForm"
+                type="submit"
+              >
+                <Save size={20} />
+              </ActionIcon>
+              <ActionIcon
+                variant="light"
+                color="red"
+                type="button"
+                onClick={closeUpdateAccountFormHandler}
+              >
+                <X size={20} />
+              </ActionIcon>
+            </Group>
           ) : (
             <ActionIcon
               type="button"
