@@ -1,50 +1,49 @@
 import { create } from "zustand";
-import { AuthenticatedUser, TokensResponse, UserResponse } from "../features/auth/shared/types";
+import {
+  AuthenticatedUser,
+  LoginRequest,
+  LoginResponse,
+  TokensResponse,
+  UserResponse,
+} from "../features/auth/shared/types";
+import { UpdateUserResponse } from "../features/account/shared/types";
 
 export type AuthState = {
-	user: AuthenticatedUser | null;
-	tokens: TokensResponse | null;
-	loading: {
-		session: boolean;
-		refresh: boolean;
-		register: boolean;
-		login: boolean;
-		logout: boolean;
-	};
-	setUser: (user: UserResponse | null) => void;
-	setTokens: (tokens: TokensResponse | null) => void;
-	checkIsAuthenticated: () => boolean;
+  user: AuthenticatedUser | null;
+  tokens: TokensResponse | null;
+  loginUser: (response: LoginResponse) => void;
+  logoutUser: () => void;
+  refreshTokens: (tokens: TokensResponse) => void;
+  updateUserDetails: (response: UpdateUserResponse) => void;
+  checkIsAuthenticated: () => boolean;
 };
 
 const useAuthStore = create<AuthState>((set, get) => ({
-	user: null,
-	tokens: null,
-	loading: {
-		session: false,
-		refresh: false,
-		register: false,
-		login: false,
-		logout: false,
-	},
-	setUser: (user: UserResponse | null) => {
-		if (user) {
-			const authenticatedUser: AuthenticatedUser = {
-				...user,
-				isAuthenticated: true,
-			};
+  user: null,
+  tokens: null,
+  loginUser: (response: LoginResponse) => {
+    if (response.user && response.tokens) {
+      const authenticatedUser: AuthenticatedUser = {
+        ...response.user,
+        isAuthenticated: true,
+      };
 
-			set({ user: authenticatedUser });
-		} else {
-			set({ user: null });
-		}
-	},
-	setTokens: (tokens: TokensResponse | null) => {
-		set({ tokens });
-	},
-	checkIsAuthenticated: () => {
-		const user = get().user;
-		return user ? user.isAuthenticated : false; // If user is null, return false
-	},
+      set({ user: authenticatedUser, tokens: response.tokens });
+    }
+  },
+  logoutUser: () => {
+    set({ user: null, tokens: null });
+  },
+  refreshTokens: (tokens: TokensResponse) => {
+    if (tokens) {
+      set({ tokens });
+    }
+  },
+  updateUserDetails: (response: UpdateUserResponse) => {},
+  checkIsAuthenticated: () => {
+    const user = get().user;
+    return user ? user.isAuthenticated : false;
+  },
 }));
 
 export default useAuthStore;
