@@ -1,6 +1,8 @@
-import { Flex, Group, Title } from "@mantine/core";
+import { Flex, Group, Image } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { ReactElement } from "react";
+
+import Logo from "../../../../assets/logo.png";
 
 type HeaderNavAuthProps = {
 	mobileNavToggle: ReactElement;
@@ -14,7 +16,7 @@ function HeaderNavAuth({ mobileNavToggle }: HeaderNavAuthProps) {
 			h="100%"
 			px={16}
 		>
-			<Title component={Link}>Questbound</Title>
+			<Image src={Logo} w={200}/>
 
 			<Group>{mobileNavToggle}</Group>
 		</Flex>
