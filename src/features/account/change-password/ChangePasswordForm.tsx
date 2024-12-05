@@ -6,18 +6,18 @@ import { Alert, Button, Flex, PasswordInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 
 import classes from "../auth.module.css";
-import { useChangePassword } from "../api/auth";
-import { ChangePasswordRequest } from "../shared/types";
-import { changePasswordSchema } from "../shared/schema";
-import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput";
+import { useChangePassword } from "../../auth/api/auth";
+import { ChangePasswordRequest } from "../../auth/shared/types";
+import { changePasswordSchema } from "../../auth/shared/schema";
+import ValidatedPasswordInput from "../../auth/components/inputs/ValidatedPasswordInput";
 import { transformErrorsToCamelCase } from "../../../shared/utils/password.utils";
 import { CamelCasedErrors, Errors } from "../../../shared/types/types";
 
-type ChangePasswordProps = {
+type ChangePasswordFormProps = {
   handleClose: () => void;
 };
 
-function ChangePassword({ handleClose }: ChangePasswordProps) {
+function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
   const changePassword = useChangePassword();
   const router = useRouter();
 
@@ -116,4 +116,4 @@ function ChangePassword({ handleClose }: ChangePasswordProps) {
   );
 }
 
-export default ChangePassword;
+export default ChangePasswordForm;

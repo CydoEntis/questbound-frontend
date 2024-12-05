@@ -37,8 +37,6 @@ function UpdateAccountDetailsForm({
   console.log(form.errors);
   async function onSubmit(request: UpdateAccountDetails) {
     try {
-      console.log("request");
-      console.log("SUBMIT");
       await updateUserDetails.mutateAsync(request);
       const searchParams = new URLSearchParams(window.location.search);
       const redirectTo = searchParams.get("redirect") || "/";
@@ -47,16 +45,11 @@ function UpdateAccountDetailsForm({
       handleClose();
       form.reset();
     } catch (error) {
-      console.log("Error: ", error);
       if (error instanceof AxiosError && error.response?.data?.errors) {
         const errors = error.response.data.errors;
         Object.entries(errors).forEach(([field, messages]) => {
           form.setErrors({ [field]: (messages as string[]).join(" ") });
         });
-
-        if (errors["token"]) {
-          setError(errors["token"]);
-        }
       }
     }
   }
@@ -66,11 +59,9 @@ function UpdateAccountDetailsForm({
       <TextInput
         label="Username"
         placeholder="Your Username"
-        classNames={
-          {
-            // input: classes.input,
-          }
-        }
+        classNames={{
+          input: input,
+        }}
         leftSection={<User2 size={20} />}
         {...form.getInputProps("username")}
       />
@@ -85,16 +76,6 @@ function UpdateAccountDetailsForm({
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}
       />
-      {/* <Button
-        fullWidth
-        mt="xl"
-        color="violet"
-        variant="light"
-        type="submit"
-        // loading={changePassword.isPending}
-      >
-        Update Details
-      </Button> */}
     </form>
   );
 }

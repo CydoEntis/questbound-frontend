@@ -1,27 +1,13 @@
-import {
-  ActionIcon,
-  Button,
-  Flex,
-  Modal,
-  Progress,
-  Stack,
-  Title,
-  Tooltip,
-  Box,
-  Text,
-  Group,
-} from "@mantine/core";
-import { Edit, Save, X } from "lucide-react";
-import Avatar from "../../avatars/avatar/Avatar";
-import { UserResponse } from "../../auth/shared/types";
-import { getPercentage } from "../../user/utils/utils";
-import styles from "./account-modal.module.css";
+import { Button, Flex, Modal, Stack } from "@mantine/core";
+import { AuthenticatedUser } from "../../auth/shared/types";
 import { useState } from "react";
-import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccountDetailsForm";
-import ChangePassword from "../../auth/change-password/ChangePassword";
+import ChangeAvatar from "../../avatars/change-avatar/ChangeAvatar";
+import ManageAccountDetails from "../manage-account-details/ManageAccountDetails";
+import AccountLevel from "../account-level/AccountLevel";
+import ChangePassword from "../change-password/ChangePassword";
 
 type AccountModalProps = {
-  user: UserResponse;
+  user: AuthenticatedUser;
   isProfileOpen: boolean;
   handleCloseProfile: () => void;
 };
@@ -31,29 +17,8 @@ function AccountModal({
   isProfileOpen,
   handleCloseProfile,
 }: AccountModalProps) {
-  const percentage = getPercentage(user.currentExp, user.expToNextLevel);
-
   const [showAccountUpdateForm, setShowAccountUpdateForm] = useState(false);
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
-
-  const showUpdateAccountFormHandler = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    setShowAccountUpdateForm(true);
-  };
-
-  const closeUpdateAccountFormHandler = () => {
-    setShowAccountUpdateForm(false);
-  };
-
-  const showChangePasswordFormHandler = () => {
-    setShowChangePasswordForm(true);
-  };
-
-  const closeChangePasswordFormHandler = () => {
-    setShowChangePasswordForm(false);
-  };
 
   const closeAndReset = () => {
     setShowChangePasswordForm(false);
@@ -65,89 +30,24 @@ function AccountModal({
     <Modal opened={isProfileOpen} onClose={closeAndReset} title="Profile">
       <Stack gap={2}>
         <Flex gap={16} align="center" w="100%" pos="relative">
-          <Box className={styles.avatarWrapper}>
-            <div className={styles.avatarOverlay}></div>
-            <Avatar size="xl" avatar={user.avatar} />
-            <Text className={styles.editIcon} c="white">
-              Change
-            </Text>
-          </Box>
-          {showAccountUpdateForm ? (
-            <Group pos="absolute" top={5} right={5} gap={4}>
-              <ActionIcon
-                variant="light"
-                color="violet"
-                form="updateAccountDetailsForm"
-                type="submit"
-              >
-                <Save size={20} />
-              </ActionIcon>
-              <ActionIcon
-                variant="light"
-                color="red"
-                type="button"
-                onClick={closeUpdateAccountFormHandler}
-              >
-                <X size={20} />
-              </ActionIcon>
-            </Group>
-          ) : (
-            <ActionIcon
-              type="button"
-              variant="light"
-              color="violet"
-              pos="absolute"
-              top={5}
-              right={5}
-              onClick={showUpdateAccountFormHandler}
-            >
-              <Edit size={20} />
-            </ActionIcon>
-          )}
-          <Stack gap={4}>
-            {showAccountUpdateForm ? (
-              <UpdateAccountDetailsForm
-                user={user}
-                handleClose={closeUpdateAccountFormHandler}
-              />
-            ) : (
-              <>
-                <Title size="1.75rem">{user.username}</Title>
-                <Text>{user.email}</Text>
-              </>
-            )}
-          </Stack>
+          <ChangeAvatar avatar={user.avatar} />
+          <ManageAccountDetails
+            user={user}
+            isOpen={showAccountUpdateForm}
+            closeFormHandler={() => setShowAccountUpdateForm(false)}
+            showFormHandler={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              setShowAccountUpdateForm(true);
+            }}
+          />
         </Flex>
-        <Stack gap={4} py={8} w="100%">
-          <Text>Level: {user.currentLevel}</Text>
-          <Tooltip
-            label={`${user.expToNextLevel - user.currentExp} exp to go`}
-            position="bottom"
-          >
-            <Progress
-              w="100%"
-              radius="md"
-              value={percentage}
-              size="md"
-              animated
-              color="violet"
-            />
-          </Tooltip>
-        </Stack>
+        <AccountLevel user={user} />
       </Stack>
-      {showChangePasswordForm ? (
-        <ChangePassword handleClose={closeChangePasswordFormHandler} />
-      ) : (
-        <Flex justify="end" pt={8}>
-          <Button
-            variant="outline"
-            color="violet"
-            onClick={showChangePasswordFormHandler}
-          >
-            Change Password
-          </Button>
-        </Flex>
-      )}
+      <ChangePassword
+        isOpened={showChangePasswordForm}
+        closeFormHandler={() => setShowChangePasswordForm(false)}
+        showFormHandler={() => setShowChangePasswordForm(true)}
+      />
     </Modal>
   );
 }

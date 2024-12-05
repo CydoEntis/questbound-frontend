@@ -1,5 +1,4 @@
-import { UserAvatar } from "../../auth/shared/types";
-import { Avatar } from "../../avatars/shared/types";
+import { UserAvatar } from "../../avatars/shared/types";
 import { MEMBER_ROLES } from "../utils/utils";
 
 export type Member = {

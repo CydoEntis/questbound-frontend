@@ -17,7 +17,7 @@ import useAuthStore from "../../../stores/useAuthStore";
 import { getPercentage } from "../../../features/user/utils/utils";
 import classes from "./Profile.module.css"; // Import the CSS module
 import { Edit, Edit2 } from "lucide-react";
-import ChangePassword from "../../../features/auth/change-password/ChangePassword";
+import ChangePassword from "../../../features/account/change-password/ChangePasswordForm";
 
 export const Route = createFileRoute("/_authenticated/profile/")({
   component: RouteComponent,
