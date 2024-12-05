@@ -13,7 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as AuthenticatedIndexImport./routes/_authenticated/indexuthenticated/index'
+import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
 import { Route as AuthResetPasswordImport } from './routes/_auth/reset-password'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
