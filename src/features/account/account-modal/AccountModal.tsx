@@ -19,7 +19,6 @@ import styles from "./account-modal.module.css";
 import { useState } from "react";
 import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccountDetailsForm";
 import ChangePassword from "../../auth/change-password/ChangePassword";
-import useAccountManagement from "../hooks/useAccountManagement";
 
 type AccountModalProps = {
   user: UserResponse;
@@ -34,15 +33,33 @@ function AccountModal({
 }: AccountModalProps) {
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
 
-  const {
-    showAccountUpdateForm,
-    closeUpdateAccountFormHandler,
-    showUpdateAccountFormHandler,
-    closeChangePasswordFormHandler,
-    showChangePasswordFormHandler,
-    showChangePasswordForm,
-    closeAndReset
-  } = useAccountManagement(handleCloseProfile);
+  const [showAccountUpdateForm, setShowAccountUpdateForm] = useState(false);
+  const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+
+  const showUpdateAccountFormHandler = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    setShowAccountUpdateForm(true);
+  };
+
+  const closeUpdateAccountFormHandler = () => {
+    setShowAccountUpdateForm(false);
+  };
+
+  const showChangePasswordFormHandler = () => {
+    setShowChangePasswordForm(true);
+  };
+
+  const closeChangePasswordFormHandler = () => {
+    setShowChangePasswordForm(false);
+  };
+
+  const closeAndReset = () => {
+    setShowChangePasswordForm(false);
+    setShowAccountUpdateForm(false);
+    handleCloseProfile();
+  };
 
   return (
     <Modal opened={isProfileOpen} onClose={closeAndReset} title="Profile">
