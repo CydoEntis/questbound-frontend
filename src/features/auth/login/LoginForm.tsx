@@ -4,7 +4,6 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
 import { AxiosError } from "axios";
 import { Link, useRouter } from "@tanstack/react-router";
-import classes from "../auth.module.css";
 import { LoginRequest } from "../shared/types";
 import { useLogin } from "../api/auth";
 import { loginSchema } from "../shared/schema";
@@ -49,7 +48,7 @@ function LoginForm({}: Props) {
         label="Email"
         placeholder="you@example.com"
         classNames={{
-          input: classes.input,
+          input: "input",
         }}
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}
@@ -61,7 +60,7 @@ function LoginForm({}: Props) {
         required
         mt="md"
         classNames={{
-          input: classes.input,
+          input: "input",
         }}
         leftSection={<Lock size={20} />}
         {...form.getInputProps("password")}
