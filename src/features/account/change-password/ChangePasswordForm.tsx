@@ -2,10 +2,9 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
-import { Alert, Button, Flex, PasswordInput } from "@mantine/core";
-import { AtSign, Lock } from "lucide-react";
+import { Button, Flex, PasswordInput } from "@mantine/core";
+import { Lock } from "lucide-react";
 
-import classes from "../auth.module.css";
 import { useChangePassword } from "../../auth/api/auth";
 import { ChangePasswordRequest } from "../../auth/shared/types";
 import { changePasswordSchema } from "../../auth/shared/schema";
@@ -65,7 +64,7 @@ function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
         placeholder="Your current password"
         mt="md"
         classNames={{
-          input: classes.input,
+          input: "input",
         }}
         {...form.getInputProps("currentPassword")}
         leftSection={<Lock size={20} />}
@@ -85,7 +84,7 @@ function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
         placeholder="Confirm your new password"
         mt="md"
         classNames={{
-          input: classes.input,
+          input: "input",
         }}
         {...form.getInputProps("confirmNewPassword")}
         leftSection={<Lock size={20} />}

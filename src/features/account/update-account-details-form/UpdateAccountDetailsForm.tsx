@@ -60,7 +60,7 @@ function UpdateAccountDetailsForm({
         label="Username"
         placeholder="Your Username"
         classNames={{
-          input: input,
+          input: "input",
         }}
         leftSection={<User2 size={20} />}
         {...form.getInputProps("username")}
@@ -68,11 +68,9 @@ function UpdateAccountDetailsForm({
       <TextInput
         label="Email"
         placeholder="you@example.com"
-        classNames={
-          {
-            // input: classes.input,
-          }
-        }
+        classNames={{
+          input: "input",
+        }}
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}
       />
