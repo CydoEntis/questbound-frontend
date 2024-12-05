@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, Stack } from "@mantine/core";
+import { Flex, Modal, Stack } from "@mantine/core";
 import { AuthenticatedUser } from "../../auth/shared/types";
 import { useState } from "react";
 import ChangeAvatar from "../../avatars/change-avatar/ChangeAvatar";

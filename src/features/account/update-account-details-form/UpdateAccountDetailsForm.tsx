@@ -2,13 +2,12 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
-import { Alert, Button, PasswordInput, TextInput } from "@mantine/core";
-import { AtSign, Lock, User2 } from "lucide-react";
+import { TextInput } from "@mantine/core";
+import { AtSign, User2 } from "lucide-react";
 import { UpdateAccountDetails } from "../shared/types";
 
 // import classes from "../auth.module.css";
 
-import { useState } from "react";
 import { updateAccountDetailsSchema } from "../shared/schema";
 import { UserResponse } from "../../auth/shared/types";
 import { useUpdateUserDetails } from "../api/user";
@@ -24,7 +23,6 @@ function UpdateAccountDetailsForm({
 }: UpdateAccountDetailsFormProps) {
   const updateUserDetails = useUpdateUserDetails();
   const router = useRouter();
-  const [error, setError] = useState("");
 
   const form = useForm<UpdateAccountDetails>({
     validate: zodResolver(updateAccountDetailsSchema),

@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Button,
   PasswordInput,
   SimpleGrid,
@@ -11,9 +10,7 @@ import {
 } from "@mantine/core";
 import { AtSign, Lock, User2, Check } from "lucide-react";
 
-import classes from "../auth.module.css";
 
-import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
 import { AxiosError } from "axios";
