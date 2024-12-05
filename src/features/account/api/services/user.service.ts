@@ -1,5 +1,6 @@
 import apiClient from "../../../../lib/api/apiClient";
 import endpoints from "../../../../lib/api/endpoints";
+import { UserAvatar } from "../../../avatars/shared/types";
 import { UpdateUserRequest, UpdateUserResponse } from "../../shared/types";
 
 const updateUserDetails = async (
@@ -10,6 +11,22 @@ const updateUserDetails = async (
   return response.result;
 };
 
+const updateUserAvatar = async (id: number): Promise<UserAvatar> => {
+  const response = (await apiClient.put(`${endpoints.user}/avatar`, { id }))
+    .data;
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
+const getUnlockedAvatars = async (): Promise<UserAvatar[]> => {
+  const response = (await apiClient.get(`${endpoints.user}/unlocked-avatars`))
+    .data;
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
 export default {
   updateUserDetails,
+  updateUserAvatar,
+  getUnlockedAvatars,
 };

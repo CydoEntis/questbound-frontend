@@ -1,0 +1,5 @@
+.selected-avatar {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}

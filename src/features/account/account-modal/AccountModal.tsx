@@ -30,7 +30,7 @@ function AccountModal({
     <Modal opened={isProfileOpen} onClose={closeAndReset} title="Profile">
       <Stack gap={2}>
         <Flex gap={16} align="center" w="100%" pos="relative">
-          <ChangeAvatar avatar={user.avatar} />
+          <ChangeAvatar activeAvatar={user.avatar} avatar={user.avatar} />
           <ManageAccountDetails
             user={user}
             isOpen={showAccountUpdateForm}

@@ -1,6 +1,6 @@
-import { Flex, Paper, Stack, Text, Title } from "@mantine/core";
+import { Flex, Paper, Portal, Stack, Text, Title } from "@mantine/core";
 import { ChevronRight } from "lucide-react";
-import { UserResponse } from "../../auth/shared/types";
+import { AuthenticatedUser, UserResponse } from "../../auth/shared/types";
 
 import { useDisclosure } from "@mantine/hooks";
 import Avatar from "../../avatars/avatar/Avatar";
@@ -8,20 +8,22 @@ import styles from "./account-button.module.css";
 import AccountModal from "../account-modal/AccountModal";
 
 type AccountButtonProps = {
-  user: UserResponse;
+  user: AuthenticatedUser;
 };
 
 function AccountButton({ user }: AccountButtonProps) {
-  const [isProfileOpen, { open: openProfile, close: closeProfile }] = useDisclosure(false);
-
+  const [isProfileOpen, { open: openProfile, close: closeProfile }] =
+    useDisclosure(false);
 
   return (
     <>
-      <AccountModal
-        user={user}
-        isProfileOpen={isProfileOpen}
-        handleCloseProfile={closeProfile}
-      />
+      <Portal>
+        <AccountModal
+          user={user}
+          isProfileOpen={isProfileOpen}
+          handleCloseProfile={closeProfile}
+        />
+      </Portal>
       <Paper
         onClick={openProfile}
         className={styles["account-btn"]}
