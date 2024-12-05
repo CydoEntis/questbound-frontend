@@ -27,7 +27,6 @@ const loginUser = async (
 		await apiClient.post(`${endpoints.auth}/login`, credentials)
 	).data;
 
-	console.log("Response: ", response);
 
 	if (!response.isSuccess) throw new Error();
 

@@ -10,62 +10,57 @@ import useAuthStore from "../../stores/useAuthStore";
 import { useEffect } from "react";
 
 export function Layout() {
-	const { user, checkIsAuthenticated } = useAuthStore();
-	const isLightMode = useGetColorTheme();
-	const [opened, { toggle, close }] = useDisclosure();
-	const location = useLocation();
+  const { user, checkIsAuthenticated } = useAuthStore();
+  const isLightMode = useGetColorTheme();
+  const [opened, { toggle, close }] = useDisclosure();
+  const location = useLocation();
 
-	useEffect(() => {
-		const isAuthenticated = checkIsAuthenticated();
-		console.log(isAuthenticated);
-		console.log(user);
-		if (!isAuthenticated) {
-			console.log("User is not authenticated");
-		}
-	}, [user, checkIsAuthenticated]);
+  useEffect(() => {
+    checkIsAuthenticated();
+  }, [user, checkIsAuthenticated]);
 
-	return (
-		<AppShell
-			header={{ height: 60 }}
-			navbar={
-				checkIsAuthenticated()
-					? {
-							width: { base: 200, md: 300 },
-							breakpoint: "sm",
-							collapsed: { mobile: !opened },
-						}
-					: undefined
-			}
-		>
-			<AppShell.Header>
-				<TopBar
-					isAuthenticated={checkIsAuthenticated()}
-					opened={opened}
-					toggle={toggle}
-				/>
-			</AppShell.Header>
+  return (
+    <AppShell
+      header={{ height: 60 }}
+      navbar={
+        checkIsAuthenticated()
+          ? {
+              width: { base: 200, md: 300 },
+              breakpoint: "sm",
+              collapsed: { mobile: !opened },
+            }
+          : undefined
+      }
+    >
+      <AppShell.Header>
+        <TopBar
+          isAuthenticated={checkIsAuthenticated()}
+          opened={opened}
+          toggle={toggle}
+        />
+      </AppShell.Header>
 
-			{checkIsAuthenticated() ? (
-				<AppShell.Navbar
-					p="md"
-					bg="secondary"
-					style={{
-						navbar: {
-							borderColor: isLightMode ? "#DCDEE0" : "#3A3A3A",
-							overflowY: "auto",
-							height: "100vh",
-						},
-					}}
-				>
-					<Sidebar onClose={close} />
-				</AppShell.Navbar>
-			) : null}
+      {checkIsAuthenticated() ? (
+        <AppShell.Navbar
+          p="md"
+          bg="secondary"
+          style={{
+            navbar: {
+              borderColor: isLightMode ? "#DCDEE0" : "#3A3A3A",
+              overflowY: "auto",
+              height: "100vh",
+            },
+          }}
+        >
+          <Sidebar onClose={close} />
+        </AppShell.Navbar>
+      ) : null}
 
-			<AppShell.Main bg="primary">
-				<SlideInRightTransition key={location.pathname}>
-					<Outlet />
-				</SlideInRightTransition>
-			</AppShell.Main>
-		</AppShell>
-	);
+      <AppShell.Main bg="primary">
+        <SlideInRightTransition key={location.pathname}>
+          <Outlet />
+        </SlideInRightTransition>
+      </AppShell.Main>
+    </AppShell>
+  );
 }

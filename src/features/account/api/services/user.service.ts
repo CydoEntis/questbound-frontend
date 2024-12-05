@@ -12,9 +12,13 @@ const updateUserDetails = async (
 };
 
 const updateUserAvatar = async (id: number): Promise<UserAvatar> => {
-  const response = (await apiClient.put(`${endpoints.user}/avatar`, { id }))
-    .data;
+  const response = (
+    await apiClient.put(`${endpoints.user}/avatar`, { avatarId: id })
+  ).data;
   if (!response.isSuccess) throw new Error();
+
+  console.log(response.result);
+
   return response.result;
 };
 

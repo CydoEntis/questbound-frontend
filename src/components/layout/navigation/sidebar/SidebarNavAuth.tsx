@@ -40,7 +40,6 @@ function SidebarNavAuth({
     if (isMobile) closeNav();
   };
 
-  console.log(user);
 
   const logoutHandler = async () => {
     await logout.mutateAsync(tokens!);
@@ -69,7 +68,6 @@ function SidebarNavAuth({
     setIsRecentOpen((prev) => !prev);
   };
 
-  console.log(recentParties);
 
   return (
     <Stack

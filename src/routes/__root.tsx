@@ -52,7 +52,6 @@ function RootComponent() {
 
   useEffect(() => {
     const storedData = LocalStorageService.getItem<StoredUser>("questbound");
-    console.log(storedData);
 
     if (storedData) {
       loginUser(storedData);
