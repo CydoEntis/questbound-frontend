@@ -27,6 +27,8 @@ import ValidatedPasswordInput from "../components/inputs/ValidatedPasswordInput"
 import { RegisterRequest } from "../shared/types";
 import { registerSchema } from "../shared/schema";
 import { useRegister } from "../api/auth";
+import { CamelCasedErrors, Errors } from "../../../shared/types/types";
+import { transformErrorsToCamelCase } from "../../../shared/utils/password.utils";
 
 function RegisterForm() {
   const [selectedAvatar, setSelectedAvatar] = useState(1);
@@ -60,15 +62,11 @@ function RegisterForm() {
       form.reset();
       navigate({ to: "/" });
     } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        console.log(error.response.data);
-        const errors = error.response.data as Record<string, string>;
-        const fieldErrors: Record<string, string> = {};
-        for (const [key, message] of Object.entries(errors)) {
-          fieldErrors[key] = message;
-        }
-        console.log(fieldErrors);
-        form.setErrors(fieldErrors);
+      if (error instanceof AxiosError && error.response?.data?.errors) {
+        const errors: Errors = error.response.data.errors;
+        const transformedErrors: CamelCasedErrors =
+          transformErrorsToCamelCase(errors);
+        form.setErrors(transformedErrors);
       }
     }
   }
