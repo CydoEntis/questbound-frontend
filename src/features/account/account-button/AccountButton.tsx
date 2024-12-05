@@ -12,8 +12,8 @@ type AccountButtonProps = {
 };
 
 function AccountButton({ user }: AccountButtonProps) {
-  const [isProfileOpen, { open: openProfile, close: closeProfile }] =
-    useDisclosure(false);
+  const [isProfileOpen, { open: openProfile, close: closeProfile }] = useDisclosure(false);
+
 
   return (
     <>

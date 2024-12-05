@@ -19,6 +19,7 @@ import styles from "./account-modal.module.css";
 import { useState } from "react";
 import UpdateAccountDetailsForm from "../update-account-details-form/UpdateAccountDetailsForm";
 import ChangePassword from "../../auth/change-password/ChangePassword";
+import useAccountManagement from "../hooks/useAccountManagement";
 
 type AccountModalProps = {
   user: UserResponse;
@@ -33,30 +34,18 @@ function AccountModal({
 }: AccountModalProps) {
   const percentage = getPercentage(user.currentExp, user.expToNextLevel);
 
-  const [showAccontUpdateForm, setShowAccountUpdateForm] = useState(false);
-  const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
-
-  const showUpdateAccountFormHandler = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    setShowAccountUpdateForm(true);
-  };
-
-  const closeUpdateAccountFormHandler = () => {
-    setShowAccountUpdateForm(false);
-  };
-
-  const showChangePasswordHandler = () => {
-    setShowChangePasswordForm(true);
-  };
-
-  const closeChangePasswordHandler = () => {
-    setShowChangePasswordForm(false);
-  };
+  const {
+    showAccountUpdateForm,
+    closeUpdateAccountFormHandler,
+    showUpdateAccountFormHandler,
+    closeChangePasswordFormHandler,
+    showChangePasswordFormHandler,
+    showChangePasswordForm,
+    closeAndReset
+  } = useAccountManagement(handleCloseProfile);
 
   return (
-    <Modal opened={isProfileOpen} onClose={handleCloseProfile} title="Profile">
+    <Modal opened={isProfileOpen} onClose={closeAndReset} title="Profile">
       <Stack gap={2}>
         <Flex gap={16} align="center" w="100%" pos="relative">
           <Box className={styles.avatarWrapper}>
@@ -66,7 +55,7 @@ function AccountModal({
               Change
             </Text>
           </Box>
-          {showAccontUpdateForm ? (
+          {showAccountUpdateForm ? (
             <Group pos="absolute" top={5} right={5} gap={4}>
               <ActionIcon
                 variant="light"
@@ -99,7 +88,7 @@ function AccountModal({
             </ActionIcon>
           )}
           <Stack gap={4}>
-            {showAccontUpdateForm ? (
+            {showAccountUpdateForm ? (
               <UpdateAccountDetailsForm
                 user={user}
                 handleClose={closeUpdateAccountFormHandler}
@@ -130,13 +119,13 @@ function AccountModal({
         </Stack>
       </Stack>
       {showChangePasswordForm ? (
-        <ChangePassword handleClose={closeChangePasswordHandler} />
+        <ChangePassword handleClose={closeChangePasswordFormHandler} />
       ) : (
         <Flex justify="end" pt={8}>
           <Button
             variant="outline"
             color="violet"
-            onClick={showChangePasswordHandler}
+            onClick={showChangePasswordFormHandler}
           >
             Change Password
           </Button>
