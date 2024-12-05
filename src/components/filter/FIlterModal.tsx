@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Route } from "../../routes";
+import { Route } from "../../routes/_auth";
 import { z } from "zod";
 
 type FilterModalProps = {

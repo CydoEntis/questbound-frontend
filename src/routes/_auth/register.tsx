@@ -1,0 +1,21 @@
+import { createFileRoute } from "@tanstack/react-router";
+import AuthCard from "../../features/auth/components/cards/AuthCard";
+import RegisterForm from "../../features/auth/components/forms/RegisterForm";
+
+export const Route = createFileRoute("/_auth/register")({
+  component: RegisterPage,
+});
+
+type Props = {};
+function RegisterPage({}: Props) {
+  return (
+    <AuthCard
+      title="Let's Get You Signed Up!"
+      anchorLabel="Already Have An Account?"
+      anchorText="Log In"
+      to="/login"
+    >
+      <RegisterForm />
+    </AuthCard>
+  );
+}
