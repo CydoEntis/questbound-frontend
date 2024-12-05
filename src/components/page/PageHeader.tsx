@@ -1,7 +1,7 @@
 import { Box, Flex, Group, Title } from "@mantine/core";
 import { ReactElement, ReactNode } from "react";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
-import { MEMBER_ROLES } from "../../features/members/utils/utils";
+import { MEMBER_ROLES } from "../../shared/utils/constants";
 
 type PageHeaderProps = {
   title: string;

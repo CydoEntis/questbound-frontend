@@ -1,33 +1,37 @@
 import { useDisclosure } from "@mantine/hooks";
-import UserManagementModal from "../../../../features/user/user-management/UserManagementModal";
 import useAuthStore from "../../../../stores/useAuthStore";
 import SidebarNavAuth from "./SidebarNavAuth";
+import { Container, Group, Modal, Image, Text } from "@mantine/core";
+import Gold from "../../../../assets/gold.png";
 
 type SidebarProps = {
-	onClose: () => void;
+  onClose: () => void;
 };
 
 function Sidebar({ onClose }: SidebarProps) {
-	const { user } = useAuthStore();
+  const { user } = useAuthStore();
 
-	const [
-		userManagementOpen,
-		{ open: openUserManagement, close: closeUserManagement },
-	] = useDisclosure(false);
+  const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
+    useDisclosure(false);
 
-	return (
-		<>
-			<UserManagementModal
-				isOpened={userManagementOpen}
-				onClose={closeUserManagement}
-			/>
-			<SidebarNavAuth
-				user={user!}
-				closeNav={onClose}
-				onOpenUserManagement={openUserManagement}
-			/>
-		</>
-	);
+  return (
+    <>
+      <Modal opened={avatarShopOpen} onClose={closeAvatarShop} title="Avatar Shop">
+        <Container fluid>
+          <Text>Your balance</Text>
+          <Group gap={4}>
+            <Text>{user?.gold}</Text>
+            <Image src={Gold} w={20} />
+          </Group>
+        </Container>
+      </Modal>
+      <SidebarNavAuth
+        user={user!}
+        closeNav={onClose}
+        onOpenAvatarShop={openAvatarShop}
+      />
+    </>
+  );
 }
 
 export default Sidebar;

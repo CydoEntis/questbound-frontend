@@ -1,12 +1,10 @@
 import { create } from "zustand";
 import {
   AuthenticatedUser,
-  LoginRequest,
   LoginResponse,
   TokensResponse,
-  UserResponse,
-} from "../features/auth/shared/types";
-import { UpdateUserResponse } from "../features/account/shared/types";
+} from "../features/auth/shared/auth.types";
+import { UpdateUserResponse } from "../features/account/shared/account.types";
 import { UserAvatar } from "../features/avatars/shared/types";
 
 export type AuthState = {

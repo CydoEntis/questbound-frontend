@@ -11,8 +11,8 @@ import { Layout } from "../components/layout/Layout";
 import theme from "../components/theme/theme.config";
 import { useEffect } from "react";
 import useAuthStore, { AuthState } from "../stores/useAuthStore";
-import LocalStorageService from "../features/auth/api/services/localStorage.service";
-import { AuthenticatedUser, StoredUser } from "../features/auth/shared/types";
+import LocalStorageService from "../api/services/localStorage.service";
+import { AuthenticatedUser, StoredUser } from "../features/auth/shared/auth.types";
 
 export type RouterContext = {
   authState: AuthState;

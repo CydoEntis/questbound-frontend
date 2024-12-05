@@ -1,25 +1,24 @@
 import { useMutation } from "@tanstack/react-query";
-import authServices from "./services/auth.service";
+import authService from "./auth.service";
 import useAuthStore from "../../../stores/useAuthStore";
 import {
   LoginResponse,
   LoginRequest,
-  TokensResponse,
   RegisterRequest,
   ForgotPasswordRequest,
-  ChangePasswordRequest,
   ResetPasswordRequest,
-  AuthenticatedUser,
-} from "../shared/types";
-import localStorageService from "./services/localStorage.service";
+  Tokens,
+} from "../shared/auth.types";
+import localStorageService from "../../../api/services/localStorage.service";
 import { notifications } from "@mantine/notifications";
+import { AuthenticatedUser } from "../../account/shared/account.types";
 
 export function useLogin() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
     mutationFn: async (credentials: LoginRequest): Promise<LoginResponse> => {
-      return await authServices.loginUser(credentials);
+      return await authService.loginUser(credentials);
     },
     onSuccess: (data) => {
       loginUser(data);
@@ -60,7 +59,7 @@ export function useRegister() {
     mutationFn: async (
       credentials: RegisterRequest
     ): Promise<LoginResponse> => {
-      return await authServices.registerUser(credentials);
+      return await authService.registerUser(credentials);
     },
     onSuccess: (data) => {
       loginUser(data);
@@ -90,8 +89,8 @@ export function useRefreshTokens() {
   const { refreshTokens } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (tokens: TokensResponse): Promise<TokensResponse> => {
-      return await authServices.refreshTokens(tokens);
+    mutationFn: async (tokens: Tokens): Promise<Tokens> => {
+      return await authService.refreshTokens(tokens);
     },
     onSuccess: (data) => {
       refreshTokens(data);
@@ -120,8 +119,8 @@ export function useLogout() {
   const { logoutUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (tokens: TokensResponse): Promise<void> => {
-      await authServices.logoutUser(tokens);
+    mutationFn: async (tokens: Tokens): Promise<void> => {
+      await authService.logoutUser(tokens);
     },
     onSuccess: () => {
       logoutUser();
@@ -149,34 +148,7 @@ export function useLogout() {
 export function useForgotPassword() {
   return useMutation({
     mutationFn: async (email: ForgotPasswordRequest): Promise<void> => {
-      await authServices.forgotPassword(email);
-    },
-    onSuccess: (data) => {
-      console.log(data);
-
-      notifications.show({
-        title: "Success",
-        message: "Email has been sent.",
-        color: "green",
-        position: "top-right",
-      });
-    },
-    onError: (error: Error) => {
-      notifications.show({
-        title: "Success",
-        message: "Email has been sent.",
-        color: "green",
-        position: "top-right",
-      });
-      throw error;
-    },
-  });
-}
-
-export function useChangePassword() {
-  return useMutation({
-    mutationFn: async (request: ChangePasswordRequest): Promise<void> => {
-      await authServices.changePassword(request);
+      await authService.forgotPassword(email);
     },
     onSuccess: (data) => {
       console.log(data);
@@ -203,7 +175,7 @@ export function useChangePassword() {
 export function useResetPassword() {
   return useMutation({
     mutationFn: async (request: ResetPasswordRequest): Promise<void> => {
-      await authServices.resetPassword(request);
+      await authService.resetPassword(request);
     },
     onSuccess: (data) => {
       console.log(data);

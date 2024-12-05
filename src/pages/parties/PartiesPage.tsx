@@ -1,13 +1,13 @@
 import { useSearch } from "@tanstack/react-router";
-import { useGetParties } from "../../features/party/api/parties";
-import PartyGrid from "../../features/party/party-grid/PartyGrid";
 import usePartyStore from "../../stores/usePartyStore";
 import { useEffect } from "react";
 import { ActionIcon, Box, Flex, Group } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
 import { Settings2 } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
-import PartyFilter from "../../features/party/party-filter/PartyFilter";
+import { useGetParties } from "../../features/parties-a/api/parties";
+import PartyFilter from "../../features/parties-a/party-filter/PartyFilter";
+import PartyGrid from "../../features/parties-a/party-grid/PartyGrid";
 
 type Props = {};
 

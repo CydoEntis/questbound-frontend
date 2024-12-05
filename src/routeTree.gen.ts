@@ -18,7 +18,6 @@ import { Route as ForgotPasswordImport } from './routes/forgot-password'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedProfileIndexImport } from './routes/_authenticated/profile/index'
 import { Route as AuthenticatedPartiesIndexImport } from './routes/_authenticated/parties/index'
 import { Route as AuthenticatedPartiesIdImport } from './routes/_authenticated/parties/$id'
 
@@ -62,12 +61,6 @@ const IndexRoute = IndexImport.update({
 const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedProfileIndexRoute = AuthenticatedProfileIndexImport.update({
-  id: '/profile/',
-  path: '/profile/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -150,13 +143,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPartiesIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/profile/': {
-      id: '/_authenticated/profile/'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileIndexImport
-      parentRoute: typeof AuthenticatedImport
-    }
   }
 }
 
@@ -166,14 +152,12 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedPartiesIdRoute: typeof AuthenticatedPartiesIdRoute
   AuthenticatedPartiesIndexRoute: typeof AuthenticatedPartiesIndexRoute
-  AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedPartiesIdRoute: AuthenticatedPartiesIdRoute,
   AuthenticatedPartiesIndexRoute: AuthenticatedPartiesIndexRoute,
-  AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -190,7 +174,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
-  '/profile': typeof AuthenticatedProfileIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -203,7 +186,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
-  '/profile': typeof AuthenticatedProfileIndexRoute
 }
 
 export interface FileRoutesById {
@@ -217,7 +199,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/parties/$id': typeof AuthenticatedPartiesIdRoute
   '/_authenticated/parties/': typeof AuthenticatedPartiesIndexRoute
-  '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -232,7 +213,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/parties/$id'
     | '/parties'
-    | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -244,7 +224,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/parties/$id'
     | '/parties'
-    | '/profile'
   id:
     | '__root__'
     | '/'
@@ -256,7 +235,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/parties/$id'
     | '/_authenticated/parties/'
-    | '/_authenticated/profile/'
   fileRoutesById: FileRoutesById
 }
 
@@ -304,8 +282,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/dashboard",
         "/_authenticated/parties/$id",
-        "/_authenticated/parties/",
-        "/_authenticated/profile/"
+        "/_authenticated/parties/"
       ]
     },
     "/forgot-password": {
@@ -330,10 +307,6 @@ export const routeTree = rootRoute
     },
     "/_authenticated/parties/": {
       "filePath": "_authenticated/parties/index.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/profile/": {
-      "filePath": "_authenticated/profile/index.tsx",
       "parent": "/_authenticated"
     }
   }

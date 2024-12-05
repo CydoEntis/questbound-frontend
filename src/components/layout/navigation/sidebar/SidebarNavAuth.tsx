@@ -10,24 +10,24 @@ import {
   ShoppingBag,
   SquareLibrary,
 } from "lucide-react";
-import { AuthenticatedUser, UserResponse } from "../../../../features/auth/shared/types";
 import ThemeToggle from "../../../theme/ThemeToggle";
-import { useLogout } from "../../../../features/auth/api/auth";
 import useAuthStore from "../../../../stores/useAuthStore";
 import { useState } from "react";
-import { useGetRecentParties } from "../../../../features/party/api/parties";
-import AccountButton from "../../../../features/account/account-button/AccountButton";
+import { AuthenticatedUser } from "../../../../features/account/shared/account.types";
+import { useGetRecentParties } from "../../../../features/parties-a/api/parties";
+import { useLogout } from "../../../../features/auth/api/auth";
+import AccountButton from "../../../../features/account/components/buttons/AccountButton";
 
 type SidebarNavAuthProps = {
   user: AuthenticatedUser;
   closeNav: () => void;
-  onOpenUserManagement: () => void;
+  onOpenAvatarShop: () => void;
 };
 
 function SidebarNavAuth({
   user,
   closeNav,
-  onOpenUserManagement,
+  onOpenAvatarShop,
 }: SidebarNavAuthProps) {
   const navigate = useNavigate();
   const { tokens } = useAuthStore();
@@ -40,17 +40,11 @@ function SidebarNavAuth({
     if (isMobile) closeNav();
   };
 
-
   const logoutHandler = async () => {
     await logout.mutateAsync(tokens!);
     navigate({
       to: "/login",
     });
-    handleClose();
-  };
-
-  const handleOpenAccountDetails = () => {
-    onOpenUserManagement();
     handleClose();
   };
 
@@ -60,14 +54,13 @@ function SidebarNavAuth({
   };
 
   const handleOpenAvatarShop = () => {
-    // onOpenAvatarShop();
+    onOpenAvatarShop();
     handleClose();
   };
 
   const toggleRecentOpen = () => {
     setIsRecentOpen((prev) => !prev);
   };
-
 
   return (
     <Stack
@@ -84,7 +77,7 @@ function SidebarNavAuth({
           overflowY: "auto",
         }}
       >
-        <AccountButton user={user!}  />
+        <AccountButton user={user!} />
         <Button
           color="violet"
           variant="light"
