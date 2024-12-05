@@ -2,9 +2,9 @@ import { Popover, SimpleGrid, Text, UnstyledButton } from "@mantine/core";
 import styles from "./change-avatar.module.css";
 
 import { useGetUnlockedAvatars, useUpdateUserAvatar } from "../../api/account";
-import SelectedAvatar from "../../../../components/avatar/SelectedAvatar";
+import SelectedAvatar from "../../../../components/avatars/SelectedAvatar";
 import { UserAvatar } from "../../shared/account.types";
-import Avatar from "../../../../components/avatar/Avatar";
+import Avatar from "../../../../components/avatars/Avatar";
 
 type ChangeAvatarProps = {
   avatar: UserAvatar;

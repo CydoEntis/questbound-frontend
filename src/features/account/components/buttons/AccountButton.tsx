@@ -5,7 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import styles from "./account-button.module.css";
 import AccountModal from "../modals/AccountModal";
 import { AuthenticatedUser } from "../../shared/account.types";
-import Avatar from "../../../../components/avatar/Avatar";
+import Avatar from "../../../../components/avatars/Avatar";
 
 type AccountButtonProps = {
   user: AuthenticatedUser;

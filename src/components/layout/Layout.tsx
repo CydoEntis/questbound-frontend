@@ -5,7 +5,7 @@ import { Outlet, useLocation } from "@tanstack/react-router";
 import TopBar from "./navigation/header/Header";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import Sidebar from "./navigation/sidebar/Sidebar";
-import SlideInRightTransition from "../page-transitions/SlideInRightTransition";
+import SlideInRightTransition from "../transitions/SlideInRightTransition";
 import useAuthStore from "../../stores/useAuthStore";
 import { useEffect } from "react";
 

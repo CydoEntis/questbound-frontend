@@ -12,7 +12,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
 import { Route } from "../../../routes/_authenticated/parties/index";
-import DateRangePicker from "../../../components/date-picker/DateRangePicker";
+import DateRangePicker from "../../../components/date-pickers/DateRangePicker";
 
 type FilterModalProps = {
   filterOpened: boolean;

@@ -1,7 +1,7 @@
 import SelectionOverlay from "../overlays/SelectionOverlay";
 import { Box } from "@mantine/core";
 import styles from "./selected-avatar.module.css";
-import Avatar from "../avatar/Avatar";
+import Avatar from "../avatars/Avatar";
 import { UserAvatar } from "../../features/account/shared/account.types";
 
 type SelectedAvatarProps = {
