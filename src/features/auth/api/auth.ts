@@ -210,16 +210,16 @@ export function useChangePassword() {
 
       notifications.show({
         title: "Success",
-        message: "Email has been sent.",
+        message: "Password updated successfully!",
         color: "green",
         position: "top-right",
       });
     },
     onError: (error: Error) => {
       notifications.show({
-        title: "Success",
-        message: "Email has been sent.",
-        color: "green",
+        title: "Error",
+        message: "Updating password failed.",
+        color: "red",
         position: "top-right",
       });
       throw error;
