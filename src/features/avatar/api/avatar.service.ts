@@ -1,20 +1,20 @@
 import apiClient from "../../../api/apiClient";
 import endpoints from "../../../api/endpoints";
-import { LockedAvatar, UserAvatar } from "../shared/avatar.types";
+import { UnlockableAvatar, UserAvatar } from "../shared/avatar.types";
 
-const getUnlockedAvatars = async (): Promise<UserAvatar[]> => {
+const getUnUnlockableAvatars = async (): Promise<UserAvatar[]> => {
   const response = (await apiClient.get(`${endpoints.avatars}/unlocked`)).data;
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
 
-const getLockedAvatars = async (): Promise<LockedAvatar[]> => {
+const getUnlockableAvatars = async (): Promise<UnlockableAvatar[]> => {
   const response = (await apiClient.get(`${endpoints.avatars}/locked`)).data;
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
 // TODO: Refactor needs a different Type maybe UnlockableAvatar?
-const getAllUnlockableAvatars = async (): Promise<LockedAvatar[]> => {
+const getAllUnlockableAvatars = async (): Promise<UnlockableAvatar[]> => {
   const response = (await apiClient.get(`${endpoints.avatars}/unlockable`))
     .data;
   if (!response.isSuccess) throw new Error();
@@ -33,8 +33,8 @@ const updateAvatar = async (id: number): Promise<UserAvatar> => {
 };
 
 export default {
-  getUnlockedAvatars,
-  getLockedAvatars,
+  getUnUnlockableAvatars,
+  getUnlockableAvatars,
   getAllUnlockableAvatars,
   updateAvatar,
 };

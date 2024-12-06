@@ -2,7 +2,7 @@ import { Popover, SimpleGrid, Text, UnstyledButton } from "@mantine/core";
 import styles from "./change-avatar.module.css";
 
 import Avatar from "../avatar-display/AvatarDisplay";
-import { useGetUnlockedAvatars, useUpdateAvatar } from "../../api/avatar";
+import { useGetUnUnlockableAvatars, useUpdateAvatar } from "../../api/avatar";
 import { UserAvatar } from "../../shared/avatar.types";
 import SelectedAvatar from "../selected-avatar/SelectedAvatar";
 
@@ -12,7 +12,7 @@ type ChangeAvatarProps = {
 };
 
 function ChangeAvatar({ avatar, activeAvatar }: ChangeAvatarProps) {
-  const { data: unlockedAvatars, isPending, isError } = useGetUnlockedAvatars();
+  const { data: unUnlockableAvatars, isPending, isError } = useGetUnUnlockableAvatars();
   const updateAvatar = useUpdateAvatar();
   return (
     <Popover position="bottom" offset={0}>
@@ -26,11 +26,11 @@ function ChangeAvatar({ avatar, activeAvatar }: ChangeAvatarProps) {
         </UnstyledButton>
       </Popover.Target>
       <Popover.Dropdown>
-        {isPending || !unlockedAvatars ? (
+        {isPending || !unUnlockableAvatars ? (
           <Text>Loading...</Text>
         ) : (
           <SimpleGrid cols={4}>
-            {unlockedAvatars.map((avatar) =>
+            {unUnlockableAvatars.map((avatar) =>
               activeAvatar.id === avatar.id ? (
                 <SelectedAvatar key={avatar.id} avatar={avatar} />
               ) : (

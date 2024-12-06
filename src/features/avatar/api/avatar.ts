@@ -36,17 +36,17 @@ export function useUpdateAvatar() {
   });
 }
 
-export const useGetUnlockedAvatars = () => {
+export const useGetUnUnlockableAvatars = () => {
   return useQuery({
     queryKey: ["avatars", "unlocked"],
-    queryFn: () => avatarService.getUnlockedAvatars(),
+    queryFn: () => avatarService.getUnUnlockableAvatars(),
   });
 };
 
 export const useGetLockedAvatars = () => {
   return useQuery({
     queryKey: ["avatars", "locked"],
-    queryFn: () => avatarService.getLockedAvatars(),
+    queryFn: () => avatarService.getUnlockableAvatars(),
   });
 };
 

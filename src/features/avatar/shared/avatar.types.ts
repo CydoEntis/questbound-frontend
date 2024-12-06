@@ -5,7 +5,8 @@ export type UserAvatar = {
   imageUrl: string;
 };
 
-export type LockedAvatar = {
+
+export type UnlockableAvatar = {
   id: number;
   name: string;
   displayName: string;
@@ -13,4 +14,5 @@ export type LockedAvatar = {
   unlockLevel: number;
   unlockCost: number;
   tier: number;
+  isUnlocked: boolean;
 };

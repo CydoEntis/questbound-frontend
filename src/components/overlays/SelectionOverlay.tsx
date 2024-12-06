@@ -1,13 +1,17 @@
 import { Box } from "@mantine/core";
-import { Check } from "lucide-react";
 import styles from "./selection-overlay.module.css";
+import { ReactNode } from "react";
 
-function SelectionOverlay() {
+type SelectionOverlayProps = {
+  children: ReactNode;
+};
+
+function SelectionOverlay({ children }: SelectionOverlayProps) {
   return (
-    <>
+    <Box>
       <Box className={styles.overlay}></Box>
-      <Check size={24} color="white" className={styles.check} />
-    </>
+      {children}
+    </Box>
   );
 }
 
