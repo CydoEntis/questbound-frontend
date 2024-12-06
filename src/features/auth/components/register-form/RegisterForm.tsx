@@ -25,7 +25,7 @@ import { transformErrorsToCamelCase } from "../../../../shared/utils/password.ut
 import { useRegister } from "../../api/auth";
 import { RegisterRequest } from "../../shared/auth.types";
 import { registerSchema } from "../../shared/auth.schemas";
-import ValidatedPasswordInput from "../password/ValidatedPasswordInput";
+import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
 
 function RegisterForm() {
   const [selectedAvatar, setSelectedAvatar] = useState(1);

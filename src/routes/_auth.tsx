@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import AuthWrapper from "../features/auth/components/wrapper/AuthWrapper";
+import AuthWrapper from "../features/auth/components/auth-wrapper/AuthWrapper";
 
 export const Route = createFileRoute("/_auth")({
   component: AuthRoutes,

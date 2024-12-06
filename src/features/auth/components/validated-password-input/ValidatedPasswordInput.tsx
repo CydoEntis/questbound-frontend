@@ -2,11 +2,11 @@ import { Popover, PasswordInput, Progress } from "@mantine/core";
 import { ReactNode, useState } from "react";
 
 import { Lock } from "lucide-react";
-import PasswordRequirement from "./PasswordRequirement";
+import PasswordRequirement from "../password-requirement/PasswordRequirement";
 import {
   passwordRequirements,
   testPasswordStrength,
-} from "../../shared/utils/utils";
+} from "../../shared/utils/password.utils";
 
 type ValidatedPasswordInputProps = {
   required?: boolean;

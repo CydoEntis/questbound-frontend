@@ -16,7 +16,7 @@ import { useState } from "react";
 import { AuthenticatedUser } from "../../../../features/account/shared/account.types";
 import { useGetRecentParties } from "../../../../features/parties-a/api/parties";
 import { useLogout } from "../../../../features/auth/api/auth";
-import AccountButton from "../../../../features/account/components/buttons/AccountButton";
+import AccountButton from "../../../../features/account/components/account-button/AccountButton";
 
 type SidebarNavAuthProps = {
   user: AuthenticatedUser;

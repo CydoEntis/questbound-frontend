@@ -1,5 +1,6 @@
 import { Button, Flex } from "@mantine/core";
-import ChangePasswordForm from "../forms/ChangePasswordForm";
+import ChangePasswordForm from "../change-password-form/ChangePasswordForm";
+import ChangePasswordButton from "../change-password-button/ChangePasswordButton";
 
 type ChangePasswordProps = {
   isOpened: boolean;
@@ -14,13 +15,7 @@ function ChangePassword({
 }: ChangePasswordProps) {
   if (isOpened) return <ChangePasswordForm handleClose={closeFormHandler} />;
 
-  return (
-    <Flex justify="end" pt={8}>
-      <Button variant="outline" color="violet" onClick={showFormHandler}>
-        Change Password
-      </Button>
-    </Flex>
-  );
+  return <ChangePasswordButton showFormHandler={showFormHandler} />;
 }
 
 export default ChangePassword;

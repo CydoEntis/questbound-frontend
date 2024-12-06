@@ -4,12 +4,12 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
 import { Button, Flex, PasswordInput } from "@mantine/core";
 import { Lock } from "lucide-react";
-import { useChangePassword } from "../../api/account";
-import { ChangePasswordRequest } from "../../shared/account.types";
-import { changePasswordSchema } from "../../shared/account.schemas";
+import { useChangePassword } from "../../../account/api/account";
+import { ChangePasswordRequest } from "../../../account/shared/account.types";
+import { changePasswordSchema } from "../../../account/shared/account.schemas";
 import { CamelCasedErrors, Errors } from "../../../../shared/types/types";
 import { transformErrorsToCamelCase } from "../../../../shared/utils/password.utils";
-import ValidatedPasswordInput from "../../../auth/components/password/ValidatedPasswordInput";
+import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
 
 
 

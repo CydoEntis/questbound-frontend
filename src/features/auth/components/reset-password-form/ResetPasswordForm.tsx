@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useResetPassword } from "../../api/auth";
 import { ResetPasswordRequest } from "../../shared/auth.types";
 import { resetPasswordSchema } from "../../shared/auth.schemas";
-import ValidatedPasswordInput from "../password/ValidatedPasswordInput";
+import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
 
 type Props = {};
 
