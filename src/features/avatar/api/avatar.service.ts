@@ -23,7 +23,7 @@ const getAllUnlockableAvatars = async (): Promise<LockedAvatar[]> => {
 
 const updateAvatar = async (id: number): Promise<UserAvatar> => {
   const response = (
-    await apiClient.put(`${endpoints.avatars}`, { avatarId: id })
+    await apiClient.put(`${endpoints.avatars}/active`, { avatarId: id })
   ).data;
   if (!response.isSuccess) throw new Error();
 
