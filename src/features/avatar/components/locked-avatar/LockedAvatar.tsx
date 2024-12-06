@@ -8,11 +8,18 @@ import { Lock } from "lucide-react";
 type LockedAvatarProps = {
   avatar: UserAvatar;
   size: "xs" | "sm" | "md" | "lg" | "xl";
+  onClick: () => void;
 };
 
-function LockedAvatar({ avatar, size }: LockedAvatarProps) {
+function LockedAvatar({ avatar, size, onClick }: LockedAvatarProps) {
   return (
-    <Box key={avatar.id} className={styles["locked-avatar"]} w={56} h={56}>
+    <Box
+      key={avatar.id}
+      className={styles["locked-avatar"]}
+      w={56}
+      h={56}
+      onClick={onClick}
+    >
       <SelectionOverlay>
         <Lock size={24} color="white" className={styles.lock} />
       </SelectionOverlay>

@@ -10,12 +10,18 @@ import {
   Box,
   SimpleGrid,
   Divider,
+  Flex,
 } from "@mantine/core";
 import Gold from "../../../../assets/gold.png";
 import { useGetUnlockableAvatars } from "../../../../features/avatar/api/avatar";
-import { UnlockableAvatar } from "../../../../features/avatar/shared/avatar.types";
+import {
+  UnlockableAvatar,
+  UserAvatar,
+} from "../../../../features/avatar/shared/avatar.types";
 import AvatarDisplay from "../../../../features/avatar/components/avatar-display/AvatarDisplay";
 import LockedAvatar from "../../../../features/avatar/components/locked-avatar/LockedAvatar";
+import { useState } from "react";
+import UnlockAvatarModal from "../../../../features/avatar/components/unlock-avatar-modal/UnlockAvatarModal";
 
 type SidebarProps = {
   onClose: () => void;
@@ -40,7 +46,19 @@ function Sidebar({ onClose }: SidebarProps) {
       {} as { [tier: number]: UnlockableAvatar[] }
     ) || {};
 
-  console.log("Tiered Avatars ", groupedByTier);
+  const [
+    confirmUnlockOpened,
+    { open: openUnlockAvatar, close: closeUnlockAvatar },
+  ] = useDisclosure(false);
+
+  const [avatarToUnlock, setAvatarToUnlock] = useState<UnlockableAvatar | null>(
+    null
+  );
+
+  const avatarSelectionHandler = (avatar: UnlockableAvatar) => {
+    setAvatarToUnlock(avatar);
+    openUnlockAvatar();
+  };
 
   return (
     <>
@@ -50,6 +68,12 @@ function Sidebar({ onClose }: SidebarProps) {
         onClose={closeAvatarShop}
         title="Avatar Shop"
       >
+        <UnlockAvatarModal
+          isUnlockAvatarOpen={confirmUnlockOpened}
+          onCloseUnlockAvatar={closeUnlockAvatar}
+          avatarToUnlock={avatarToUnlock}
+        />
+
         <Text>Your balance</Text>
         <Group gap={4}>
           <Text>{user?.gold}</Text>
@@ -77,7 +101,18 @@ function Sidebar({ onClose }: SidebarProps) {
                         avatar={avatar}
                       />
                     ) : (
-                      <LockedAvatar size="lg" key={avatar.id} avatar={avatar} />
+                      <Stack gap={4}>
+                        <LockedAvatar
+                          size="lg"
+                          key={avatar.id}
+                          avatar={avatar}
+                          onClick={() => avatarSelectionHandler(avatar)}
+                        />
+                        <Flex gap={4} justify="center" align="center">
+                          <Image src={Gold} w={10} />
+                          <Text size="xs">{avatarToUnlock?.unlockCost}</Text>
+                        </Flex>
+                      </Stack>
                     )
                   )}
                 </SimpleGrid>
