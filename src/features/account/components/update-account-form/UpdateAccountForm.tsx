@@ -4,25 +4,21 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
 import { TextInput } from "@mantine/core";
 import { AtSign, User2 } from "lucide-react";
-import { AuthenticatedUser, UpdateAccountDetails } from "../../shared/account.types";
+import { AuthenticatedUser, UpdateAccount } from "../../shared/account.types";
 import { useUpdateUserDetails } from "../../api/account";
-import { updateAccountDetailsSchema } from "../../shared/account.schemas";
+import { updateAccountSchema } from "../../shared/account.schemas";
 
-
-type UpdateAccountDetailsFormProps = {
+type UpdateAccountFormProps = {
   user: AuthenticatedUser;
   handleClose: () => void;
 };
 
-function UpdateAccountDetailsForm({
-  user,
-  handleClose,
-}: UpdateAccountDetailsFormProps) {
+function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
   const updateUserDetails = useUpdateUserDetails();
   const router = useRouter();
 
-  const form = useForm<UpdateAccountDetails>({
-    validate: zodResolver(updateAccountDetailsSchema),
+  const form = useForm<UpdateAccount>({
+    validate: zodResolver(updateAccountSchema),
     initialValues: {
       email: user.email,
       username: user.username,
@@ -30,7 +26,7 @@ function UpdateAccountDetailsForm({
   });
 
   console.log(form.errors);
-  async function onSubmit(request: UpdateAccountDetails) {
+  async function onSubmit(request: UpdateAccount) {
     try {
       await updateUserDetails.mutateAsync(request);
       const searchParams = new URLSearchParams(window.location.search);
@@ -50,7 +46,7 @@ function UpdateAccountDetailsForm({
   }
 
   return (
-    <form onSubmit={form.onSubmit(onSubmit)} id="updateAccountDetailsForm">
+    <form onSubmit={form.onSubmit(onSubmit)} id="updateAccountForm">
       <TextInput
         label="Username"
         placeholder="Your Username"
@@ -73,4 +69,4 @@ function UpdateAccountDetailsForm({
   );
 }
 
-export default UpdateAccountDetailsForm;
+export default UpdateAccountForm;

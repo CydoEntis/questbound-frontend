@@ -1,8 +1,6 @@
 import { z } from "zod";
-import {
-  changePasswordSchema,
-  updateAccountDetailsSchema,
-} from "./account.schemas";
+import { updateAccountSchema } from "./account.schemas";
+import { UserAvatar } from "../../avatar/shared/avatar.types";
 
 export type User = {
   id: string;
@@ -19,23 +17,6 @@ export type AuthenticatedUser = User & {
   isAuthenticated: boolean;
 };
 
-export type UserAvatar = {
-  id: number;
-  name: string;
-  displayName: string;
-  imageUrl: string;
-};
-
-export type LockedAvatar = {
-  id: number;
-  name: string;
-  displayName: string;
-  imageUrl: string;
-  unlockLevel: number;
-  unlockCost: number;
-  tier: number;
-};
-
 export type UpdateUserRequest = {
   email?: string;
   username?: string;
@@ -47,5 +28,4 @@ export type UpdateUserResponse = {
   username: string;
 };
 
-export type UpdateAccountDetails = z.infer<typeof updateAccountDetailsSchema>;
-export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
+export type UpdateAccount = z.infer<typeof updateAccountSchema>;

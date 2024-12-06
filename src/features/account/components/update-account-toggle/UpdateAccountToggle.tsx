@@ -1,24 +1,24 @@
 import { ActionIcon, Group } from "@mantine/core";
 import { Edit, Save, X } from "lucide-react";
 
-type ManageAccountControlsProps = {
+type UpdateAccountToggleProps = {
   isOpen: boolean;
   closeFormHandler: () => void;
   showFormHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-function ManageAccountControls({
+function UpdateAccountToggle({
   isOpen,
   closeFormHandler,
   showFormHandler,
-}: ManageAccountControlsProps) {
+}: UpdateAccountToggleProps) {
   if (isOpen)
     return (
       <Group pos="absolute" top={5} right={5} gap={4}>
         <ActionIcon
           variant="light"
           color="violet"
-          form="updateAccountDetailsForm"
+          form="updateAccountForm"
           type="submit"
         >
           <Save size={20} />
@@ -49,4 +49,4 @@ function ManageAccountControls({
   );
 }
 
-export default ManageAccountControls;
+export default UpdateAccountToggle;

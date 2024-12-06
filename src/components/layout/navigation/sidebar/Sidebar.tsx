@@ -3,7 +3,7 @@ import useAuthStore from "../../../../stores/useAuthStore";
 import SidebarNavAuth from "./SidebarNavAuth";
 import { Container, Group, Modal, Image, Text } from "@mantine/core";
 import Gold from "../../../../assets/gold.png";
-import { useGetLockedAvatars } from "../../../../features/account/api/account";
+import { useGetLockedAvatars } from "../../../../features/avatar/api/avatar";
 
 type SidebarProps = {
   onClose: () => void;

@@ -1,10 +1,10 @@
 import { Flex, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
-import ManageAccountDetails from "../ManageAccountDetails";
-import AccountLevel from "../AccountLevel";
-import ChangePasswordButton from "../../../auth/components/change-password-button/ChangePasswordButton";
+import ManageAccountDetails from "../update-account/UpdateAccount";
 import { AuthenticatedUser } from "../../shared/account.types";
-import ChangeAvatar from "../change-avatar/ChangeAvatar";
+import AccountLevel from "../account-level/AccountLevel";
+import ChangePassword from "../../../auth/components/change-password/ChangePassword";
+import ChangeAvatar from "../../../avatar/components/change-avatar/ChangeAvatar";
 
 type AccountModalProps = {
   user: AuthenticatedUser;
@@ -43,7 +43,7 @@ function AccountModal({
         </Flex>
         <AccountLevel user={user} />
       </Stack>
-      <ChangePasswordButton
+      <ChangePassword
         isOpened={showChangePasswordForm}
         closeFormHandler={() => setShowChangePasswordForm(false)}
         showFormHandler={() => setShowChangePasswordForm(true)}

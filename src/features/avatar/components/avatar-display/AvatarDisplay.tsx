@@ -1,15 +1,15 @@
 import { Avatar as MantineAvatar } from "@mantine/core";
 import { forwardRef } from "react";
-import { UserAvatar } from "../shared/types";
-import styles from "./avatar.module.css";
+import styles from "./avatar-display.module.css";
+import { UserAvatar } from "../../shared/avatar.types";
 
-type AvatarProps = {
+type AvatarDisplayProps = {
   avatar: UserAvatar;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   onClick?: () => void;
 };
 
-const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
+const AvatarDisplay = forwardRef<HTMLDivElement, AvatarDisplayProps>(
   ({ avatar, size = "md", onClick }, ref) => {
     return (
       <MantineAvatar
@@ -25,4 +25,4 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   }
 );
 
-export default Avatar;
+export default AvatarDisplay;

@@ -1,4 +1,3 @@
-import { Button, Flex } from "@mantine/core";
 import ChangePasswordForm from "../change-password-form/ChangePasswordForm";
 import ChangePasswordButton from "../change-password-button/ChangePasswordButton";
 

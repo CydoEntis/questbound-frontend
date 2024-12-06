@@ -4,14 +4,12 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
 import { Button, Flex, PasswordInput } from "@mantine/core";
 import { Lock } from "lucide-react";
-import { useChangePassword } from "../../../account/api/account";
-import { ChangePasswordRequest } from "../../../account/shared/account.types";
-import { changePasswordSchema } from "../../../account/shared/account.schemas";
 import { CamelCasedErrors, Errors } from "../../../../shared/types/types";
 import { transformErrorsToCamelCase } from "../../../../shared/utils/password.utils";
 import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
-
-
+import { useChangePassword } from "../../api/auth";
+import { changePasswordSchema } from "../../shared/auth.schemas";
+import { ChangePasswordRequest } from "../../shared/auth.types";
 
 type ChangePasswordFormProps = {
   handleClose: () => void;
