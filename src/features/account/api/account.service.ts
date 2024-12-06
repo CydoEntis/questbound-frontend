@@ -18,7 +18,7 @@ const updateUserDetails = async (
 
 const updateUserAvatar = async (id: number): Promise<UserAvatar> => {
   const response = (
-    await apiClient.put(`${endpoints.user}/avatar`, { avatarId: id })
+    await apiClient.put(`${endpoints.user}/avatars`, { avatarId: id })
   ).data;
   if (!response.isSuccess) throw new Error();
 
@@ -38,14 +38,21 @@ const changePassword = async (
 };
 
 const getUnlockedAvatars = async (): Promise<UserAvatar[]> => {
-  const response = (await apiClient.get(`${endpoints.user}/unlocked-avatars`))
+  const response = (await apiClient.get(`${endpoints.user}/avatars/unlocked`))
     .data;
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
 
 const getLockedAvatars = async (): Promise<LockedAvatar[]> => {
-  const response = (await apiClient.get(`${endpoints.user}/locked-avatars`))
+  const response = (await apiClient.get(`${endpoints.user}/avatars/locked`))
+    .data;
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+// TODO: Refactor needs a different Type maybe UnlockableAvatar?
+const getAllAvatars = async (): Promise<LockedAvatar[]> => {
+  const response = (await apiClient.get(`${endpoints.user}/avatars/locked`))
     .data;
   if (!response.isSuccess) throw new Error();
   return response.result;

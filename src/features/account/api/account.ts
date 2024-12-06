@@ -109,9 +109,17 @@ export const useGetUnlockedAvatars = () => {
   });
 };
 
+export const useGetLockedAvatars = () => {
+  return useQuery({
+    queryKey: ["avatars", "locked"],
+    queryFn: () => accountService.getLockedAvatars(),
+  });
+};
+
 export default {
   useUpdateUserDetails,
   useChangePassword,
   useUpdateUserAvatar,
   useGetUnlockedAvatars,
+  useGetLockedAvatars,
 };
