@@ -32,9 +32,21 @@ const updateAvatar = async (id: number): Promise<UserAvatar> => {
   return response.result;
 };
 
+const unlockAvatar = async (id: number): Promise<UserAvatar> => {
+  const response = (
+    await apiClient.put(`${endpoints.avatars}/unlock`, { avatarId: id })
+  ).data;
+  if (!response.isSuccess) throw new Error();
+
+  console.log(response.result);
+
+  return response.result;
+};
+
 export default {
   getUnUnlockableAvatars,
   getUnlockableAvatars,
   getAllUnlockableAvatars,
   updateAvatar,
+  unlockAvatar,
 };

@@ -56,3 +56,34 @@ export const useGetUnlockableAvatars = () => {
     queryFn: () => avatarService.getAllUnlockableAvatars(),
   });
 };
+
+export function useUnlockAvatar() {
+  const { updateUserAvatar } = useAuthStore();
+
+  return useMutation({
+    mutationFn: async (id: number): Promise<UserAvatar> => {
+      return await avatarService.unlockAvatar(id);
+    },
+    onSuccess: (data) => {
+      updateUserAvatar(data);
+
+      localStorageService.updateItem("questbound", data);
+
+      notifications.show({
+        title: "Unlock Successful",
+        message: "Avatar updated.",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: (error: Error) => {
+      notifications.show({
+        title: "Unlocked Failed",
+        message: "Avatar unlock failed.",
+        color: "red",
+        position: "top-right",
+      });
+      throw error;
+    },
+  });
+}

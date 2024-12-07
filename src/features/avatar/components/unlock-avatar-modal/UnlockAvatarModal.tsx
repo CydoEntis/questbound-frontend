@@ -15,6 +15,7 @@ import { useState } from "react";
 import { UnlockableAvatar } from "../../shared/avatar.types";
 import AvatarDisplay from "../avatar-display/AvatarDisplay";
 import Gold from "../../../../assets/gold.png";
+import { useUnlockAvatar } from "../../api/avatar";
 
 type UnlockAvatarModal = {
   isUnlockAvatarOpen: boolean;
@@ -27,12 +28,12 @@ function UnlockAvatarModal({
   onCloseUnlockAvatar,
   avatarToUnlock,
 }: UnlockAvatarModal) {
-  // const { unlockAvatar } = useAvatarStore();
+  const unlockAvatar = useUnlockAvatar();
   const [error, setError] = useState<Record<string, string>>();
   const unlockAvatarHandler = async () => {
     try {
       if (avatarToUnlock) {
-        // await unlockAvatar(avatarToUnlock.id);
+        await unlockAvatar.mutateAsync(avatarToUnlock.id);
         onCloseUnlockAvatar();
       }
     } catch (error) {
