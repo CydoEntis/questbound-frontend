@@ -6,6 +6,7 @@ import {
   Divider,
   SimpleGrid,
   Flex,
+  Tooltip,
 } from "@mantine/core";
 import AvatarDisplay from "../avatar-display/AvatarDisplay";
 import LockedAvatar from "../locked-avatar/LockedAvatar";
@@ -42,12 +43,12 @@ function UnlockableAvatarList({
 
   return (
     <Stack>
-      {Object.keys(groupedByTier).map((tier) => {
+      {Object.keys(groupedByTier).map((tier, index) => {
         const avatarsByTier = groupedByTier[+tier];
         const unlockLevel = avatarsByTier[0]?.unlockLevel;
 
         return (
-          <Box key={tier} pos="relative">
+          <Box key={index} pos="relative">
             <Divider
               my="xs"
               label={`Tier ${tier} (unlocked at level ${unlockLevel})`}
@@ -57,9 +58,12 @@ function UnlockableAvatarList({
             <SimpleGrid cols={10} spacing="xs">
               {avatarsByTier.map((avatar) =>
                 avatar.isUnlocked ? (
-                  <AvatarDisplay size="lg" key={avatar.id} avatar={avatar} />
+                  <Tooltip label={avatar.displayName}>
+                    <AvatarDisplay size="lg" key={avatar.id} avatar={avatar} />
+                  </Tooltip>
                 ) : (
-                  <Stack gap={4}>
+                  <Tooltip label={avatar.displayName}>
+                    <Stack gap={4}>
                     <LockedAvatar
                       size="lg"
                       key={avatar.id}
@@ -71,6 +75,7 @@ function UnlockableAvatarList({
                       <Text size="xs">{avatar?.unlockCost}</Text>
                     </Flex>
                   </Stack>
+                  </Tooltip>
                 )
               )}
             </SimpleGrid>
