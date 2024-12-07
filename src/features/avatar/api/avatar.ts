@@ -66,9 +66,11 @@ export function useUnlockAvatar() {
       return await avatarService.unlockAvatar(id);
     },
     onSuccess: (data) => {
+      console.log(data);
+
       updateUserAvatar(data);
 
-      localStorageService.updateItem("questbound", data);
+      localStorageService.updateUserAvatar("questbound", data);
 
       queryClient.invalidateQueries({ queryKey: ["avatars", "unlockable"] });
 

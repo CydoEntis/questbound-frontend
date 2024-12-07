@@ -1,18 +1,17 @@
 import { create } from "zustand";
 import {
-  AuthenticatedUser,
   LoginResponse,
-  TokensResponse,
+  Tokens,
 } from "../features/auth/shared/auth.types";
-import { UpdateUserResponse } from "../features/account/shared/account.types";
-import { UserAvatar } from "../features/avatars/shared/types";
+import { AuthenticatedUser, UpdateUserResponse } from "../features/account/shared/account.types";
+import { UserAvatar } from "../features/avatar/shared/avatar.types";
 
 export type AuthState = {
   user: AuthenticatedUser | null;
-  tokens: TokensResponse | null;
+  tokens: Tokens | null;
   loginUser: (response: LoginResponse) => void;
   logoutUser: () => void;
-  refreshTokens: (tokens: TokensResponse) => void;
+  refreshTokens: (tokens: Tokens) => void;
   updateUserDetails: (response: UpdateUserResponse) => void;
   updateUserAvatar: (avatar: UserAvatar) => void;
   checkIsAuthenticated: () => boolean;
@@ -34,7 +33,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
   logoutUser: () => {
     set({ user: null, tokens: null });
   },
-  refreshTokens: (tokens: TokensResponse) => {
+  refreshTokens: (tokens: Tokens) => {
     if (tokens) {
       set({ tokens });
     }
@@ -50,6 +49,8 @@ const useAuthStore = create<AuthState>((set, get) => ({
     }));
   },
   updateUserAvatar: (avatar: UserAvatar) => {
+    console.log("User Avatar: ",avatar);
+
     set((state) => ({
       user: state.user
         ? {

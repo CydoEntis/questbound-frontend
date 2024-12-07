@@ -54,6 +54,21 @@ const LocalStorageService = {
     const updatedData = { ...currentData, ...updates };
     this.setItem(key, updatedData);
   },
+
+  /**
+   * Update the user's avatar in local storage.
+   * @param key - The key where user data is stored (e.g., "questbound").
+   * @param avatar - The new avatar object to set.
+   */
+  updateUserAvatar(key: string, avatar: { id: number; name: string; displayName: string; imageUrl: string }): void {
+    const currentUser = this.getItem<Record<string, any>>(key);
+    if (currentUser && currentUser.user) {
+      currentUser.user.avatar = avatar;
+      this.setItem(key, currentUser);
+    } else {
+      console.warn(`User data not found under key "${key}". Unable to update avatar.`);
+    }
+  },
 };
 
 export default LocalStorageService;
