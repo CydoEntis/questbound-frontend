@@ -1,16 +1,4 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  Group,
-  Modal,
-  SimpleGrid,
-  Stack,
-  Text,
-  Image,
-} from "@mantine/core";
-import AvatarDisplay from "../avatar-display/AvatarDisplay";
-import LockedAvatar from "../locked-avatar/LockedAvatar";
+import { Group, Modal, Text, Image } from "@mantine/core";
 import UnlockAvatarModal from "../unlock-avatar-modal/UnlockAvatarModal";
 import { useGetUnlockableAvatars } from "../../api/avatar";
 import { UnlockableAvatar } from "../../shared/avatar.types";
@@ -19,6 +7,7 @@ import { useState } from "react";
 import { AuthenticatedUser } from "../../../account/shared/account.types";
 
 import Gold from "../../../../assets/gold.png";
+import UnlockableAvatarList from "../unlockable-avatar-list/UnlockableAvatarList";
 
 type AvatarShopProps = {
   avatarShopOpen: boolean;
@@ -31,19 +20,7 @@ function AvatarShop({
   closeAvatarShop,
   user,
 }: AvatarShopProps) {
-  const { data: unlockableAvatars } = useGetUnlockableAvatars();
-
-  const groupedByTier =
-    unlockableAvatars?.reduce(
-      (acc, avatar) => {
-        if (!acc[avatar.tier]) {
-          acc[avatar.tier] = [];
-        }
-        acc[avatar.tier].push(avatar);
-        return acc;
-      },
-      {} as { [tier: number]: UnlockableAvatar[] }
-    ) || {};
+  const { data: unlockableAvatars, isPending } = useGetUnlockableAvatars();
 
   const [
     confirmUnlockOpened,
@@ -53,11 +30,6 @@ function AvatarShop({
   const [avatarToUnlock, setAvatarToUnlock] = useState<UnlockableAvatar | null>(
     null
   );
-
-  const avatarSelectionHandler = (avatar: UnlockableAvatar) => {
-    setAvatarToUnlock(avatar);
-    openUnlockAvatar();
-  };
 
   return (
     <Modal
@@ -77,43 +49,15 @@ function AvatarShop({
         <Text>{user?.gold}</Text>
         <Image src={Gold} w={20} />
       </Group>
-      <Stack>
-        {Object.keys(groupedByTier).map((tier) => {
-          const avatarsByTier = groupedByTier[+tier];
-          const unlockLevel = avatarsByTier[0]?.unlockLevel;
-
-          return (
-            <Box key={tier} pos="relative">
-              <Divider
-                my="xs"
-                label={`Tier ${tier} (unlocked at level ${unlockLevel})`}
-                labelPosition="center"
-              />
-
-              <SimpleGrid cols={10} spacing="xs">
-                {avatarsByTier.map((avatar) =>
-                  avatar.isUnlocked ? (
-                    <AvatarDisplay size="lg" key={avatar.id} avatar={avatar} />
-                  ) : (
-                    <Stack gap={4}>
-                      <LockedAvatar
-                        size="lg"
-                        key={avatar.id}
-                        avatar={avatar}
-                        onClick={() => avatarSelectionHandler(avatar)}
-                      />
-                      <Flex gap={4} justify="center" align="center">
-                        <Image src={Gold} w={10} />
-                        <Text size="xs">{avatarToUnlock?.unlockCost}</Text>
-                      </Flex>
-                    </Stack>
-                  )
-                )}
-              </SimpleGrid>
-            </Box>
-          );
-        })}
-      </Stack>
+      {isPending ? (
+        <Text>Loading...</Text>
+      ) : (
+        <UnlockableAvatarList
+          onOpenUnlockAvatar={openUnlockAvatar}
+          unlockableAvatars={unlockableAvatars!}
+          onSetAvatarToUnlock={setAvatarToUnlock}
+        />
+      )}
     </Modal>
   );
 }
