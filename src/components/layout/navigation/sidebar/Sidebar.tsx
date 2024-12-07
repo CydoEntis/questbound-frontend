@@ -18,7 +18,7 @@ function Sidebar({ onClose }: SidebarProps) {
       <AvatarShop
         avatarShopOpen={avatarShopOpen}
         closeAvatarShop={closeAvatarShop}
-        user={user}
+        user={user!}
       />
       <SidebarNavAuth
         user={user!}
