@@ -12,28 +12,24 @@ import {
 } from "../shared/auth.types";
 import localStorageService from "../../../api/services/localStorage.service";
 import { notifications } from "@mantine/notifications";
-import { AuthenticatedUser } from "../../account/shared/account.types";
 
 export function useLogin() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (credentials: LoginRequest): Promise<LoginResponse> => {
+    mutationFn: async (credentials: LoginRequest): Promise<Tokens> => {
       return await authService.loginUser(credentials);
     },
     onSuccess: (data) => {
-      loginUser(data);
+      console.log(data);
+      loginUser();
 
-      const authenticatedUser: AuthenticatedUser = {
-        ...data.user,
-        isAuthenticated: true,
-      };
+      const questbound = { isAuthenticated: true };
 
-      localStorageService.setItem("questbound", {
-        user: authenticatedUser,
-        tokens: data.tokens,
-      });
+      // Store authentication data in localStorage
+      localStorageService.setItem("questbound", questbound);
 
+      // Show success notification
       notifications.show({
         title: "Success",
         message: "Login successful!",
@@ -57,9 +53,7 @@ export function useRegister() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (
-      credentials: RegisterRequest
-    ): Promise<LoginResponse> => {
+    mutationFn: async (credentials: RegisterRequest): Promise<Token> => {
       return await authService.registerUser(credentials);
     },
     onSuccess: (data) => {
@@ -86,23 +80,49 @@ export function useRegister() {
   });
 }
 
+// export function useRefreshTokens() {
+//   const { refreshTokens } = useAuthStore();
+
+//   return useMutation({
+//     mutationFn: async (tokens: Tokens): Promise<Tokens> => {
+//       return await authService.refreshTokens(tokens);
+//     },
+//     onSuccess: (data) => {
+//       refreshTokens(data);
+
+//       const questbound = { token: data.accessToken };
+//       const existingData = localStorageService.getItem("questbound") || {};
+//       const updatedData = { ...existingData, ...questbound };
+
+//       localStorageService.setItem("questbound", updatedData);
+
+//       return data;
+//     },
+//     onError: (error: Error) => {
+//       notifications.show({
+//         title: "Login Expired",
+//         message: "You are no longer logged in.",
+//         color: "red",
+//         position: "top-right",
+//       });
+//       throw error;
+//     },
+//   });
+// }
+
 export function useRefreshTokens() {
-  const { refreshTokens } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (tokens: Tokens): Promise<Tokens> => {
-      return await authService.refreshTokens(tokens);
+    mutationFn: async (): Promise<void> => {
+      return await authService.refreshTokens();
     },
     onSuccess: (data) => {
-      refreshTokens(data);
-
-      const questbound = { token: data.accessToken };
-      const existingData = localStorageService.getItem("questbound") || {};
-      const updatedData = { ...existingData, ...questbound };
-
-      localStorageService.setItem("questbound", updatedData);
-
-      return data;
+      // refreshTokens(data);
+      // const questbound = { token: data.accessToken };
+      // const existingData = localStorageService.getItem("questbound") || {};
+      // const updatedData = { ...existingData, ...questbound };
+      // localStorageService.setItem("questbound", updatedData);
+      // return data;
     },
     onError: (error: Error) => {
       notifications.show({
@@ -120,8 +140,8 @@ export function useLogout() {
   const { logoutUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (tokens: Tokens): Promise<void> => {
-      await authService.logoutUser(tokens);
+    mutationFn: async (): Promise<void> => {
+      await authService.logoutUser();
     },
     onSuccess: () => {
       logoutUser();

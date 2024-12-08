@@ -2,11 +2,11 @@ import { Stack } from "@mantine/core";
 import AccountDetails from "../account-details/AccountDetails";
 import UpdateAccountForm from "../update-account-form/UpdateAccountForm";
 import ManageAccountControls from "../update-account-toggle/UpdateAccountToggle";
-import { AuthenticatedUser } from "../../shared/account.types";
+import { AuthenticatedUser, User } from "../../shared/account.types";
 import UpdateAccountToggle from "../update-account-toggle/UpdateAccountToggle";
 
 type UpdateAccountProps = {
-  user: AuthenticatedUser;
+  user: User;
   isOpen: boolean;
   closeFormHandler: () => void;
   showFormHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;

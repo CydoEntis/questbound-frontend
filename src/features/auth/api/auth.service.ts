@@ -20,7 +20,7 @@ const registerUser = async (
   return response.result;
 };
 
-const loginUser = async (credentials: LoginRequest): Promise<LoginResponse> => {
+const loginUser = async (credentials: LoginRequest): Promise<Tokens> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/login`, credentials)
   ).data;
@@ -30,19 +30,21 @@ const loginUser = async (credentials: LoginRequest): Promise<LoginResponse> => {
   return response.result;
 };
 
-const logoutUser = async (tokens: Tokens): Promise<boolean> => {
-  const response = (await apiClient.post(`${endpoints.auth}/logout`, tokens))
-    .data;
+const logoutUser = async (): Promise<void> => {
+  const response = (await apiClient.post(`${endpoints.auth}/logout`)).data;
   if (!response.isSuccess) throw new Error();
-
-  return response.isSuccess;
 };
 
-const refreshTokens = async (tokens: Tokens): Promise<Tokens> => {
-  const response = (await apiClient.post(`${endpoints.auth}/refresh`, tokens))
-    .data;
+// const refreshTokens = async (tokens: Tokens): Promise<Tokens> => {
+//   const response = (await apiClient.post(`${endpoints.auth}/refresh`, tokens))
+//     .data;
+//   if (!response.isSuccess) throw new Error();
+//   return response.result;
+// };
+
+const refreshTokens = async (): Promise<void> => {
+  const response = (await apiClient.post(`${endpoints.auth}/refresh`)).data;
   if (!response.isSuccess) throw new Error();
-  return response.result;
 };
 
 const forgotPassword = async (email: ForgotPasswordRequest): Promise<void> => {
@@ -78,5 +80,5 @@ export default {
   refreshTokens,
   forgotPassword,
   resetPassword,
-  changePassword
+  changePassword,
 };

@@ -13,13 +13,16 @@ import {
 import ThemeToggle from "../../../theme/ThemeToggle";
 import useAuthStore from "../../../../stores/useAuthStore";
 import { useState } from "react";
-import { AuthenticatedUser } from "../../../../features/account/shared/account.types";
+import {
+  AuthenticatedUser,
+  User,
+} from "../../../../features/account/shared/account.types";
 import { useGetRecentParties } from "../../../../features/parties-a/api/parties";
 import { useLogout } from "../../../../features/auth/api/auth";
 import AccountButton from "../../../../features/account/components/account-button/AccountButton";
 
 type SidebarNavAuthProps = {
-  user: AuthenticatedUser;
+  user: User;
   closeNav: () => void;
   onOpenAvatarShop: () => void;
 };
@@ -31,14 +34,15 @@ function SidebarNavAuth({
 }: SidebarNavAuthProps) {
   const navigate = useNavigate();
   const { tokens } = useAuthStore();
-  const { data: recentParties, isLoading, isError } = useGetRecentParties();
-  const [isRecentOpen, setIsRecentOpen] = useState(true);
+  // const { data: recentParties, isLoading, isError } = useGetRecentParties();
+  // const [isRecentOpen, setIsRecentOpen] = useState(true);
   const logout = useLogout();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleClose = () => {
     if (isMobile) closeNav();
   };
+
 
   const logoutHandler = async () => {
     await logout.mutateAsync(tokens!);
@@ -58,9 +62,9 @@ function SidebarNavAuth({
     handleClose();
   };
 
-  const toggleRecentOpen = () => {
-    setIsRecentOpen((prev) => !prev);
-  };
+  // const toggleRecentOpen = () => {
+  //   setIsRecentOpen((prev) => !prev);
+  // };
 
   return (
     <Stack
@@ -106,7 +110,7 @@ function SidebarNavAuth({
           color="violet"
           onClick={handleClose}
         />
-        <NavLink
+        {/* <NavLink
           label="Most Recent"
           className="rounded-md"
           leftSection={
@@ -137,8 +141,8 @@ function SidebarNavAuth({
               mt={8}
               onClick={handleClose}
             />
-          ))}
-        </NavLink>
+          ))} */}
+        {/* </NavLink> */}
       </Stack>
 
       {/* Bottom Buttons */}

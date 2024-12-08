@@ -6,14 +6,14 @@ import avatarService from "./avatar.service";
 import { UserAvatar } from "../shared/avatar.types";
 import { useQueryClient } from "@tanstack/react-query";
 export function useUpdateAvatar() {
-  const { updateUserAvatar } = useAuthStore();
+  // const { updateUserAvatar } = useAuthStore();
 
   return useMutation({
     mutationFn: async (id: number): Promise<UserAvatar> => {
       return await avatarService.updateAvatar(id);
     },
     onSuccess: (data) => {
-      updateUserAvatar(data);
+      // updateUserAvatar(data);
 
       localStorageService.updateItem("questbound", data);
 
@@ -58,7 +58,7 @@ export const useGetUnlockableAvatars = () => {
 };
 
 export function useUnlockAvatar() {
-  const { updateUserAvatar } = useAuthStore();
+  // const { updateUserAvatar } = useAuthStore();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -68,7 +68,7 @@ export function useUnlockAvatar() {
     onSuccess: (data) => {
       console.log(data);
 
-      updateUserAvatar(data);
+      // updateUserAvatar(data);
 
       localStorageService.updateUserAvatar("questbound", data);
 

@@ -1,9 +1,9 @@
 import { Stack, Tooltip, Progress, Text } from "@mantine/core";
-import { AuthenticatedUser } from "../../shared/account.types";
+import { AuthenticatedUser, User } from "../../shared/account.types";
 import { getPercentage } from "../../../../shared/utils/account.utils";
 
 type AccountLevelProps = {
-  user: AuthenticatedUser;
+  user: User;
 };
 
 function AccountLevel({ user }: AccountLevelProps) {

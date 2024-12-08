@@ -1,13 +1,13 @@
 import { Flex, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
 import ManageAccountDetails from "../update-account/UpdateAccount";
-import { AuthenticatedUser } from "../../shared/account.types";
+import { AuthenticatedUser, User } from "../../shared/account.types";
 import AccountLevel from "../account-level/AccountLevel";
 import ChangePassword from "../../../auth/components/change-password/ChangePassword";
 import ChangeAvatar from "../../../avatar/components/change-avatar/ChangeAvatar";
 
 type AccountModalProps = {
-  user: AuthenticatedUser;
+  user: User;
   isProfileOpen: boolean;
   handleCloseProfile: () => void;
 };

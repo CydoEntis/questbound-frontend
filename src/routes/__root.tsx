@@ -9,10 +9,7 @@ import { createRootRouteWithContext, Link } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Layout } from "../components/layout/Layout";
 import theme from "../components/theme/theme.config";
-import { useEffect } from "react";
-import useAuthStore, { AuthState } from "../stores/useAuthStore";
-import LocalStorageService from "../api/services/localStorage.service";
-import { AuthenticatedUser, StoredUser } from "../features/auth/shared/auth.types";
+import { AuthState } from "../stores/useAuthStore";
 
 export type RouterContext = {
   authState: AuthState;
@@ -48,16 +45,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function RootComponent() {
-  const { loginUser } = useAuthStore();
-
-  useEffect(() => {
-    const storedData = LocalStorageService.getItem<StoredUser>("questbound");
-
-    if (storedData) {
-      loginUser(storedData);
-    }
-  }, [loginUser]);
-
   return (
     <MantineProvider theme={theme} defaultColorScheme="auto">
       <Notifications />

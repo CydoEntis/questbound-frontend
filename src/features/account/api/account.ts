@@ -1,13 +1,19 @@
 import { notifications } from "@mantine/notifications";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import accountService from "./account.service";
-import localStorageService from "../../../api/services/localStorage.service";
-import useAuthStore from "../../../stores/useAuthStore";
 import { UpdateUserRequest, UpdateUserResponse } from "../shared/account.types";
 
+export const useGetUser = () => {
+  return useQuery({
+    queryKey: ["user"],
+    queryFn: () => accountService.getUserDetails(),
+    enabled: false,
+  });
+};
+
 export function useUpdateUserDetails() {
-  const { updateUserDetails } = useAuthStore();
+  // const { updateUserDetails } = useAuthStore();
 
   return useMutation({
     mutationFn: async (
@@ -16,9 +22,9 @@ export function useUpdateUserDetails() {
       return await accountService.updateUserDetails(request);
     },
     onSuccess: (data) => {
-      updateUserDetails(data);
+      // updateUserDetails(data);
 
-      localStorageService.updateItem("questbound", data);
+      // localStorageService.updateItem("questbound", data);
 
       notifications.show({
         title: "Update Success",

@@ -21,7 +21,7 @@ export type Tokens = {
 
 export type LoginResponse = {
   tokens: Tokens;
-  user: User;
+  // user: User;
 };
 
 export type StoredUser = {

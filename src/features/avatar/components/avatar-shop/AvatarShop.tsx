@@ -4,7 +4,7 @@ import { useGetUnlockableAvatars } from "../../api/avatar";
 import { UnlockableAvatar } from "../../shared/avatar.types";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
-import { AuthenticatedUser } from "../../../account/shared/account.types";
+import { AuthenticatedUser, User } from "../../../account/shared/account.types";
 
 import Gold from "../../../../assets/gold.png";
 import UnlockableAvatarList from "../unlockable-avatar-list/UnlockableAvatarList";
@@ -12,7 +12,7 @@ import UnlockableAvatarList from "../unlockable-avatar-list/UnlockableAvatarList
 type AvatarShopProps = {
   avatarShopOpen: boolean;
   closeAvatarShop: () => void;
-  user: AuthenticatedUser;
+  user: User;
 };
 
 function AvatarShop({

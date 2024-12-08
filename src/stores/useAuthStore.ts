@@ -1,68 +1,65 @@
 import { create } from "zustand";
-import {
-  LoginResponse,
-  Tokens,
-} from "../features/auth/shared/auth.types";
-import { AuthenticatedUser, UpdateUserResponse } from "../features/account/shared/account.types";
-import { UserAvatar } from "../features/avatar/shared/avatar.types";
+import { LoginResponse, Tokens } from "../features/auth/shared/auth.types";
+import { User } from "../features/account/shared/account.types";
 
 export type AuthState = {
-  user: AuthenticatedUser | null;
-  tokens: Tokens | null;
-  loginUser: (response: LoginResponse) => void;
+  user: User | null;
+  isAuthenticated: boolean;
+  // tokens: Tokens | null;
+  loginUser: () => void;
   logoutUser: () => void;
-  refreshTokens: (tokens: Tokens) => void;
-  updateUserDetails: (response: UpdateUserResponse) => void;
-  updateUserAvatar: (avatar: UserAvatar) => void;
+  // refreshTokens: (tokens: Tokens) => void;
+  setUser: (user: User) => void;
+  // updateUserDetails: (response: UpdateUserResponse) => void;
+  // updateUserAvatar: (avatar: UserAvatar) => void;
   checkIsAuthenticated: () => boolean;
 };
 
 const useAuthStore = create<AuthState>((set, get) => ({
+  isAuthenticated: false,
   user: null,
   tokens: null,
-  loginUser: (response: LoginResponse) => {
-    if (response.user && response.tokens) {
-      const authenticatedUser: AuthenticatedUser = {
-        ...response.user,
-        isAuthenticated: true,
-      };
 
-      set({ user: authenticatedUser, tokens: response.tokens });
-    }
+  loginUser: () => {
+    set({ isAuthenticated: true });
   },
   logoutUser: () => {
-    set({ user: null, tokens: null });
+    set({ isAuthenticated: false });
   },
-  refreshTokens: (tokens: Tokens) => {
-    if (tokens) {
-      set({ tokens });
-    }
+  // refreshTokens: (tokens: Tokens) => {
+  //   if (tokens) {
+  //     set({ tokens });
+  //   }
+  // },
+  setUser: (user: User) => {
+    set({ user });
   },
-  updateUserDetails: (response: UpdateUserResponse) => {
-    set((state) => ({
-      user: state.user
-        ? {
-            ...state.user,
-            ...response,
-          }
-        : state.user,
-    }));
-  },
-  updateUserAvatar: (avatar: UserAvatar) => {
-    console.log("User Avatar: ",avatar);
+  // updateUserDetails: (response: UpdateUserResponse) => {
+  //   set((state) => ({
+  //     user: state.user
+  //       ? {
+  //           ...state.user,
+  //           ...response,
+  //         }
+  //       : state.user,
+  //   }));
+  // },
+  // updateUserAvatar: (avatar: UserAvatar) => {
+  //   console.log("User Avatar: ", avatar);
 
-    set((state) => ({
-      user: state.user
-        ? {
-            ...state.user,
-            avatar: avatar,
-          }
-        : state.user,
-    }));
-  },
+  //   set((state) => ({
+  //     user: state.user
+  //       ? {
+  //           ...state.user,
+  //           avatar: avatar,
+  //         }
+  //       : state.user,
+  //   }));
+  // },
   checkIsAuthenticated: () => {
-    const user = get().user;
-    return user ? user.isAuthenticated : false;
+    const authenticated = get().isAuthenticated;
+    if (authenticated) return true;
+    return false;
   },
 }));
 

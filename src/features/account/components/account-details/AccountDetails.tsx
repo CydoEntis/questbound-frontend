@@ -1,7 +1,7 @@
 import { Title, Text } from "@mantine/core";
-import { AuthenticatedUser } from "../../shared/account.types";
+import { AuthenticatedUser, User } from "../../shared/account.types";
 type AccountDetailsProps = {
-  user: AuthenticatedUser;
+  user: User;
 };
 
 function AccountDetails({ user }: AccountDetailsProps) {

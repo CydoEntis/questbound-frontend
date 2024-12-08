@@ -13,6 +13,8 @@ function Sidebar({ onClose }: SidebarProps) {
   const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
     useDisclosure(false);
 
+  if (!user) return <p>Loading...</p>;
+
   return (
     <>
       <AvatarShop
