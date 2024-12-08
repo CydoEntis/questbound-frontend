@@ -17,7 +17,7 @@
 //   (request) => {
 //     const { tokens } = useAuthStore.getState();
 //     if (tokens) {
-//       request.headers["Authorization"] = `Bearer ${tokens.accessToken}`;
+      // request.headers["Authorization"] = `Bearer ${tokens.accessToken}`;
 //     }
 //     return request;
 //   },
@@ -67,6 +67,8 @@ import { baseUrl } from "./endpoints";
 import useAuthStore from "../stores/useAuthStore";
 import authService from "../features/auth/api/auth.service";
 import localStorageService from "./services/localStorage.service";
+import Cookies from 'js-cookie';
+
 
 const apiClient = axios.create({
   baseURL: baseUrl,
@@ -83,6 +85,25 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// apiClient.interceptors.request.use(
+//   (request) => {
+//     const { isAuthenticated } = useAuthStore.getState();
+
+//     if (isAuthenticated) {
+//       const accessToken = Cookies.get("AccessToken");
+
+//       console.log("Access Token: ", accessToken);
+
+//       request.headers["Authorization"] = `Bearer ${accessToken}`;
+//     }
+//     return request;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
 
 apiClient.interceptors.response.use(
   (response) => response,
