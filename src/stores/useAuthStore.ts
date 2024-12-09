@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { LoginResponse, Tokens } from "../features/auth/shared/auth.types";
 import { User } from "../features/account/shared/account.types";
 import { UserAvatar } from "../features/avatar/shared/avatar.types";
 
