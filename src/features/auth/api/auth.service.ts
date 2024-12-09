@@ -20,14 +20,14 @@ const registerUser = async (
   return response.result;
 };
 
-const loginUser = async (credentials: LoginRequest): Promise<Tokens> => {
+const loginUser = async (credentials: LoginRequest): Promise<boolean> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/login`, credentials)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
+  if (!response.isSuccess) throw new Error("Login unsuccessful!");
 
-  return response.result;
+  return true;
 };
 
 const logoutUser = async (): Promise<void> => {

@@ -2,12 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import authService from "./auth.service";
 import useAuthStore from "../../../stores/useAuthStore";
 import {
-  LoginResponse,
   LoginRequest,
   RegisterRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  Tokens,
   ChangePasswordRequest,
 } from "../shared/auth.types";
 import localStorageService from "../../../api/services/localStorage.service";
@@ -17,7 +15,7 @@ export function useLogin() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (credentials: LoginRequest): Promise<Tokens> => {
+    mutationFn: async (credentials: LoginRequest): Promise<boolean> => {
       return await authService.loginUser(credentials);
     },
     onSuccess: (data) => {
@@ -139,6 +137,20 @@ export function useRefreshTokens() {
 export function useLogout() {
   const { logoutUser } = useAuthStore();
 
+  const deleteQBCookies = () => {
+    const cookies = document.cookie.split(";");
+
+    cookies.forEach((cookie) => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+
+      // Check if the cookie name starts with "QB-"
+      if (name.startsWith("QB-")) {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+      }
+    });
+  };
+
   return useMutation({
     mutationFn: async (): Promise<void> => {
       await authService.logoutUser();
@@ -146,6 +158,9 @@ export function useLogout() {
     onSuccess: () => {
       logoutUser();
       localStorageService.removeItem("questbound");
+
+      // Delete cookies starting with "QB-"
+      deleteQBCookies();
 
       notifications.show({
         title: "Success",
@@ -156,7 +171,7 @@ export function useLogout() {
     },
     onError: (error: Error) => {
       notifications.show({
-        title: "Login Failed",
+        title: "Logout Failed",
         message: "Something went wrong!",
         color: "red",
         position: "top-right",
@@ -165,6 +180,7 @@ export function useLogout() {
     },
   });
 }
+
 
 export function useForgotPassword() {
   return useMutation({

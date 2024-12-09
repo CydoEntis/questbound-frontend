@@ -80,10 +80,10 @@ apiClient.interceptors.request.use(
     const { isAuthenticated } = useAuthStore.getState();
 
     if (isAuthenticated) {
-      const csrfToken = Cookies.get("CSRF-TOKEN");
+      const csrfToken = Cookies.get("QB-CSRF-TOKEN");
 
       if (csrfToken) {
-        request.headers["X-CSRF-TOKEN"] = csrfToken;
+        request.headers["QB-CSRF-TOKEN"] = csrfToken;
       }
     }
 
