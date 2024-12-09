@@ -58,7 +58,7 @@ export const useGetUnlockableAvatars = () => {
 };
 
 export function useUnlockAvatar() {
-  // const { updateUserAvatar } = useAuthStore();
+  const { updateUserAvatar } = useAuthStore();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -66,14 +66,11 @@ export function useUnlockAvatar() {
       return await avatarService.unlockAvatar(id);
     },
     onSuccess: (data) => {
-      console.log(data);
 
-      // updateUserAvatar(data);
-
-      localStorageService.updateUserAvatar("questbound", data);
+      updateUserAvatar(data);
 
       queryClient.invalidateQueries({
-        queryKey: ["avatars", "unlockable", "user"],
+        queryKey: ["avatars", "unlockable"],
       });
 
       notifications.show({
