@@ -10,9 +10,11 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Layout } from "../components/layout/Layout";
 import theme from "../components/theme/theme.config";
 import { AuthState } from "../stores/useAuthStore";
+import { UserState } from "../stores/useUserStore";
 
 export type RouterContext = {
   authState: AuthState;
+  userState: UserState;
   queryClient: QueryClient;
 };
 

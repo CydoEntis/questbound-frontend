@@ -16,24 +16,27 @@ import { UnlockableAvatar } from "../../shared/avatar.types";
 import AvatarDisplay from "../avatar-display/AvatarDisplay";
 import Gold from "../../../../assets/gold.png";
 import { useUnlockAvatar } from "../../api/avatar";
+import useUserStore from "../../../../stores/useUserStore";
 
-type UnlockAvatarModal = {
+type ConfirmUnlockAvatarModalProps = {
   isUnlockAvatarOpen: boolean;
   onCloseUnlockAvatar: () => void;
   avatarToUnlock: UnlockableAvatar | null;
 };
 
-function UnlockAvatarModal({
+function ConfirmUnlockAvatarModal({
   isUnlockAvatarOpen,
   onCloseUnlockAvatar,
   avatarToUnlock,
-}: UnlockAvatarModal) {
+}: ConfirmUnlockAvatarModalProps) {
   const unlockAvatar = useUnlockAvatar();
+  const { updateUserGold } = useUserStore();
   const [error, setError] = useState<Record<string, string>>();
   const unlockAvatarHandler = async () => {
     try {
       if (avatarToUnlock) {
         await unlockAvatar.mutateAsync(avatarToUnlock.id);
+        updateUserGold(avatarToUnlock.unlockCost);
         onCloseUnlockAvatar();
       }
     } catch (error) {
@@ -104,4 +107,4 @@ function UnlockAvatarModal({
   );
 }
 
-export default UnlockAvatarModal;
+export default ConfirmUnlockAvatarModal;

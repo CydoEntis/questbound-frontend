@@ -1,13 +1,13 @@
 import { Group, Modal, Text, Image } from "@mantine/core";
-import UnlockAvatarModal from "../unlock-avatar-modal/UnlockAvatarModal";
+import ConfirmUnlockAvatarModal from "../confirm-avatar-unlock-modal/ConfirmAvatarUnlockModal";
 import { useGetUnlockableAvatars } from "../../api/avatar";
 import { UnlockableAvatar } from "../../shared/avatar.types";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
-import { AuthenticatedUser, User } from "../../../account/shared/account.types";
 
 import Gold from "../../../../assets/gold.png";
 import UnlockableAvatarList from "../unlockable-avatar-list/UnlockableAvatarList";
+import { User } from "../../../account/shared/account.types";
 
 type AvatarShopProps = {
   avatarShopOpen: boolean;
@@ -38,7 +38,7 @@ function AvatarShop({
       onClose={closeAvatarShop}
       title="Avatar Shop"
     >
-      <UnlockAvatarModal
+      <ConfirmUnlockAvatarModal
         isUnlockAvatarOpen={confirmUnlockOpened}
         onCloseUnlockAvatar={closeUnlockAvatar}
         avatarToUnlock={avatarToUnlock}
