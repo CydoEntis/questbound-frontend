@@ -24,10 +24,8 @@ export function useLogin() {
 
       const questbound = { isAuthenticated: true };
 
-      // Store authentication data in localStorage
       localStorageService.setItem("questbound", questbound);
 
-      // Show success notification
       notifications.show({
         title: "Success",
         message: "Login successful!",
@@ -51,13 +49,15 @@ export function useRegister() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (credentials: RegisterRequest): Promise<Token> => {
+    mutationFn: async (credentials: RegisterRequest): Promise<boolean> => {
       return await authService.registerUser(credentials);
     },
-    onSuccess: (data) => {
-      loginUser(data);
+    onSuccess: () => {
+      loginUser();
 
-      localStorageService.setItem("questbound", data);
+      const questbound = { isAuthenticated: true };
+
+      localStorageService.setItem("questbound", questbound);
 
       notifications.show({
         title: "Success",
@@ -78,49 +78,11 @@ export function useRegister() {
   });
 }
 
-// export function useRefreshTokens() {
-//   const { refreshTokens } = useAuthStore();
-
-//   return useMutation({
-//     mutationFn: async (tokens: Tokens): Promise<Tokens> => {
-//       return await authService.refreshTokens(tokens);
-//     },
-//     onSuccess: (data) => {
-//       refreshTokens(data);
-
-//       const questbound = { token: data.accessToken };
-//       const existingData = localStorageService.getItem("questbound") || {};
-//       const updatedData = { ...existingData, ...questbound };
-
-//       localStorageService.setItem("questbound", updatedData);
-
-//       return data;
-//     },
-//     onError: (error: Error) => {
-//       notifications.show({
-//         title: "Login Expired",
-//         message: "You are no longer logged in.",
-//         color: "red",
-//         position: "top-right",
-//       });
-//       throw error;
-//     },
-//   });
-// }
-
 export function useRefreshTokens() {
 
   return useMutation({
     mutationFn: async (): Promise<void> => {
       return await authService.refreshTokens();
-    },
-    onSuccess: (data) => {
-      // refreshTokens(data);
-      // const questbound = { token: data.accessToken };
-      // const existingData = localStorageService.getItem("questbound") || {};
-      // const updatedData = { ...existingData, ...questbound };
-      // localStorageService.setItem("questbound", updatedData);
-      // return data;
     },
     onError: (error: Error) => {
       notifications.show({
@@ -180,7 +142,6 @@ export function useLogout() {
     },
   });
 }
-
 
 export function useForgotPassword() {
   return useMutation({

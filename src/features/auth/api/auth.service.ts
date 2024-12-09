@@ -2,22 +2,18 @@ import apiClient from "../../../api/apiClient";
 import endpoints from "../../../api/endpoints";
 import {
   RegisterRequest,
-  LoginResponse,
   LoginRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  Tokens,
   ChangePasswordRequest,
 } from "../shared/auth.types";
 
-const registerUser = async (
-  credentials: RegisterRequest
-): Promise<LoginResponse> => {
+const registerUser = async (credentials: RegisterRequest): Promise<boolean> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/register`, credentials)
   ).data;
   if (!response.isSuccess) throw new Error();
-  return response.result;
+  return true;
 };
 
 const loginUser = async (credentials: LoginRequest): Promise<boolean> => {
@@ -34,13 +30,6 @@ const logoutUser = async (): Promise<void> => {
   const response = (await apiClient.post(`${endpoints.auth}/logout`)).data;
   if (!response.isSuccess) throw new Error();
 };
-
-// const refreshTokens = async (tokens: Tokens): Promise<Tokens> => {
-//   const response = (await apiClient.post(`${endpoints.auth}/refresh`, tokens))
-//     .data;
-//   if (!response.isSuccess) throw new Error();
-//   return response.result;
-// };
 
 const refreshTokens = async (): Promise<void> => {
   const response = (await apiClient.post(`${endpoints.auth}/refresh`)).data;
