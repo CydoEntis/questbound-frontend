@@ -6,16 +6,16 @@ import avatarService from "./avatar.service";
 import { UserAvatar } from "../shared/avatar.types";
 import { useQueryClient } from "@tanstack/react-query";
 export function useUpdateAvatar() {
-  // const { updateUserAvatar } = useAuthStore();
+  const { updateUserAvatar } = useAuthStore();
 
   return useMutation({
     mutationFn: async (id: number): Promise<UserAvatar> => {
       return await avatarService.updateAvatar(id);
     },
     onSuccess: (data) => {
-      // updateUserAvatar(data);
-
       localStorageService.updateItem("questbound", data);
+
+      updateUserAvatar(data);
 
       notifications.show({
         title: "Update Success",
@@ -72,7 +72,9 @@ export function useUnlockAvatar() {
 
       localStorageService.updateUserAvatar("questbound", data);
 
-      queryClient.invalidateQueries({ queryKey: ["avatars", "unlockable"] });
+      queryClient.invalidateQueries({
+        queryKey: ["avatars", "unlockable", "user"],
+      });
 
       notifications.show({
         title: "Unlock Successful",
