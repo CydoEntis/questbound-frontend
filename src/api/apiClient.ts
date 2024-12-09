@@ -77,32 +77,22 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (request) => {
-    // No need to manually add the Authorization header for cookies.
-    // Axios will automatically send cookies for same-origin requests.
+    const { isAuthenticated } = useAuthStore.getState();
+
+    if (isAuthenticated) {
+      const csrfToken = Cookies.get("CSRF-TOKEN");
+
+      if (csrfToken) {
+        request.headers["X-CSRF-TOKEN"] = csrfToken;
+      }
+    }
+
     return request;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
-
-// apiClient.interceptors.request.use(
-//   (request) => {
-//     const { isAuthenticated } = useAuthStore.getState();
-
-//     if (isAuthenticated) {
-//       const accessToken = Cookies.get("AccessToken");
-
-//       console.log("Access Token: ", accessToken);
-
-//       request.headers["Authorization"] = `Bearer ${accessToken}`;
-//     }
-//     return request;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
 
 
 apiClient.interceptors.response.use(

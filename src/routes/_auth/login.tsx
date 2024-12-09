@@ -8,7 +8,6 @@ export const Route = createFileRoute("/_auth/login")({
   beforeLoad: () => {
     const tokens = localStorageService.getItem<Tokens>("questbound");
     if (tokens) {
-      // Redirect to homepage if the user is logged in
       throw redirect({ to: "/" });
     }
 
