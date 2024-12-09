@@ -79,15 +79,23 @@ function RegisterForm() {
           }}
           leftSection={<AtSign size={20} />}
           {...form.getInputProps("email")}
+          onChange={(event) => {
+            const lowerCaseEmail = event.currentTarget.value.toLowerCase();
+            form.setFieldValue("email", lowerCaseEmail);
+          }}
         />
         <TextInput
           label="Display Name"
-          placeholder="TaskSlayer1337"
+          placeholder="Questbounder"
           classNames={{
             input: "input",
           }}
           leftSection={<User2 size={20} />}
           {...form.getInputProps("username")}
+          onChange={(event) => {
+            const lowerCaseEmail = event.currentTarget.value.toLowerCase();
+            form.setFieldValue("username", lowerCaseEmail);
+          }}
         />
         <Text size="sm">Select Your Avatar</Text>
         <SimpleGrid cols={4}>

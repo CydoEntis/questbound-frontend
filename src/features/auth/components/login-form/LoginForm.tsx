@@ -52,6 +52,10 @@ function LoginForm({}: Props) {
         }}
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}
+        onChange={(event) => {
+          const lowerCaseEmail = event.currentTarget.value.toLowerCase();
+          form.setFieldValue("email", lowerCaseEmail);
+        }}
       />
       <PasswordInput
         label="Password"
