@@ -17,7 +17,7 @@ import {
   AuthenticatedUser,
   User,
 } from "../../../../features/account/shared/account.types";
-import { useGetRecentParties } from "../../../../features/parties-a/api/parties";
+import { useGetRecentParties } from "../../../../features/party/api/party";
 import { useLogout } from "../../../../features/auth/api/auth";
 import AccountButton from "../../../../features/account/components/account-button/AccountButton";
 

@@ -5,26 +5,26 @@ import accountService from "../features/account/api/account.service";
 
 // Define the _auth route
 export const Route = createFileRoute("/_auth")({
-  beforeLoad: async ({ context }) => {
-    const isAuthenticated = localStorageService.getItem<{isAuthenticated: boolean}>("questbound");
+  // beforeLoad: async ({ context }) => {
+  //   const isAuthenticated = localStorageService.getItem<{isAuthenticated: boolean}>("questbound");
 
-    if (isAuthenticated) {
-      context.authState.loginUser();
-      try {
-        const user = await context.queryClient.fetchQuery({
-          queryKey: ["user"],
-          queryFn: accountService.getUserDetails,
-        });
+  //   if (isAuthenticated) {
+  //     context.authState.loginUser();
+  //     try {
+  //       const user = await context.queryClient.fetchQuery({
+  //         queryKey: ["user"],
+  //         queryFn: accountService.getUserDetails,
+  //       });
 
-        context.userState.setUser(user);
+  //       context.userState.setUser(user);
         
-        throw redirect({ to: "/" });
-      } catch (error) {
-      }
-    }
+  //       throw redirect({ to: "/" });
+  //     } catch (error) {
+  //     }
+  //   }
 
-    return; 
-  },
+  //   return; 
+  // },
   component: AuthRoutes, 
 });
 

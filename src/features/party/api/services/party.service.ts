@@ -8,7 +8,7 @@ import {
   CreateParty,
   UpdateParty,
   NewPartyCreator,
-} from "../../shared/types";
+} from "../../shared/party.types";
 
 const getAllParties = async (
   params?: QueryParams

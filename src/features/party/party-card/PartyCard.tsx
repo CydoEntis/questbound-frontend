@@ -7,7 +7,7 @@ import {
   Text,
 } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
-import { Party } from "../shared/types";
+import { Party } from "../shared/party.types";
 
 type PartyCardProps = { party: Party };
 

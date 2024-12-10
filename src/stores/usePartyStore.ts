@@ -1,21 +1,15 @@
 import { create } from "zustand";
-import { PaginatedParties, Party } from "../features/party/shared/types";
-import { PaginatedMembers } from "../features/members/shared/types";
+import { PaginatedParties, Party } from "../features/party/shared/party.types";
+
 
 export type PartyState = {
   parties: PaginatedParties | null;
   party: Party | null;
-  members: PaginatedMembers | null;
   recentParties: Party[] | null;
-  loading: {
-    parties: boolean;
-    party: false;
-    members: boolean;
-    recent: boolean;
-  };
+
   setParties: (parties: PaginatedParties | null) => void; // Corrected the type
   setParty: (party: Party | null) => void;
-  setMembers: (members: PaginatedMembers | null) => void;
+  // setMembers: (members: PaginatedMembers | null) => void;
   setRecentParties: (recentParties: Party[] | null) => void;
 };
 
@@ -44,13 +38,13 @@ const usePartyStore = create<PartyState>((set, get) => ({
       set({ party: null });
     }
   },
-  setMembers: (members: PaginatedMembers | null) => {
-    if (members) {
-      set({ members });
-    } else {
-      set({ members: null });
-    }
-  },
+  // setMembers: (members: PaginatedMembers | null) => {
+  //   if (members) {
+  //     set({ members });
+  //   } else {
+  //     set({ members: null });
+  //   }
+  // },
   setRecentParties: (recentParties: Party[] | null) => {
     if (recentParties) {
       set({ recentParties });

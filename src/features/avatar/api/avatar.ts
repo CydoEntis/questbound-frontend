@@ -67,9 +67,13 @@ export function useUnlockAvatar() {
       return await avatarService.unlockAvatar(id);
     },
     onSuccess: (data) => {
-      updateUserAvatar(data);
+      // updateUserAvatar(data);
       queryClient.invalidateQueries({
         queryKey: ["avatars", "unlockable"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["user"],
       });
 
       notifications.show({

@@ -1,4 +1,4 @@
-import { Member } from "../../members/shared/types";
+import { PartyMember } from "../../party-member/shared/party-members.types";
 
 export type Party = {
 	id: number;
@@ -6,7 +6,7 @@ export type Party = {
 	creatorId: string;
 	creator: string;
 	// color: Color;
-	members: Member[];
+	partyMembers: PartyMember[];
 	createdAt: Date;
 	updatedAt: Date;
 	dueDate: Date;

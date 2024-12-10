@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { QueryParams } from "../../../shared/types/types";
-import partiesService from "./services/parties.service";
+import partiesService from "./services/party.service";
 import { useMemo } from "react";
 
 export const useGetParties = (queryParams: QueryParams) => {

@@ -1,5 +1,5 @@
 export const MEMBER_ROLES = {
-	CREATOR: "creator",
-	MAINTAINER: "maintainer",
-	MEMBER: "member",
+	CREATOR: 3,
+	MAINTAINER: 2,
+	MEMBER: 1,
 } as const;

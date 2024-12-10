@@ -8,7 +8,7 @@ export const useGetUser = () => {
   return useQuery({
     queryKey: ["user"],
     queryFn: () => accountService.getUserDetails(),
-    enabled: false,
+    enabled: true,
   });
 };
 

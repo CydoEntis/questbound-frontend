@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@mantine/core";
-import { Party } from "../shared/types";
+import { Party } from "../shared/party.types";
 import PartyCard from "../party-card/PartyCard";
 
 type PartyGridProps = {
