@@ -1,6 +1,4 @@
 import { useSearch } from "@tanstack/react-router";
-import usePartyStore from "../../stores/usePartyStore";
-import { useEffect } from "react";
 import { ActionIcon, Box, Flex, Group } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
 import { Settings2 } from "lucide-react";
@@ -13,18 +11,11 @@ type Props = {};
 
 function PartiesPage({}: Props) {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
-  const { setParties } = usePartyStore();
   const queryParams = searchParams;
   const { data: parties, isLoading, isError } = useGetParties(queryParams);
 
   const [isFilterOpened, { open: openFilters, close: closeFilters }] =
     useDisclosure(false);
-
-  useEffect(() => {
-    if (parties) {
-      setParties(parties);
-    }
-  }, [parties, setParties]);
 
   if (isLoading) {
     return (

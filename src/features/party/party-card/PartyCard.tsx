@@ -51,7 +51,7 @@ function PartyCard({ party }: PartyCardProps) {
               textOverflow: "ellipsis",
             }}
           >
-            {party.partyName}
+            {party.name}
           </Title>
         </Group>
         <Text>Created At: {formatDate(party.createdAt)}</Text>

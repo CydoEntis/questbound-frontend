@@ -19,10 +19,10 @@ const getAllParties = async (
     if (value) queryParams.append(key, value.toString());
   });
 
-  console.log(`${endpoints.userParties}?${queryParams.toString()}`);
+  console.log(`${endpoints.parties}?${queryParams.toString()}`);
 
   const response = (
-    await apiClient.get(`${endpoints.userParties}?${queryParams.toString()}`)
+    await apiClient.get(`${endpoints.parties}?${queryParams.toString()}`)
   ).data;
 
   if (!response.isSuccess) throw new Error();
@@ -31,7 +31,7 @@ const getAllParties = async (
 
 const getRecentParties = async (): Promise<Party[]> => {
   const response = (
-    await apiClient.get(`${endpoints.userParties}/most-recent`)
+    await apiClient.get(`${endpoints.parties}/most-recent`)
   ).data;
 
   if (!response.isSuccess) throw new Error();
@@ -39,14 +39,14 @@ const getRecentParties = async (): Promise<Party[]> => {
 };
 
 const getPartyById = async (partyId: number): Promise<Party> => {
-  const response = (await apiClient.get(`${endpoints.userParties}/${partyId}`))
+  const response = (await apiClient.get(`${endpoints.parties}/${partyId}`))
     .data;
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
 
 const createParty = async (party: CreateParty): Promise<Party> => {
-  const response = (await apiClient.post(`${endpoints.userParties}`, party))
+  const response = (await apiClient.post(`${endpoints.parties}`, party))
     .data;
   if (!response.isSuccess) throw new Error();
 
@@ -59,7 +59,7 @@ const updateParty = async (
 ): Promise<Party> => {
   const response = (
     await apiClient.put(
-      `${endpoints.userParties}/${partyId}/details`,
+      `${endpoints.parties}/${partyId}/details`,
       updatedPartyDetails
     )
   ).data;
@@ -75,7 +75,7 @@ const updatePartyCreator = async (
 ): Promise<Party> => {
   const response = (
     await apiClient.put(
-      `${endpoints.userParties}/${newPartyCreator.partyId}/change-creator`,
+      `${endpoints.parties}/${newPartyCreator.partyId}/change-creator`,
       newPartyCreator
     )
   ).data;
@@ -85,7 +85,7 @@ const updatePartyCreator = async (
 
 const deleteParty = async (partyId: number): Promise<void> => {
   const response = (
-    await apiClient.delete(`${endpoints.userParties}/${partyId}`)
+    await apiClient.delete(`${endpoints.parties}/${partyId}`)
   ).data;
   if (!response.isSuccess) throw new Error();
 };
