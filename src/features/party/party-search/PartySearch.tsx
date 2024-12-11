@@ -17,19 +17,19 @@ function PartySearch({}: Props) {
   const form = useForm<SearchTerm>({
     validate: zodResolver(searchSchema),
     initialValues: {
-      searchTerm: useSearchParams.searchTerm || "",
+      search: useSearchParams.search || "",
     },
   });
 
-  const handleSearch = (searchTerm: SearchTerm) => {
-    const result = searchSchema.safeParse(searchTerm);
+  const handleSearch = (search: SearchTerm) => {
+    const result = searchSchema.safeParse(search);
     console.log(result);
 
     if (result.success) {
       navigate({
         search: (prevSearch) => ({
           ...prevSearch,
-          searchTerm: result.data.searchTerm,
+          searchTerm: result.data.search,
         }),
       });
     } else {
@@ -57,7 +57,7 @@ function PartySearch({}: Props) {
             leftSection={<Search size="20" />}
             classNames={{ input: "input" }}
             rightSection={
-              form.values.searchTerm && (
+              form.values.search && (
                 <ActionIcon
                   variant="light"
                   color="violet"

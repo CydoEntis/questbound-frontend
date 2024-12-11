@@ -8,10 +8,15 @@ type DateRangePickerProps = {
   resetCallback?: (resetFunction: () => void) => void;
 };
 
-function DateRangePicker({ onDateChange, resetCallback }: DateRangePickerProps) {
+function DateRangePicker({
+  onDateChange,
+  resetCallback,
+}: DateRangePickerProps) {
   const [value, setValue] = useState<[Date | null, Date | null] | undefined>();
 
-  const handleFilterDates = (updatedValue: [Date | null, Date | null] | undefined) => {
+  const handleFilterDates = (
+    updatedValue: [Date | null, Date | null] | undefined
+  ) => {
     setValue(updatedValue); // Update the state with the new value
     const [startDate, endDate] = updatedValue || [null, null];
     const stringifiedStartDate = startDate ? startDate.toISOString() : "";
@@ -24,9 +29,8 @@ function DateRangePicker({ onDateChange, resetCallback }: DateRangePickerProps) 
     onDateChange("", ""); // Notify parent about the reset
   };
 
-
   return (
-    <div>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <Text size="sm" mb={4}>
         Select a Date Range
       </Text>
@@ -39,19 +43,21 @@ function DateRangePicker({ onDateChange, resetCallback }: DateRangePickerProps) 
             value={value}
             onChange={(updatedValue) => handleFilterDates(updatedValue)}
             style={{ flex: 1 }}
+            leftSection={
+              <ActionIcon
+                size="lg"
+                variant="light"
+                color="violet"
+                onClick={resetDateRange}
+                style={{ marginLeft: 8 }}
+              >
+                <X />
+              </ActionIcon>
+            }
           />
-          <ActionIcon
-            size="lg"
-            variant="light"
-            color="violet"
-            onClick={resetDateRange}
-            style={{ marginLeft: 8 }}
-          >
-            <X />
-          </ActionIcon>
         </Group>
       </Input.Wrapper>
-    </div>
+    </form>
   );
 }
 
