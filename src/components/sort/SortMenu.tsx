@@ -22,14 +22,16 @@ function SortMenu({}: Props) {
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
-        sortBy: value,
-      })
+        [key]: value,
+      }),
     });
   };
 
-  const selectedSortBy = search.sortBy || ""; 
+  const selectedSortBy = search.sortBy || "name";
 
-  console.log(selectedSortBy);
+  if (!search.sortBy) {
+    updateFilters("sortBy", "name");
+  }
 
   return (
     <Menu shadow="md" width={200}>
@@ -48,9 +50,9 @@ function SortMenu({}: Props) {
         <Menu.Label>Filters</Menu.Label>
         <Stack py={8}>
           {sortOptions.map(({ label, value }) => (
-            <Menu.Item>
+            <Menu.Item key={value}>
               <Checkbox
-                key={value}
+                color="violet"
                 checked={selectedSortBy === value}
                 onChange={() => updateFilters("sortBy", value)}
                 label={label}
