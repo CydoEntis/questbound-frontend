@@ -4,12 +4,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import useAuthStore from "./stores/useAuthStore";
 import '@mantine/dates/styles.css';
+import useUserStore from "./stores/useUserStore";
 
 const queryClient = new QueryClient();
 
 const router = createRouter({
 	routeTree,
 	context: {
+		userState: useUserStore.getState(),
 		authState: useAuthStore.getState(), // Get the actual state, not the type
 		queryClient,
 	},
