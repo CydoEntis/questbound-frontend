@@ -7,9 +7,9 @@ import { Route } from "../../routes/_authenticated/parties";
 function OrderToggle() {
   const navigate = useNavigate({ from: Route.fullPath });
 
-  const search = useSearch({
-    from: "/_authenticated/parties/",
-  });
+  // const search = useSearch({
+  //   from: "/_authenticated/parties/",
+  // });
 
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
@@ -17,7 +17,7 @@ function OrderToggle() {
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
-        orderDirection: order,
+        orderBy: order,
       }),
     });
   };

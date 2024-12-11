@@ -22,12 +22,12 @@ function SortMenu({}: Props) {
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
-        sortField: value,
+        sortBy: value,
       })
     });
   };
 
-  const selectedSortBy = search.sortField || ""; 
+  const selectedSortBy = search.sortBy || ""; 
 
   console.log(selectedSortBy);
 
