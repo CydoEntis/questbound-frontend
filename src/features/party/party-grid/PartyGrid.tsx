@@ -24,7 +24,7 @@ function PartyGrid({ parties }: PartyGridProps) {
         {parties &&
           parties.map((party, index) => (
             <PartyCard
-              key={party.id}
+              key={index}
               party={party}
             />
           ))}

@@ -74,13 +74,14 @@ function PartyCard({ party }: PartyCardProps) {
         <Stack gap={4} w="100%">
           <Flex justify="space-between" align="center" w="100%">
             <Avatar.Group>
-              {party.partyMembers.map((member) => (
-                <AvatarDisplay avatar={member.avatar} />
+              {party.partyMembers.map((member, index) => (
+                <AvatarDisplay key={index} avatar={member.avatar} />
               ))}
               <Avatar>+5</Avatar>
             </Avatar.Group>
-            <Text size="xs" c="gray">Last accessed: {formatDate(party.updatedAt)}</Text>
-              
+            <Text size="xs" c="gray">
+              Last accessed: {formatDate(party.updatedAt)}
+            </Text>
           </Flex>
         </Stack>
       </Flex>

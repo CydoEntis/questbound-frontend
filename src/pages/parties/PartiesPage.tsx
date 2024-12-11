@@ -1,5 +1,12 @@
 import { useSearch } from "@tanstack/react-router";
-import { ActionIcon, Box, Flex, Group } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Flex,
+  Group,
+  SimpleGrid,
+  Skeleton,
+} from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
 import { Settings2 } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
@@ -12,27 +19,27 @@ type Props = {};
 function PartiesPage({}: Props) {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
   const queryParams = searchParams;
-  const { data: parties, isLoading, isError } = useGetParties(queryParams);
+  const { data: parties, isPending, isError } = useGetParties(queryParams);
 
   const [isFilterOpened, { open: openFilters, close: closeFilters }] =
     useDisclosure(false);
 
-  if (isLoading) {
-    return (
-      <>
-        <p>Loading parties...</p>
-      </>
-    );
-  }
+  // if (isPending) {
+  //   return (
+  //     <>
+  //       <p>Loading parties...</p>
+  //     </>
+  //   );
+  // }
 
-  if (isError) {
-    return <p>Error loading parties. Please try again later.</p>;
-  }
+  // if (isError) {
+  //   return <p>Error loading parties. Please try again later.</p>;
+  // }
 
-  if (!parties || parties.items.length === 0) {
-    return <p>No parties found.</p>;
-  }
-
+  // if (!parties || parties.items.length === 0) {
+  //   return <p>No parties found.</p>;
+  // }
+  const fakePending = true;
   return (
     <>
       <PartyFilter
@@ -54,7 +61,27 @@ function PartiesPage({}: Props) {
         </Flex>
       </PageHeader>
       <Box p={32}>
-        <PartyGrid parties={parties.items} />
+        {isPending ? (
+          <SimpleGrid
+            type="container"
+            cols={{
+              base: 1,
+              "550px": 1,
+              "725px": 2,
+              "1000px": 3,
+              "1700px": 4,
+              "2000px": 6,
+            }}
+          >
+            {isPending &&
+              Array.from({ length: 24 }).map((_, index) => (
+                <Skeleton key={index} visible h={320} />
+              ))}
+          </SimpleGrid>
+        ) : (
+          parties && <PartyGrid parties={parties.items} />
+        )}
+        {isError && <p>Error loading parties. Please try again later.</p>}
       </Box>
     </>
   );
