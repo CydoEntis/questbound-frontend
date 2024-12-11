@@ -1,32 +1,81 @@
 import { DatePickerInput } from "@mantine/dates";
-import { Group, Text, ActionIcon, Input } from "@mantine/core";
-import { X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Group, Text, ActionIcon, Button } from "@mantine/core";
+import { CalendarRange, X } from "lucide-react";
+import { useState } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Route } from "../../routes/_authenticated";
+import { useForm, zodResolver } from "@mantine/form";
+import { z } from "zod";
 
-type DateRangePickerProps = {
-  onDateChange: (startDate: string, endDate: string) => void;
-  resetCallback?: (resetFunction: () => void) => void;
-};
+// Schema to validate the date filter
+export const dateFilterSchema = z.object({
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+});
+export type DateFilter = z.infer<typeof dateFilterSchema>;
 
-function DateRangePicker({
-  onDateChange,
-  resetCallback,
-}: DateRangePickerProps) {
-  const [value, setValue] = useState<[Date | null, Date | null] | undefined>();
+function DateRangePicker() {
+  // State for the selected date range
+  const [value, setValue] = useState<[Date | null, Date | null] | undefined>(
+    undefined
+  );
 
+  // Access URL search parameters
+  const useSearchParams = useSearch({
+    from: "/_authenticated/parties/",
+  });
+
+  // Navigation function
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  // Form management
+  const form = useForm<DateFilter>({
+    validate: zodResolver(dateFilterSchema),
+    initialValues: {
+      startDate: useSearchParams.startDate || "",
+      endDate: useSearchParams.endDate || "",
+    },
+  });
+
+  // Handle date selection changes
   const handleFilterDates = (
     updatedValue: [Date | null, Date | null] | undefined
   ) => {
-    setValue(updatedValue); // Update the state with the new value
+    setValue(updatedValue); // Update state with selected dates
     const [startDate, endDate] = updatedValue || [null, null];
-    const stringifiedStartDate = startDate ? startDate.toISOString() : "";
-    const stringifiedEndDate = endDate ? endDate.toISOString() : "";
-    onDateChange(stringifiedStartDate, stringifiedEndDate);
+    form.setFieldValue("startDate", startDate ? startDate.toISOString() : "");
+    form.setFieldValue("endDate", endDate ? endDate.toISOString() : "");
   };
 
-  const resetDateRange = () => {
-    setValue(undefined); // Reset the value to undefined
-    onDateChange("", ""); // Notify parent about the reset
+  // Handle form submission
+  const handleSubmit = (dates: DateFilter) => {
+    const result = dateFilterSchema.safeParse(dates);
+
+    if (result.success) {
+      navigate({
+        search: (prevSearch) => ({
+          ...prevSearch,
+          startDate: result.data.startDate || undefined,
+          endDate: result.data.endDate || undefined,
+        }),
+      });
+      console.log("Date range applied:", result.data);
+    } else {
+      console.log("Validation failed", result.error.errors);
+    }
+  };
+
+  // Reset date range
+  const reset = () => {
+    setValue(undefined); // Reset date picker state
+    form.reset(); // Reset form fields
+    navigate({
+      search: (prevSearch) => ({
+        ...prevSearch,
+        startDate: undefined,
+        endDate: undefined,
+      }),
+    });
   };
 
   return (
@@ -34,29 +83,39 @@ function DateRangePicker({
       <Text size="sm" mb={4}>
         Select a Date Range
       </Text>
-      <Input.Wrapper>
-        <Group>
-          <DatePickerInput
-            placeholder="Select date range"
-            type="range"
-            allowSingleDateInRange
-            value={value}
-            onChange={(updatedValue) => handleFilterDates(updatedValue)}
-            style={{ flex: 1 }}
-            leftSection={
+      <Group>
+        <DatePickerInput
+          w={320}
+          type="range"
+          placeholder="Select date range"
+          value={value}
+          classNames={{ 
+            input: "input",
+           }}
+          onChange={handleFilterDates}
+          style={{ flex: 1 }}
+          rightSection={
+            value?.[0] || value?.[1] ? (
               <ActionIcon
                 size="lg"
                 variant="light"
                 color="violet"
-                onClick={resetDateRange}
-                style={{ marginLeft: 8 }}
+                onClick={reset}
               >
                 <X />
               </ActionIcon>
-            }
-          />
-        </Group>
-      </Input.Wrapper>
+            ) : null
+          }
+        />
+        <Button
+          color="violet"
+          type="submit"
+          variant="light"
+          leftSection={<CalendarRange size={20}/>}
+        >
+          Filter
+        </Button>
+      </Group>
     </form>
   );
 }

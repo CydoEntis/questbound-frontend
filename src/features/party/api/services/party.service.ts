@@ -19,8 +19,6 @@ const getAllParties = async (
     if (value) queryParams.append(key, value.toString());
   });
 
-  console.log(`${endpoints.parties}?${queryParams.toString()}`);
-
   const response = (
     await apiClient.get(`${endpoints.parties}?${queryParams.toString()}`)
   ).data;

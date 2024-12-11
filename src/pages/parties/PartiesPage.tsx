@@ -24,6 +24,7 @@ import SearchBar from "../../components/search/SearchBar";
 import PartySearch from "../../features/party/party-search/PartySearch";
 import SortMenu from "../../components/sort/SortMenu";
 import OrderToggle from "../../components/order/OrderToggle";
+import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 
 type Props = {};
 
@@ -64,6 +65,7 @@ function PartiesPage({}: Props) {
           <Group align="end">
             <PartySearch />
             <SortMenu />
+            <DateRangePicker />
             <OrderToggle />
 
             {/* <ActionIcon

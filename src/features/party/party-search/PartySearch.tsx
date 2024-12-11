@@ -3,7 +3,14 @@ import { Route } from "../../../routes/_authenticated/parties/index";
 import { useForm, zodResolver } from "@mantine/form";
 import { SearchTerm } from "../shared/party.types";
 import { searchSchema } from "../shared/party.schemas";
-import { ActionIcon, Group, Stack, TextInput, Text, Button } from "@mantine/core";
+import {
+  ActionIcon,
+  Group,
+  Stack,
+  TextInput,
+  Text,
+  Button,
+} from "@mantine/core";
 import { Search, X } from "lucide-react";
 type Props = {};
 
@@ -38,14 +45,14 @@ function PartySearch({}: Props) {
   };
 
   const resetSearch = () => {
-    form.setFieldValue("searchTerm", "");
+    form.setFieldValue("search", "");
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
-        searchTerm: "",
+        search: "",
       }),
     });
-    handleSearch({ searchTerm: "" });
+    handleSearch({ search: "" });
   };
 
   return (
