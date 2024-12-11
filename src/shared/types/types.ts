@@ -9,10 +9,10 @@ export type CamelCasedErrors = {
 };
 
 export type QueryParams = {
-  searchTerm?: string;
-  orderDirection?: string;
-  sortField?: string;
-  dateFilterField?: string;
+  search?: string;
+  orderBy?: string;
+  sortBy?: string;
+  dateFilter?: string;
   pageNumber: number;  
   startDate?: string;
   endDate?: string;

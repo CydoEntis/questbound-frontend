@@ -7,7 +7,7 @@ type Props = {};
 
 function SortMenu({}: Props) {
   const sortOptions = [
-    { label: "Title", value: "title" },
+    { label: "Name", value: "name" },
     { label: "Created At", value: "created-at" },
     { label: "Updated At", value: "updated-at" },
   ];

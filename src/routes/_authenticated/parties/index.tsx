@@ -7,10 +7,10 @@ export const Route = createFileRoute("/_authenticated/parties/")({
   component: PartiesPage,
   validateSearch: (params: Record<string, string | number>): QueryParams => {
     return {
-      searchTerm: params.searchTerm as string | undefined,
-      orderDirection: params.orderDirection as string | undefined,
-      sortField: params.sortField as string | undefined,
-      dateFilterField: params.dateFilterField as string | undefined,
+      search: params.search as string | undefined,
+      orderBy: params.orderBy as string | undefined,
+      sortBy: params.sortBy as string | undefined,
+      dateFilter: params.dateFilter as string | undefined,
       pageNumber: params.pageNumber as number,
       startDate: params.startDate as string | undefined,
       endDate: params.endDate as string | undefined,
