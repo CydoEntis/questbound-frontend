@@ -31,7 +31,7 @@ const getAllParties = async (
 
 const getRecentParties = async (): Promise<Party[]> => {
   const response = (
-    await apiClient.get(`${endpoints.parties}/most-recent`)
+    await apiClient.get(`${endpoints.parties}/recent`)
   ).data;
 
   if (!response.isSuccess) throw new Error();

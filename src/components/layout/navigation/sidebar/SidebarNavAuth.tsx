@@ -33,9 +33,8 @@ function SidebarNavAuth({
   onOpenAvatarShop,
 }: SidebarNavAuthProps) {
   const navigate = useNavigate();
-  const { tokens } = useAuthStore();
-  // const { data: recentParties, isLoading, isError } = useGetRecentParties();
-  // const [isRecentOpen, setIsRecentOpen] = useState(true);
+  const { data: recentParties, isLoading, isError } = useGetRecentParties();
+  const [isRecentOpen, setIsRecentOpen] = useState(true);
   const logout = useLogout();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -43,9 +42,8 @@ function SidebarNavAuth({
     if (isMobile) closeNav();
   };
 
-
   const logoutHandler = async () => {
-    await logout.mutateAsync(tokens!);
+    await logout.mutateAsync();
     navigate({
       to: "/login",
     });
@@ -62,9 +60,9 @@ function SidebarNavAuth({
     handleClose();
   };
 
-  // const toggleRecentOpen = () => {
-  //   setIsRecentOpen((prev) => !prev);
-  // };
+  const toggleRecentOpen = () => {
+    setIsRecentOpen((prev) => !prev);
+  };
 
   return (
     <Stack
@@ -110,7 +108,7 @@ function SidebarNavAuth({
           color="violet"
           onClick={handleClose}
         />
-        {/* <NavLink
+        <NavLink
           label="Most Recent"
           className="rounded-md"
           leftSection={
@@ -135,14 +133,14 @@ function SidebarNavAuth({
               key={party.id}
               component={Link}
               to={`/parties/${party.id}/quests`}
-              label={party.partyName}
+              label={party.name}
               color="violet"
               className="rounded-md"
               mt={8}
               onClick={handleClose}
             />
-          ))} */}
-        {/* </NavLink> */}
+          ))}
+        </NavLink>
       </Stack>
 
       {/* Bottom Buttons */}
