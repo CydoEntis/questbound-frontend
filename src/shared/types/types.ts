@@ -13,11 +13,10 @@ export type QueryParams = {
   sortDirection?: string;
   sortField?: string;
   dateFilterField?: string;
-  pageNumber?: number;
-  pageSize?: number;
+  pageNumber: number;  
   startDate?: string;
   endDate?: string;
-  [key: string]: string | number | undefined;
 };
 
-export type MemberRole = typeof MEMBER_ROLES[keyof typeof MEMBER_ROLES];
+
+export type MemberRole = (typeof MEMBER_ROLES)[keyof typeof MEMBER_ROLES];

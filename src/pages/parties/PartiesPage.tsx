@@ -1,9 +1,10 @@
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ActionIcon,
   Box,
   Flex,
   Group,
+  Pagination,
   SimpleGrid,
   Skeleton,
 } from "@mantine/core";
@@ -13,33 +14,34 @@ import { useDisclosure } from "@mantine/hooks";
 import { useGetParties } from "../../features/party/api/party";
 import PartyFilter from "../../features/party/party-filter/PartyFilter";
 import PartyGrid from "../../features/party/party-grid/PartyGrid";
+import { Route } from "../../routes/_authenticated/parties/";
 
 type Props = {};
 
 function PartiesPage({}: Props) {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
-  const queryParams = searchParams;
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  const currentPage = Number(searchParams.pageNumber) || 1;
+
+  const queryParams = { ...searchParams, page: currentPage };
+
   const { data: parties, isPending, isError } = useGetParties(queryParams);
 
   const [isFilterOpened, { open: openFilters, close: closeFilters }] =
     useDisclosure(false);
 
-  // if (isPending) {
-  //   return (
-  //     <>
-  //       <p>Loading parties...</p>
-  //     </>
-  //   );
-  // }
+  const handlePageChange = (page: number) => {
+    navigate({
+      search: (prevSearch) => {
+        return {
+          ...prevSearch,
+          pageNumber: page || 1,
+        };
+      },
+    });
+  };
 
-  // if (isError) {
-  //   return <p>Error loading parties. Please try again later.</p>;
-  // }
-
-  // if (!parties || parties.items.length === 0) {
-  //   return <p>No parties found.</p>;
-  // }
-  const fakePending = true;
   return (
     <>
       <PartyFilter
@@ -61,7 +63,7 @@ function PartiesPage({}: Props) {
         </Flex>
       </PageHeader>
       <Box p={32}>
-        {isPending ? (
+        {isPending && (
           <SimpleGrid
             type="container"
             cols={{
@@ -73,15 +75,29 @@ function PartiesPage({}: Props) {
               "2000px": 6,
             }}
           >
-            {isPending &&
-              Array.from({ length: 24 }).map((_, index) => (
-                <Skeleton key={index} visible h={320} />
-              ))}
+            {Array.from({ length: 24 }).map((_, index) => (
+              <Skeleton key={index} visible h={320} />
+            ))}
           </SimpleGrid>
-        ) : (
-          parties && <PartyGrid parties={parties.items} />
         )}
-        {isError && <p>Error loading parties. Please try again later.</p>}
+
+        {!isPending && isError && (
+          <p>Error loading parties. Please try again later.</p>
+        )}
+
+        {!isPending && parties && (
+          <>
+            <PartyGrid parties={parties.items} />
+            {parties.totalPages > 1 && (
+              <Pagination
+                total={parties.totalPages} // Total number of pages
+                value={currentPage} // Current page
+                onChange={handlePageChange} // Page change handler
+                color="violet"
+              />
+            )}
+          </>
+        )}
       </Box>
     </>
   );

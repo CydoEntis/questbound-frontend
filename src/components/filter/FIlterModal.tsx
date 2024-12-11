@@ -41,10 +41,10 @@ function FilterModal({
   type FilterFormValues = z.infer<typeof filterFormSchema>;
 
   const form = useForm<FilterFormValues>({
-    validate: zodResolver(filterFormSchema), 
+    validate: zodResolver(filterFormSchema),
     initialValues: {
       sortBy: sortField ?? "title",
-      filterDate: dateFilterField ?? "created-at", 
+      filterDate: dateFilterField ?? "created-at",
     },
   });
 
@@ -56,7 +56,7 @@ function FilterModal({
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const values = form.values;
 
@@ -96,9 +96,7 @@ function FilterModal({
       title="Filters"
       size="lg"
     >
-      <form
-        onSubmit={handleSubmit} 
-      >
+      <form onSubmit={handleSubmit}>
         <Stack gap={8} w="100%">
           {/* Sort Options */}
           {sortOptions && (
@@ -108,7 +106,7 @@ function FilterModal({
               {sortOptions.map(({ label, value }) => (
                 <Checkbox
                   key={value}
-                  checked={form.values.sortBy === value} 
+                  checked={form.values.sortBy === value}
                   onChange={() => updateFilters("sortBy", value)}
                   label={label}
                 />
@@ -124,8 +122,8 @@ function FilterModal({
               {dateOptions.map(({ label, value }) => (
                 <Checkbox
                   key={value}
-                  checked={form.values.filterDate === value} 
-                  onChange={() => updateFilters("filterDate", value)} 
+                  checked={form.values.filterDate === value}
+                  onChange={() => updateFilters("filterDate", value)}
                   label={label}
                 />
               ))}
@@ -141,8 +139,8 @@ function FilterModal({
               fullWidth
               color="red"
               variant="light"
-              type="button" 
-              onClick={handleClearFilters} 
+              type="button"
+              onClick={handleClearFilters}
             >
               Clear Filters
             </Button>

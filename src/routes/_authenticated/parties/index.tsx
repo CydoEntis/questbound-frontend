@@ -5,17 +5,18 @@ import partiesService from "../../../features/party/api/services/party.service";
 
 export const Route = createFileRoute("/_authenticated/parties/")({
   component: PartiesPage,
-  validateSearch: (params: Record<string, unknown>): QueryParams => {
+  validateSearch: (params: Record<string, string | number>): QueryParams => {
     return {
-      searchTerm: params.query as string | undefined,
+      searchTerm: params.searchTerm as string | undefined,
       sortDirection: params.sortDirection as string | undefined,
       sortField: params.sortField as string | undefined,
       dateFilterField: params.dateFilterField as string | undefined,
-      pageNumber: params.pageNumber as number | undefined,
+      pageNumber: params.pageNumber as number,
       startDate: params.startDate as string | undefined,
       endDate: params.endDate as string | undefined,
     };
   },
+
   loader: async () => {
     return await partiesService.getAllParties();
   },
