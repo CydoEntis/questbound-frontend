@@ -28,7 +28,6 @@ function PartyCard({ party }: PartyCardProps) {
     (member) => member.role === MEMBER_ROLES.CREATOR
   );
 
-  console.log(partyLeader);
 
   return (
     <Card

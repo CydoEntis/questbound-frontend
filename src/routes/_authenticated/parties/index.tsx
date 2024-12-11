@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_authenticated/parties/")({
   validateSearch: (params: Record<string, string | number>): QueryParams => {
     return {
       searchTerm: params.searchTerm as string | undefined,
-      sortDirection: params.sortDirection as string | undefined,
+      orderDirection: params.orderDirection as string | undefined,
       sortField: params.sortField as string | undefined,
       dateFilterField: params.dateFilterField as string | undefined,
       pageNumber: params.pageNumber as number,

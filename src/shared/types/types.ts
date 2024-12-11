@@ -10,7 +10,7 @@ export type CamelCasedErrors = {
 
 export type QueryParams = {
   searchTerm?: string;
-  sortDirection?: string;
+  orderDirection?: string;
   sortField?: string;
   dateFilterField?: string;
   pageNumber: number;  

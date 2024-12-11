@@ -2,19 +2,28 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ActionIcon,
   Box,
+  Text,
   Flex,
   Group,
   Pagination,
   SimpleGrid,
   Skeleton,
+  Menu,
+  Button,
+  Stack,
+  Checkbox,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { Settings2 } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import { useGetParties } from "../../features/party/api/party";
 import PartyFilter from "../../features/party/party-filter/PartyFilter";
 import PartyGrid from "../../features/party/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
+import { Filter, Settings2 } from "lucide-react";
+import SearchBar from "../../components/search/SearchBar";
+import PartySearch from "../../features/party/party-search/PartySearch";
+import SortMenu from "../../components/sort/SortMenu";
+import OrderToggle from "../../components/order/OrderToggle";
 
 type Props = {};
 
@@ -30,6 +39,8 @@ function PartiesPage({}: Props) {
 
   const [isFilterOpened, { open: openFilters, close: closeFilters }] =
     useDisclosure(false);
+
+
 
   const handlePageChange = (page: number) => {
     navigate({
@@ -51,14 +62,18 @@ function PartiesPage({}: Props) {
       <PageHeader title="Joined Parties">
         <Flex align="end" justify="space-between">
           <Group align="end">
-            <ActionIcon
+            <PartySearch />
+            <SortMenu />
+            <OrderToggle />
+
+            {/* <ActionIcon
               size="lg"
               variant="light"
               color="violet"
               onClick={openFilters}
             >
               <Settings2 size={20} />
-            </ActionIcon>
+            </ActionIcon> */}
           </Group>
         </Flex>
       </PageHeader>
@@ -90,6 +105,7 @@ function PartiesPage({}: Props) {
             <PartyGrid parties={parties.items} />
             {parties.totalPages > 1 && (
               <Pagination
+                pt={32}
                 total={parties.totalPages} // Total number of pages
                 value={currentPage} // Current page
                 onChange={handlePageChange} // Page change handler

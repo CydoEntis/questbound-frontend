@@ -9,8 +9,8 @@ import {
   Text,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Route } from "../../../routes/_authenticated/parties/index";
 import DateRangePicker from "../../../components/date-pickers/DateRangePicker";
 
@@ -25,7 +25,8 @@ function PartyFilter({
 }: FilterModalProps) {
   const {
     sortField,
-    dateFilterField,
+    // dateFilterField,
+    orderDirection,
     startDate: initialStartDate,
     endDate: initialEndDate,
   } = useSearch({
@@ -47,7 +48,7 @@ function PartyFilter({
 
   const filterFormSchema = z.object({
     sortBy: z.string(),
-    filterDate: z.string(),
+    orderDirection: z.string(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
   });
@@ -58,7 +59,8 @@ function PartyFilter({
     validate: zodResolver(filterFormSchema),
     initialValues: {
       sortBy: sortField ?? "title",
-      filterDate: dateFilterField ?? "created-at",
+      // filterDate: dateFilterField ?? "created-at",
+      orderDirection: orderDirection ?? "desc",
       startDate: initialStartDate ?? "",
       endDate: initialEndDate ?? "",
     },
@@ -82,7 +84,8 @@ function PartyFilter({
         search: (prevSearch) => ({
           ...prevSearch,
           sortField: result.data.sortBy,
-          dateFilterField: result.data.filterDate,
+          orderDirection: result.data.orderDirection,
+          // dateFilterField: result.data.filterDate,
           startDate: result.data.startDate || undefined,
           endDate: result.data.endDate || undefined,
         }),
@@ -108,7 +111,6 @@ function PartyFilter({
     handleCloseFilterModal();
   };
 
-  console.log(form.values)
 
   return (
     <Modal
@@ -161,8 +163,8 @@ function PartyFilter({
               {orderOptions.map(({ label, value }) => (
                 <Checkbox
                   key={value}
-                  checked={form.values.filterDate === value}
-                  onChange={() => updateFilters("filterDate", value)}
+                  checked={form.values.orderDirection === value}
+                  onChange={() => updateFilters("orderDirection", value)}
                   label={label}
                 />
               ))}
