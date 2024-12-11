@@ -14,8 +14,6 @@ function Sidebar({ onClose }: SidebarProps) {
   // Type the user data retrieved from the cache
   const { data: user, isPending } = useGetUser();
 
-  console.log(user);
-
   const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
     useDisclosure(false);
 

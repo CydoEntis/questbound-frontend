@@ -5,9 +5,13 @@ import {
   Stack,
   Title,
   Text,
+  Badge,
+  Avatar,
 } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../shared/party.types";
+import AvatarDisplay from "../../avatar/components/avatar-display/AvatarDisplay";
+import { MEMBER_ROLES } from "../../../shared/utils/constants";
 
 type PartyCardProps = { party: Party };
 
@@ -20,8 +24,11 @@ const formatDate = (date: Date) => {
 };
 
 function PartyCard({ party }: PartyCardProps) {
+  const partyLeader = party.partyMembers.find(
+    (member) => member.role === MEMBER_ROLES.CREATOR
+  );
 
-  console.log(party);
+  console.log(partyLeader);
 
   return (
     <Card
@@ -37,33 +44,44 @@ function PartyCard({ party }: PartyCardProps) {
       mih={350}
     >
       <Stack mt="md" mb="xs" gap={8} style={{ flex: 1 }}>
-        {/* <p>Created: {formatDate(party.createdAt)}</p>
-        <p>Updated: {formatDate(party.updatedAt)}</p> */}
-        <Group w="100%">
-          <Title
-            size="1.5rem"
-            fw={600}
-            className="truncate ..."
-            style={{
-              flex: 1,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {party.name}
-          </Title>
+        <Group gap={16}>
+          <AvatarDisplay avatar={partyLeader!.avatar} size="lg" />
+          <Stack gap={4}>
+            <Title
+              size="1.5rem"
+              fw={600}
+              className="truncate ..."
+              style={{
+                flex: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {party.name}
+            </Title>
+            <Text size="xs">Created at: {formatDate(party.createdAt)}</Text>
+          </Stack>
         </Group>
-        <Text>Created At: {formatDate(party.createdAt)}</Text>
-        <Text>Updated At: {formatDate(party.updatedAt)}</Text>
+        <Group gap={4} py={8}>
+          <Badge color="lime">New!</Badge>
+          <Badge color="red">Active!</Badge>
+        </Group>
+        <Text>{party.description}</Text>
       </Stack>
 
       <Flex justify="space-between" align="center">
-        <Stack gap={4}>
-          <Group gap={4}>
-            {/* <Users size={14} /> */}
-            <Text size="xs">Members</Text>
-          </Group>
+        <Stack gap={4} w="100%">
+          <Flex justify="space-between" align="center" w="100%">
+            <Avatar.Group>
+              {party.partyMembers.map((member) => (
+                <AvatarDisplay avatar={member.avatar} />
+              ))}
+              <Avatar>+5</Avatar>
+            </Avatar.Group>
+            <Text size="xs" c="gray">Last accessed: {formatDate(party.updatedAt)}</Text>
+              
+          </Flex>
         </Stack>
       </Flex>
 

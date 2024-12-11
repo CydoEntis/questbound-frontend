@@ -5,6 +5,7 @@ export type Party = {
 	name: string;
 	creatorId: string;
 	creator: string;
+	description: string;
 	// color: Color;
 	partyMembers: PartyMember[];
 	createdAt: Date;
