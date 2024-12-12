@@ -1,14 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import partiesService from "./services/party.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import partyService from "./services/party.service";
 import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
+import { NewParty, PartyData } from "../shared/party.types";
+import { notifications } from "@mantine/notifications";
 
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
   return useQuery({
     queryKey: ["parties", "list", memoizedQueryParams],
-    queryFn: () => partiesService.getAllParties(queryParams),
+    queryFn: () => partyService.getAllParties(queryParams),
   });
 };
 
@@ -18,24 +20,39 @@ export const useGetPartyDetails = (
 ) => {
   return useQuery({
     queryKey: ["parties", "detail", id],
-    queryFn: () => partiesService.getPartyById(id),
-    enabled, // Conditional fetching based on the 'enabled' flag
+    queryFn: () => partyService.getPartyById(id),
+    enabled,
   });
 };
 
 export const useGetRecentParties = () => {
   return useQuery({
     queryKey: ["parties", "recent"],
-    queryFn: () => partiesService.getRecentParties(),
+    queryFn: () => partyService.getRecentParties(),
   });
 };
 
-// export const useContactsCount = () =>
-// 	useContacts(1, (data) => data.totalContacts);
-
-// export const useContactDetails = (contactId: string | undefined) =>
-// 	useQuery({
-// 		queryKey: ["contacts", contactId],
-// 		queryFn: () => client.getContact(contactId!),
-// 		enabled: !!contactId,
-// 	});
+export function useCreateParty() {
+  return useMutation({
+    mutationFn: async (newParty: PartyData): Promise<NewParty> => {
+      return await partyService.createParty(newParty);
+    },
+    onSuccess: () => {
+      notifications.show({
+        title: "Success",
+        message: "Party Created Successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: (error: Error) => {
+      notifications.show({
+        title: "Login Failed",
+        message: "Party could not be created.",
+        color: "red",
+        position: "top-right",
+      });
+      throw error;
+    },
+  });
+}

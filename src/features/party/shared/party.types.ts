@@ -31,7 +31,7 @@ export type PaginatedParties = {
 };
 
 export type NewParty = {
-  title: string;
+  name: string;
   description: string;
 };
 

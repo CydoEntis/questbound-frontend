@@ -15,7 +15,7 @@ import { Check } from "lucide-react";
 import { useNavigate, useSearch } from "@tanstack/react-router"; // Use useSearch for query params
 import { PartyData } from "../shared/party.types";
 import { partySchema } from "../shared/party.schemas";
-import { useGetPartyDetails } from "../api/party";
+import { useCreateParty, useGetPartyDetails } from "../api/party";
 
 type UpsertPartyProps = {
   onClose: () => void;
@@ -43,6 +43,8 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
     ? useGetPartyDetails(Number(partyId), { enabled: true })
     : { data: null, isError: false, isPending: false };
 
+  const createParty = useCreateParty();
+
   const form = useForm<PartyData>({
     validate: zodResolver(partySchema),
     initialValues: {
@@ -50,14 +52,6 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
       description: party?.description || "",
     },
   });
-
-  //   // Mutation for creating a new party
-  //   const createPartyMutation = useMutation(createParty, {
-  //     onSuccess: (newParty) => {
-  //       navigate(`/parties/${newParty.id}`);
-  //       onClose();
-  //     },
-  //   });
 
   //   // Mutation for updating an existing party
   //   const updatePartyMutation = useMutation(updateParty, {
@@ -73,7 +67,7 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
     // if (partyId) {
     //   updatePartyMutation.mutate({ ...data, id: partyId }); // Pass the partyId if updating
     // } else {
-    //   createPartyMutation.mutate(data); // Create a new party
+    createParty.mutate(data); // Create a new party
     // }
   };
 
@@ -94,9 +88,9 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack gap={8}>
         <TextInput
-          label="Title"
+          label="Party Name"
           placeholder="Name of your Party?"
-          {...form.getInputProps("title")}
+          {...form.getInputProps("name")}
         />
         <Textarea
           label="Description"
@@ -104,13 +98,8 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
           autosize
           {...form.getInputProps("description")}
         />
-        <DateInput
-          label="Due Date"
-          placeholder="Due Date"
-          {...form.getInputProps("dueDate")}
-          color="violet"
-        />
-        <Text size="sm">Select a Color</Text>
+
+        {/* <Text size="sm">Select a Color</Text>
         <Flex py={8} gap={8} align="center">
           {colors.map((color) => (
             <ColorSwatch
@@ -122,7 +111,7 @@ function UpsertPartyForm({ onClose }: UpsertPartyProps) {
               {selectedColor === color.name ? <Check size={20} /> : null}
             </ColorSwatch>
           ))}
-        </Flex>
+        </Flex> */}
       </Stack>
       <Button fullWidth mt="xl" color="violet" variant="light" type="submit">
         {partyId ? "Update Party" : "Create Party"}
