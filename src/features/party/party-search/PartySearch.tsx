@@ -36,7 +36,7 @@ function PartySearch({}: Props) {
       navigate({
         search: (prevSearch) => ({
           ...prevSearch,
-          searchTerm: result.data.search,
+          search: result.data.search,
         }),
       });
     } else {
@@ -74,7 +74,7 @@ function PartySearch({}: Props) {
                 </ActionIcon>
               )
             }
-            {...form.getInputProps("searchTerm")}
+            {...form.getInputProps("search")}
             placeholder="Search by title"
           />
         </Stack>
