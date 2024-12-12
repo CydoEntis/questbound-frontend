@@ -12,6 +12,7 @@ import { Link } from "@tanstack/react-router";
 import { Party } from "../shared/party.types";
 import AvatarDisplay from "../../avatar/components/avatar-display/AvatarDisplay";
 import { MEMBER_ROLES } from "../../../shared/utils/constants";
+import AvatarList from "../../avatar/components/avatar-list/AvatarList";
 
 type PartyCardProps = { party: Party };
 
@@ -28,6 +29,8 @@ function PartyCard({ party }: PartyCardProps) {
     (member) => member.role === MEMBER_ROLES.CREATOR
   );
 
+  // Get the remaining party members excluding the first 4
+  const remainingMembers = party.partyMembers.slice(4);
 
   return (
     <Card
@@ -72,12 +75,7 @@ function PartyCard({ party }: PartyCardProps) {
       <Flex justify="space-between" align="center">
         <Stack gap={4} w="100%">
           <Flex justify="space-between" align="center" w="100%">
-            <Avatar.Group>
-              {party.partyMembers.map((member, index) => (
-                <AvatarDisplay key={index} avatar={member.avatar} />
-              ))}
-              <Avatar>+5</Avatar>
-            </Avatar.Group>
+            <AvatarList partyMembers={party.partyMembers} />
             <Text size="xs" c="gray">
               Last accessed: {formatDate(party.updatedAt)}
             </Text>
@@ -85,62 +83,7 @@ function PartyCard({ party }: PartyCardProps) {
         </Stack>
       </Flex>
 
-      <Stack>
-        {/* <Paper withBorder p={8} mt={16} bg="secondary" shadow="none">
-          <Stack gap={8} align="center">
-            <Text size="sm">Quest Progress</Text>
-            <Group>
-              <Tooltip label={"Completed"}>
-                <Badge
-                  size="lg"
-                  color="lime"
-                  variant="light"
-                  leftSection={
-                    <CircleCheck style={{ width: rem(16), height: rem(16) }} />
-                  }
-                >
-                  {party.questStats.completedQuests}
-                </Badge>
-              </Tooltip>
-              <Tooltip label={"In Progress"}>
-                <Badge
-                  size="lg"
-                  color="yellow"
-                  variant="light"
-                  leftSection={
-                    <Loader style={{ width: rem(16), height: rem(16) }} />
-                  }
-                >
-                  {party.questStats.inProgressQuests}
-                </Badge>
-              </Tooltip>
-              <Tooltip label={"Past Due"}>
-                <Badge
-                  size="lg"
-                  color="red"
-                  variant="light"
-                  leftSection={
-                    <CalendarX style={{ width: rem(16), height: rem(16) }} />
-                  }
-                >
-                  {party.questStats.pastDueQuests}
-                </Badge>
-              </Tooltip>
-            </Group>
-          </Stack>
-        </Paper> */}
-        {/* <Flex justify="space-between" pt={16} align={"center"}>
-          <Text size="xs" c="gray">
-            Last Accessed
-          </Text>
-          <Group gap={8} align="center">
-            <CalendarFoldIcon size={14} />
-            <Text size="xs" c="gray">
-              {formatDate(party.updatedAt)}
-            </Text>
-          </Group>
-        </Flex> */}
-      </Stack>
+      <Stack>{/* Optional: You can add quest-related components here */}</Stack>
     </Card>
   );
 }
