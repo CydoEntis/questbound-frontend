@@ -1,7 +1,7 @@
 
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
-import { QueryParams } from "../../../../shared/types/types";
+import { QueryParams } from "../../../../shared/types";
 import {
   PaginatedParties,
   Party,

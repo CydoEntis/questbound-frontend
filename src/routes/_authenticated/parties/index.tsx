@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { QueryParams } from "../../../shared/types/types";
 import PartiesPage from "../../../pages/parties/PartiesPage";
 import partiesService from "../../../features/party/api/services/party.service";
+import { QueryParams } from "../../../shared/types";
 
 export const Route = createFileRoute("/_authenticated/parties/")({
   component: PartiesPage,

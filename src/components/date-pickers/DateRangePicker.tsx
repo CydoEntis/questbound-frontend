@@ -5,13 +5,8 @@ import { useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Route } from "../../routes/_authenticated";
 import { useForm, zodResolver } from "@mantine/form";
-import { z } from "zod";
-
-export const dateFilterSchema = z.object({
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-});
-export type DateFilter = z.infer<typeof dateFilterSchema>;
+import { DateFilter } from "../../shared/types";
+import { dateFilterSchema } from "../../shared/schemas";
 
 function DateRangePicker() {
   const [value, setValue] = useState<[Date | null, Date | null] | undefined>(
@@ -19,7 +14,7 @@ function DateRangePicker() {
   );
 
   const useSearchParams = useSearch({
-    from: "/_authenticated/parties/",
+    from: "/_authenticated/parties/", // TODO:  Update to dynamic path
   });
 
   const navigate = useNavigate({ from: Route.fullPath });
@@ -38,13 +33,9 @@ function DateRangePicker() {
     if (updatedValue) {
       const [startDate, endDate] = updatedValue;
 
-      if (startDate) {
-        startDate.setHours(0, 0, 0, 0);
-      }
+      if (startDate) startDate.setHours(0, 0, 0, 0);
 
-      if (endDate) {
-        endDate.setHours(23, 59, 59, 999);
-      }
+      if (endDate) endDate.setHours(23, 59, 59, 999);
 
       setValue([startDate, endDate]);
       form.setFieldValue("startDate", startDate ? startDate.toISOString() : "");
