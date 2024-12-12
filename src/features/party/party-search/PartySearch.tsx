@@ -49,10 +49,10 @@ function PartySearch({}: Props) {
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
-        search: "",
+        search: undefined,
       }),
     });
-    handleSearch({ search: "" });
+    handleSearch({ search: undefined });
   };
 
   return (
@@ -75,7 +75,7 @@ function PartySearch({}: Props) {
               )
             }
             {...form.getInputProps("search")}
-            placeholder="Search by title"
+            placeholder="Search by party name"
           />
         </Stack>
         <Button variant="light" color="violet" type="submit">

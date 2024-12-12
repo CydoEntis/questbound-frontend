@@ -20,8 +20,8 @@ type SearchBarProps = {
 function SearchBar({ form, onSearch, resetCallback, onClear}: SearchBarProps) {
 	
 	const handleSearch = (values: { search: string }) => {
-		const search = values.search.trim();
-		onSearch(search);
+		const searchTerm = values.search.trim();
+		onSearch(searchTerm);
 	};
 
 	const resetSearch = () => {
