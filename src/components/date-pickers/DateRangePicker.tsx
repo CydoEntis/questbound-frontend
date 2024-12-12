@@ -7,6 +7,8 @@ import { Route } from "../../routes/_authenticated";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 
+import styles from "./date-range-picker.module.css";
+
 // Schema to validate the date filter
 export const dateFilterSchema = z.object({
   startDate: z.string().optional(),
@@ -65,10 +67,9 @@ function DateRangePicker() {
     }
   };
 
-  // Reset date range
   const reset = () => {
-    setValue(undefined); // Reset date picker state
-    form.reset(); // Reset form fields
+    setValue(undefined); 
+    form.reset(); 
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
@@ -89,27 +90,25 @@ function DateRangePicker() {
           type="range"
           placeholder="Select date range"
           value={value}
-          classNames={{ 
-            input: "input",
-           }}
           onChange={handleFilterDates}
+          classNames={{
+            input: "input",
+            day: "custom-date-picker-day",
+          }}
           rightSection={
             value?.[0] || value?.[1] ? (
-              <ActionIcon
-                variant="light"
-                color="violet"
-                onClick={reset}
-              >
-                <X size={18}/>
+              <ActionIcon variant="light" color="violet" onClick={reset}>
+                <X size={18} />
               </ActionIcon>
             ) : null
           }
         />
+
         <Button
           color="violet"
           type="submit"
           variant="light"
-          leftSection={<CalendarRange size={20}/>}
+          leftSection={<CalendarRange size={20} />}
         >
           Filter
         </Button>
