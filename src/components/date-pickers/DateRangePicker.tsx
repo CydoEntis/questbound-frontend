@@ -93,16 +93,14 @@ function DateRangePicker() {
             input: "input",
            }}
           onChange={handleFilterDates}
-          style={{ flex: 1 }}
           rightSection={
             value?.[0] || value?.[1] ? (
               <ActionIcon
-                size="lg"
                 variant="light"
                 color="violet"
                 onClick={reset}
               >
-                <X />
+                <X size={18}/>
               </ActionIcon>
             ) : null
           }
