@@ -28,11 +28,11 @@ function SortMenu({}: Props) {
     });
   };
 
-  const selectedSortBy = search.sortBy || "name";
+  const selectedSortBy = search.sortBy || "created-at";
 
   useEffect(() => {
     if (!search.sortBy) {
-      updateFilters("sortBy", "name");
+      updateFilters("sortBy", "created-at");
     }
   }, [search.sortBy]);
 
