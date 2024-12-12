@@ -9,12 +9,18 @@ import {
   Skeleton,
   Stack,
   Text,
+  Title,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
 import { useGetParties, useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
 import { UserCog2 } from "lucide-react";
+import NewQuestButton from "./components/quest-comps/new-quest-button/NewQuestButton";
+import PartySearch from "./components/party-comps/party-search/PartySearch";
+import SortMenu from "../../components/sort/SortMenu";
+import DateRangePicker from "../../components/date-pickers/DateRangePicker";
+import OrderToggle from "../../components/order/OrderToggle";
 
 type Props = {};
 
@@ -51,15 +57,27 @@ function PartyPage({}: Props) {
 
   return (
     <>
-      <PageHeader title={party.name}>
-        <Text>{party.description}</Text>
+      <PageHeader>
+        <Flex w="100%" justify="space-between">
+          <Stack gap={4}>
+            <Title size="2.5rem">{party.name}</Title>
+            <Text>{party.description}</Text>
+          </Stack>
+          <NewQuestButton />
+        </Flex>
         <Flex py={16}>
           <Group align="end" gap={8}>
             <Stack gap={4}>
               <Text>Party Members</Text>
               <AvatarList partyMembers={party.partyMembers} />
             </Stack>
-            <Button leftSection={<UserCog2 size={20} />} color="violet" variant="light">Manage</Button>
+            <Button
+              leftSection={<UserCog2 size={20} />}
+              color="violet"
+              variant="light"
+            >
+              Manage
+            </Button>
           </Group>
         </Flex>
         <Flex align="end" justify="space-between">
