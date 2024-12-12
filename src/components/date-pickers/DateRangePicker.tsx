@@ -68,8 +68,8 @@ function DateRangePicker() {
   };
 
   const reset = () => {
-    setValue(undefined); 
-    form.reset(); 
+    setValue([null, null]); // Reset local state
+    form.reset(); // Reset form fields
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,
