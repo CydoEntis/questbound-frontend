@@ -7,9 +7,6 @@ import { Route } from "../../routes/_authenticated";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 
-import styles from "./date-range-picker.module.css";
-
-// Schema to validate the date filter
 export const dateFilterSchema = z.object({
   startDate: z.string().optional(),
   endDate: z.string().optional(),
@@ -17,20 +14,16 @@ export const dateFilterSchema = z.object({
 export type DateFilter = z.infer<typeof dateFilterSchema>;
 
 function DateRangePicker() {
-  // State for the selected date range
   const [value, setValue] = useState<[Date | null, Date | null] | undefined>(
     undefined
   );
 
-  // Access URL search parameters
   const useSearchParams = useSearch({
     from: "/_authenticated/parties/",
   });
 
-  // Navigation function
   const navigate = useNavigate({ from: Route.fullPath });
 
-  // Form management
   const form = useForm<DateFilter>({
     validate: zodResolver(dateFilterSchema),
     initialValues: {
@@ -39,17 +32,26 @@ function DateRangePicker() {
     },
   });
 
-  // Handle date selection changes
   const handleFilterDates = (
     updatedValue: [Date | null, Date | null] | undefined
   ) => {
-    setValue(updatedValue); // Update state with selected dates
-    const [startDate, endDate] = updatedValue || [null, null];
-    form.setFieldValue("startDate", startDate ? startDate.toISOString() : "");
-    form.setFieldValue("endDate", endDate ? endDate.toISOString() : "");
+    if (updatedValue) {
+      const [startDate, endDate] = updatedValue;
+
+      if (startDate) {
+        startDate.setHours(0, 0, 0, 0);
+      }
+
+      if (endDate) {
+        endDate.setHours(23, 59, 59, 999);
+      }
+
+      setValue([startDate, endDate]);
+      form.setFieldValue("startDate", startDate ? startDate.toISOString() : "");
+      form.setFieldValue("endDate", endDate ? endDate.toISOString() : "");
+    }
   };
 
-  // Handle form submission
   const handleSubmit = (dates: DateFilter) => {
     const result = dateFilterSchema.safeParse(dates);
 
