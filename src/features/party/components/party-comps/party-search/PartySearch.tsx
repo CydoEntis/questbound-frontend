@@ -1,8 +1,8 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Route } from "../../../routes/_authenticated/parties/index";
+import { Route } from "../../../../../routes/_authenticated/parties/index";
 import { useForm, zodResolver } from "@mantine/form";
-import { SearchTerm } from "../shared/party.types";
-import { searchSchema } from "../shared/party.schemas";
+import { SearchTerm } from "../../../shared/party.types";
+import { searchSchema } from "../../../shared/party.schemas";
 import {
   ActionIcon,
   Group,

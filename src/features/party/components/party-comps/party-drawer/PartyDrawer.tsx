@@ -1,6 +1,6 @@
 import { Box, Drawer, Title } from "@mantine/core";
 
-import { Party } from "../shared/party.types";
+import { Party } from "../../../shared/party.types";
 import UpsertPartyForm from "../party-form/UpsertPartyForm";
 
 type PartyDrawerProps = {

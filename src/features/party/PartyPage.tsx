@@ -1,34 +1,39 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   Box,
+  Button,
   Flex,
   Group,
   Pagination,
   SimpleGrid,
   Skeleton,
+  Stack,
+  Text,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { useDisclosure } from "@mantine/hooks";
-import { useGetParties } from "../../features/party/api/party";
-import PartyFilter from "../../features/party/components/party-comps/party-filter/PartyFilter";
-import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
-import { Route } from "../../routes/_authenticated/parties/";
-import PartySearch from "../../features/party/components/party-comps/party-search/PartySearch";
-import SortMenu from "../../components/sort/SortMenu";
-import OrderToggle from "../../components/order/OrderToggle";
-import DateRangePicker from "../../components/date-pickers/DateRangePicker";
+import { useGetParties, useGetPartyDetails } from "./api/party";
+import { Route } from "../../routes/_authenticated/parties/$partyId";
+import AvatarList from "../avatar/components/avatar-list/AvatarList";
+import { UserCog2 } from "lucide-react";
 
 type Props = {};
 
-function PartiesPage({}: Props) {
-  const searchParams = useSearch({ from: "/_authenticated/parties/" });
+function PartyPage({}: Props) {
+  const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
   const navigate = useNavigate({ from: Route.fullPath });
+  const { partyId } = Route.useParams();
+
+  console.log(partyId);
+
+  const {
+    data: party,
+    isPending,
+    isError,
+  } = useGetPartyDetails(Number(partyId), { enabled: true });
+
+  console.log(party);
 
   const currentPage = Number(searchParams.pageNumber) || 1;
-
-  const queryParams = { ...searchParams, page: currentPage };
-
-  const { data: parties, isPending, isError } = useGetParties(queryParams);
 
   const handlePageChange = (page: number) => {
     navigate({
@@ -41,18 +46,28 @@ function PartiesPage({}: Props) {
     });
   };
 
-
+  if (isPending && !party) return <div>Loading...</div>;
+  if (isError) return <div>Something broken...</div>;
 
   return (
     <>
-
-      <PageHeader title="Joined Parties">
+      <PageHeader title={party.name}>
+        <Text>{party.description}</Text>
+        <Flex py={16}>
+          <Group align="end" gap={8}>
+            <Stack gap={4}>
+              <Text>Party Members</Text>
+              <AvatarList partyMembers={party.partyMembers} />
+            </Stack>
+            <Button leftSection={<UserCog2 size={20} />} color="violet" variant="light">Manage</Button>
+          </Group>
+        </Flex>
         <Flex align="end" justify="space-between">
           <Group align="end">
-            <PartySearch />
+            {/* <PartySearch />
             <SortMenu />
             <DateRangePicker />
-            <OrderToggle />
+            <OrderToggle /> */}
           </Group>
         </Flex>
       </PageHeader>
@@ -75,13 +90,12 @@ function PartiesPage({}: Props) {
           </SimpleGrid>
         )}
 
-        {!isPending && isError && (
+        {/* {!isPending && isError && (
           <p>Error loading parties. Please try again later.</p>
-        )}
-
+        )} */}
+        {/* 
         {!isPending && parties && (
           <>
-            <PartyGrid parties={parties.items} />
             {parties.totalPages > 1 && (
               <Pagination
                 pt={32}
@@ -92,10 +106,10 @@ function PartiesPage({}: Props) {
               />
             )}
           </>
-        )}
+        )} */}
       </Box>
     </>
   );
 }
 
-export default PartiesPage;
+export default PartyPage;

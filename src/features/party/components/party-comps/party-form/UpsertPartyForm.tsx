@@ -13,12 +13,12 @@ import { DateInput } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useMatch, useNavigate, useSearch } from "@tanstack/react-router"; // Use useSearch for query params
-import { PartyData } from "../shared/party.types";
-import { partySchema } from "../shared/party.schemas";
-import { useCreateParty, useGetPartyDetails } from "../api/party";
+import { PartyData } from "../../../shared/party.types";
+import { partySchema } from "../../../shared/party.schemas";
+import { useCreateParty, useGetPartyDetails } from "../../../api/party";
 import { AxiosError } from "axios";
-import { Errors, CamelCasedErrors } from "../../../shared/types";
-import { transformErrorsToCamelCase } from "../../../shared/utils/password.utils";
+import { Errors, CamelCasedErrors } from "../../../../../shared/types";
+import { transformErrorsToCamelCase } from "../../../../../shared/utils/password.utils";
 
 type UpsertPartyProps = {
   onClose: () => void;

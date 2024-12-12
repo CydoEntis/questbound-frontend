@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "../../../../features/account/shared/account.types";
 import accountService from "../../../../features/account/api/account.service";
 import { useGetUser } from "../../../../features/account/api/account";
-import PartyDrawer from "../../../../features/party/party-drawer/PartyDrawer";
+import PartyDrawer from "../../../../features/party/components/party-comps/party-drawer/PartyDrawer";
 
 type SidebarProps = {
   onClose: () => void;

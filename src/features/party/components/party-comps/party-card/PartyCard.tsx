@@ -9,10 +9,10 @@ import {
   Avatar,
 } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
-import { Party } from "../shared/party.types";
-import AvatarDisplay from "../../avatar/components/avatar-display/AvatarDisplay";
-import { MEMBER_ROLES } from "../../../shared/utils/constants";
-import AvatarList from "../../avatar/components/avatar-list/AvatarList";
+import { Party } from "../../../shared/party.types";
+import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
+import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
+import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
 
 type PartyCardProps = { party: Party };
 
@@ -29,13 +29,11 @@ function PartyCard({ party }: PartyCardProps) {
     (member) => member.role === MEMBER_ROLES.CREATOR
   );
 
-  // Get the remaining party members excluding the first 4
-  const remainingMembers = party.partyMembers.slice(4);
 
   return (
     <Card
       component={Link}
-      to={`/parties/${party.id}/quests`}
+      to={`/parties/${party.id}`}
       key={party.id}
       className="transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
       shadow="sm"

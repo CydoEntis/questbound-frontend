@@ -20,7 +20,7 @@ import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
 import { Route as AuthenticatedPartiesIndexImport } from './routes/_authenticated/parties/index'
-import { Route as AuthenticatedPartiesIdImport } from './routes/_authenticated/parties/$id'
+import { Route as AuthenticatedPartiesPartyIdImport } from './routes/_authenticated/parties/$partyId'
 
 // Create/Update Routes
 
@@ -76,11 +76,12 @@ const AuthenticatedPartiesIndexRoute = AuthenticatedPartiesIndexImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const AuthenticatedPartiesIdRoute = AuthenticatedPartiesIdImport.update({
-  id: '/parties/$id',
-  path: '/parties/$id',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
+const AuthenticatedPartiesPartyIdRoute =
+  AuthenticatedPartiesPartyIdImport.update({
+    id: '/parties/$partyId',
+    path: '/parties/$partyId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -142,11 +143,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/parties/$id': {
-      id: '/_authenticated/parties/$id'
-      path: '/parties/$id'
-      fullPath: '/parties/$id'
-      preLoaderRoute: typeof AuthenticatedPartiesIdImport
+    '/_authenticated/parties/$partyId': {
+      id: '/_authenticated/parties/$partyId'
+      path: '/parties/$partyId'
+      fullPath: '/parties/$partyId'
+      preLoaderRoute: typeof AuthenticatedPartiesPartyIdImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/parties/': {
@@ -180,14 +181,14 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedPartiesIdRoute: typeof AuthenticatedPartiesIdRoute
+  AuthenticatedPartiesPartyIdRoute: typeof AuthenticatedPartiesPartyIdRoute
   AuthenticatedPartiesIndexRoute: typeof AuthenticatedPartiesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedPartiesIdRoute: AuthenticatedPartiesIdRoute,
+  AuthenticatedPartiesPartyIdRoute: AuthenticatedPartiesPartyIdRoute,
   AuthenticatedPartiesIndexRoute: AuthenticatedPartiesIndexRoute,
 }
 
@@ -203,7 +204,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/': typeof AuthenticatedIndexRoute
-  '/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
 }
 
@@ -215,7 +216,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/': typeof AuthenticatedIndexRoute
-  '/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
 }
 
@@ -229,7 +230,7 @@ export interface FileRoutesById {
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/parties/$id': typeof AuthenticatedPartiesIdRoute
+  '/_authenticated/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/_authenticated/parties/': typeof AuthenticatedPartiesIndexRoute
 }
 
@@ -243,7 +244,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/'
-    | '/parties/$id'
+    | '/parties/$partyId'
     | '/parties'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -254,7 +255,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/'
-    | '/parties/$id'
+    | '/parties/$partyId'
     | '/parties'
   id:
     | '__root__'
@@ -266,7 +267,7 @@ export interface FileRouteTypes {
     | '/_auth/reset-password'
     | '/_authenticated/dashboard'
     | '/_authenticated/'
-    | '/_authenticated/parties/$id'
+    | '/_authenticated/parties/$partyId'
     | '/_authenticated/parties/'
   fileRoutesById: FileRoutesById
 }
@@ -309,7 +310,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/dashboard",
         "/_authenticated/",
-        "/_authenticated/parties/$id",
+        "/_authenticated/parties/$partyId",
         "/_authenticated/parties/"
       ]
     },
@@ -337,8 +338,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
-    "/_authenticated/parties/$id": {
-      "filePath": "_authenticated/parties/$id.tsx",
+    "/_authenticated/parties/$partyId": {
+      "filePath": "_authenticated/parties/$partyId.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/parties/": {

@@ -2,13 +2,14 @@ import { Box, Flex, Group, Title } from "@mantine/core";
 import { ReactElement, ReactNode } from "react";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import { MEMBER_ROLES } from "../../shared/utils/constants";
+import { MemberRole } from "../../shared/types";
 
 type PageHeaderProps = {
   title: string;
   optionsComp?: ReactElement;
   actionBtn?: ReactElement;
   children?: ReactNode;
-  userRole?: string;
+  userRole?: MemberRole;
 };
 
 function PageHeader({
