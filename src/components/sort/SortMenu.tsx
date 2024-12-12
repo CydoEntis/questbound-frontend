@@ -2,6 +2,7 @@ import { Button, Checkbox, Menu, Stack } from "@mantine/core";
 import { ArrowDownUp } from "lucide-react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Route } from "../../routes/_authenticated/parties";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -29,9 +30,11 @@ function SortMenu({}: Props) {
 
   const selectedSortBy = search.sortBy || "name";
 
-  if (!search.sortBy) {
-    updateFilters("sortBy", "name");
-  }
+  useEffect(() => {
+    if (!search.sortBy) {
+      updateFilters("sortBy", "name");
+    }
+  }, [search.sortBy]);
 
   return (
     <Menu shadow="md" width={200}>

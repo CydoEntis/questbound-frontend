@@ -17,7 +17,6 @@ import PartySearch from "../../features/party/party-search/PartySearch";
 import SortMenu from "../../components/sort/SortMenu";
 import OrderToggle from "../../components/order/OrderToggle";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
-import PartyDrawer from "../../features/party/party-drawer/PartyDrawer";
 
 type Props = {};
 
