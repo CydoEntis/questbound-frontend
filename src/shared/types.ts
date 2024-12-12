@@ -18,6 +18,7 @@ export type QueryParams = {
   pageNumber: number;  
   startDate?: string;
   endDate?: string;
+  partyId?: string;
 };
 
 

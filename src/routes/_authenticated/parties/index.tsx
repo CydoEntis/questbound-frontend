@@ -14,6 +14,7 @@ export const Route = createFileRoute("/_authenticated/parties/")({
       pageNumber: params.pageNumber as number,
       startDate: params.startDate as string | undefined,
       endDate: params.endDate as string | undefined,
+      partyId: params.partyId as string | undefined,
     };
   },
 

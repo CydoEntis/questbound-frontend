@@ -25,12 +25,14 @@ type SidebarNavAuthProps = {
   user: User;
   closeNav: () => void;
   onOpenAvatarShop: () => void;
+  onOpenCreateParty: () => void;
 };
 
 function SidebarNavAuth({
   user,
   closeNav,
   onOpenAvatarShop,
+  onOpenCreateParty,
 }: SidebarNavAuthProps) {
   const navigate = useNavigate();
   const { data: recentParties, isLoading, isError } = useGetRecentParties();
@@ -51,7 +53,7 @@ function SidebarNavAuth({
   };
 
   const handleOpenNewParty = () => {
-    // onOpenNewParty();
+    onOpenCreateParty();
     handleClose();
   };
 

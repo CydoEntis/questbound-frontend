@@ -1,17 +1,11 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
-  ActionIcon,
   Box,
-  Text,
   Flex,
   Group,
   Pagination,
   SimpleGrid,
   Skeleton,
-  Menu,
-  Button,
-  Stack,
-  Checkbox,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
 import { useDisclosure } from "@mantine/hooks";
@@ -19,12 +13,11 @@ import { useGetParties } from "../../features/party/api/party";
 import PartyFilter from "../../features/party/party-filter/PartyFilter";
 import PartyGrid from "../../features/party/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
-import { Filter, Settings2 } from "lucide-react";
-import SearchBar from "../../components/search/SearchBar";
 import PartySearch from "../../features/party/party-search/PartySearch";
 import SortMenu from "../../components/sort/SortMenu";
 import OrderToggle from "../../components/order/OrderToggle";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
+import PartyDrawer from "../../features/party/party-drawer/PartyDrawer";
 
 type Props = {};
 
@@ -38,11 +31,6 @@ function PartiesPage({}: Props) {
 
   const { data: parties, isPending, isError } = useGetParties(queryParams);
 
-  const [isFilterOpened, { open: openFilters, close: closeFilters }] =
-    useDisclosure(false);
-
-
-
   const handlePageChange = (page: number) => {
     navigate({
       search: (prevSearch) => {
@@ -54,12 +42,11 @@ function PartiesPage({}: Props) {
     });
   };
 
+
+
   return (
     <>
-      <PartyFilter
-        filterOpened={isFilterOpened}
-        handleCloseFilterModal={closeFilters}
-      />
+
       <PageHeader title="Joined Parties">
         <Flex align="end" justify="space-between">
           <Group align="end">

@@ -5,9 +5,9 @@ import { QueryParams } from "../../../../shared/types";
 import {
   PaginatedParties,
   Party,
-  CreateParty,
   UpdateParty,
   NewPartyCreator,
+  PartyData,
 } from "../../shared/party.types";
 
 const getAllParties = async (
@@ -43,7 +43,7 @@ const getPartyById = async (partyId: number): Promise<Party> => {
   return response.result;
 };
 
-const createParty = async (party: CreateParty): Promise<Party> => {
+const createParty = async (party: PartyData): Promise<Party> => {
   const response = (await apiClient.post(`${endpoints.parties}`, party))
     .data;
   if (!response.isSuccess) throw new Error();

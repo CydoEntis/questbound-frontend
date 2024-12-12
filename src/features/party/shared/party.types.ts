@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { PartyMember } from "../../party-member/shared/party-members.types";
-import { searchSchema } from "./party.schemas";
+import { partySchema, searchSchema } from "./party.schemas";
 
 export type SearchTerm = z.infer<typeof searchSchema>;
+export type PartyData = z.infer<typeof partySchema>;
 
 export type Party = {
   id: number;
@@ -29,10 +30,9 @@ export type PaginatedParties = {
   pageRange: number[];
 };
 
-export type CreateParty = {
+export type NewParty = {
   title: string;
   description: string;
-  dueDate: Date;
 };
 
 export type UpdateParty = {

@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "../../../../features/account/shared/account.types";
 import accountService from "../../../../features/account/api/account.service";
 import { useGetUser } from "../../../../features/account/api/account";
+import PartyDrawer from "../../../../features/party/party-drawer/PartyDrawer";
 
 type SidebarProps = {
   onClose: () => void;
@@ -17,6 +18,11 @@ function Sidebar({ onClose }: SidebarProps) {
   const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
     useDisclosure(false);
 
+  const [
+    createPartyOpened,
+    { open: openCreateParty, close: closeCreateParty },
+  ] = useDisclosure(false);
+
   // Handle missing user data
   if (!user) {
     return <p>Loading...</p>;
@@ -24,6 +30,11 @@ function Sidebar({ onClose }: SidebarProps) {
 
   return (
     <>
+      <PartyDrawer
+        isOpened={createPartyOpened}
+        onClose={closeCreateParty}
+        drawerMode={"create"}
+      />
       <AvatarShop
         avatarShopOpen={avatarShopOpen}
         closeAvatarShop={closeAvatarShop}
@@ -33,6 +44,7 @@ function Sidebar({ onClose }: SidebarProps) {
         user={user} // Ensure this matches SidebarNavAuth's props
         closeNav={onClose}
         onOpenAvatarShop={openAvatarShop}
+        onOpenCreateParty={openCreateParty}
       />
     </>
   );

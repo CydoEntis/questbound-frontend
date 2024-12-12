@@ -6,17 +6,20 @@ import { QueryParams } from "../../../shared/types";
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
-
   return useQuery({
     queryKey: ["parties", "list", memoizedQueryParams],
     queryFn: () => partiesService.getAllParties(queryParams),
   });
 };
 
-export const useGetPartyDetails = (id: number) => {
+export const useGetPartyDetails = (
+  id: number,
+  { enabled }: { enabled: boolean }
+) => {
   return useQuery({
     queryKey: ["parties", "detail", id],
     queryFn: () => partiesService.getPartyById(id),
+    enabled, // Conditional fetching based on the 'enabled' flag
   });
 };
 
