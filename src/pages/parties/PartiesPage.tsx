@@ -6,11 +6,10 @@ import {
   Pagination,
   SimpleGrid,
   Skeleton,
+  Title,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { useDisclosure } from "@mantine/hooks";
 import { useGetParties } from "../../features/party/api/party";
-import PartyFilter from "../../features/party/components/party-comps/party-filter/PartyFilter";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
 import PartySearch from "../../features/party/components/party-comps/party-search/PartySearch";
@@ -18,9 +17,7 @@ import SortMenu from "../../components/sort/SortMenu";
 import OrderToggle from "../../components/order/OrderToggle";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 
-type Props = {};
-
-function PartiesPage({}: Props) {
+function PartiesPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
   const navigate = useNavigate({ from: Route.fullPath });
 
@@ -41,12 +38,10 @@ function PartiesPage({}: Props) {
     });
   };
 
-
-
   return (
     <>
-
-      <PageHeader title="Joined Parties">
+      <PageHeader>
+        <Title>Your Joined Parties</Title>
         <Flex align="end" justify="space-between">
           <Group align="end">
             <PartySearch />
