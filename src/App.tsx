@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import useAuthStore from "./stores/useAuthStore";
 import '@mantine/dates/styles.css';
 import useUserStore from "./stores/useUserStore";
+import '@mantine/tiptap/styles.css';
 
 const queryClient = new QueryClient();
 

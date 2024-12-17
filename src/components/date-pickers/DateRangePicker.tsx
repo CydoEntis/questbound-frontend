@@ -86,7 +86,6 @@ function DateRangePicker() {
           onChange={handleFilterDates}
           classNames={{
             input: "input",
-            day: "custom-date-picker-day",
           }}
           rightSection={
             value?.[0] || value?.[1] ? (

@@ -21,12 +21,14 @@ import PartySearch from "./components/party-comps/party-search/PartySearch";
 import SortMenu from "../../components/sort/SortMenu";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 import OrderToggle from "../../components/order/OrderToggle";
+import QuestDrawer from "./components/quest-comps/quest-drawer/QuestDrawer";
+import { useDisclosure } from "@mantine/hooks";
 
 type Props = {};
 
 function PartyPage({}: Props) {
-  const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
-  const navigate = useNavigate({ from: Route.fullPath });
+  // const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
+  // const navigate = useNavigate({ from: Route.fullPath });
   const { partyId } = Route.useParams();
 
   console.log(partyId);
@@ -39,31 +41,38 @@ function PartyPage({}: Props) {
 
   console.log(party);
 
-  const currentPage = Number(searchParams.pageNumber) || 1;
+  // const currentPage = Number(searchParams.pageNumber) || 1;
 
-  const handlePageChange = (page: number) => {
-    navigate({
-      search: (prevSearch) => {
-        return {
-          ...prevSearch,
-          pageNumber: page || 1,
-        };
-      },
-    });
-  };
+  // const handlePageChange = (page: number) => {
+  //   navigate({
+  //     search: (prevSearch) => {
+  //       return {
+  //         ...prevSearch,
+  //         pageNumber: page || 1,
+  //       };
+  //     },
+  //   });
+  // };
+
+  const [opened, { open, close }] = useDisclosure(false);
 
   if (isPending && !party) return <div>Loading...</div>;
   if (isError) return <div>Something broken...</div>;
 
   return (
     <>
+      <QuestDrawer
+        partyMembers={party.partyMembers}
+        isOpened={opened}
+        onClose={close}
+      />
       <PageHeader>
         <Flex w="100%" justify="space-between">
           <Stack gap={4}>
             <Title size="2.5rem">{party.name}</Title>
             <Text>{party.description}</Text>
           </Stack>
-          <NewQuestButton />
+          <NewQuestButton onOpen={open} />
         </Flex>
         <Flex py={16}>
           <Group align="end" gap={8}>

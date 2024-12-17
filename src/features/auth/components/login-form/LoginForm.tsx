@@ -38,9 +38,7 @@ function LoginForm({}: Props) {
         const validationErrors = error.response.data;
 
         form.setErrors(validationErrors);
-      } else {
       }
-
       if (error instanceof AxiosError && error.response?.data?.errors) {
         const errors: Errors = error.response.data.errors;
         const transformedErrors: CamelCasedErrors =

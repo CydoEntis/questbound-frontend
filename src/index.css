@@ -2,11 +2,13 @@
   border: 1px solid #6741d9 !important; /* Focus color (violet) */
 }
 
-.mantine-DatePickerInput-day[data-weekend] {
-  color: #8c69f5;
+.mantine-DatePickerInput-day[data-weekend],
+.mantine-DateInput-day[data-weekend]  {
+  color: #8c69f5 !important;
 }
 
-.mantine-DatePickerInput-day[data-selected] {
+.mantine-DatePickerInput-day[data-selected], 
+.mantine-DateInput-day[data-selected] {
   background-color: #6741d9;
   color: white;
 }
