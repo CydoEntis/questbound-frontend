@@ -45,7 +45,8 @@ apiClient.interceptors.response.use(
         console.log("Tokens refreshed successfully.");
 
         return apiClient(originalRequest); 
-      } catch (refreshError) {
+      } catch (error) {
+        console.log(error);
         console.log("Token refresh failed, logging out.");
         useAuthStore.getState().logoutUser(); 
         localStorageService.removeItem("questbound");

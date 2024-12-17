@@ -6,6 +6,7 @@ const endpoints = {
 	avatars: "/avatars",
 	parties: "/parties",
 	partyMembers: "/party-members",
+	quests: "/quests",
 	steps: "/steps",
 };
 

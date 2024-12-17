@@ -16,6 +16,7 @@ import { PartyMember } from "../../../../party-member/shared/party-members.types
 import { Trash2 } from "lucide-react";
 import { DateInput } from "@mantine/dates";
 import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
+import { useCreateQuest } from "../../../api/quest";
 
 export type QuestDrawerType = "create" | "edit" | "view";
 
@@ -27,8 +28,8 @@ type QuestDrawerProps = {
 
 function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
   const [dueDate, setDueDate] = useState<Date | null>(new Date());
-  const [priority, setPriority] = useState(1);
   const { partyId } = Route.useParams();
+  const createQuest = useCreateQuest();
 
   const form = useForm<NewQuest>({
     validate: zodResolver(newQuestSchema),
@@ -41,6 +42,10 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
       partyMembers: [],
       dueDate: new Date(),
     },
+    transformValues: (values) => ({
+      ...values,
+      priorityLevel: Number(values.priorityLevel),
+    }),
   });
 
   useEffect(() => {
@@ -57,7 +62,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
 
   async function onSubmit(newQuest: NewQuest) {
     try {
-      console.log(newQuest);
+      await createQuest.mutateAsync(newQuest);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +75,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
 
   function updateStep(index: number, value: string) {
     const steps = [...form.values.steps];
-    steps[index] = value; 
+    steps[index] = value;
     form.setFieldValue("steps", steps);
   }
 
@@ -120,8 +125,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
           </Button>
 
           <NativeSelect
-            value={priority}
-            onChange={(event) => setPriority(Number(event.currentTarget.value))}
+            {...form.getInputProps("priorityLevel")}
             data={[
               { value: "1", label: "Low" },
               { value: "2", label: "Medium" },

@@ -10,7 +10,7 @@ export const newQuestSchema = z.object({
     .string()
     .min(5, "Description must be more than 5 characters")
     .max(120, "Description cannot exceed 120 characters"),
-  priorityLevel: z.number().min(1).max(4),
+  priorityLevel: z.preprocess((val) => Number(val), z.number().min(1).max(4)),
   steps: z.array(z.string()).default([]),
   partyMembers: z.array(z.string()).default([]),
   dueDate: z.date(),
