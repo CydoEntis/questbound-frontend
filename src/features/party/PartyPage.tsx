@@ -23,6 +23,7 @@ import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 import OrderToggle from "../../components/order/OrderToggle";
 import QuestDrawer from "./components/quest-comps/quest-drawer/QuestDrawer";
 import { useDisclosure } from "@mantine/hooks";
+import { useGetPartyQuests } from "./api/quest";
 
 type Props = {};
 
@@ -38,6 +39,12 @@ function PartyPage({}: Props) {
     isPending,
     isError,
   } = useGetPartyDetails(Number(partyId), { enabled: true });
+
+  const {
+    data: quests,
+    isPending: isQuestsPending,
+    isError: isQuestsError,
+  } = useGetPartyQuests(Number(partyId));
 
   console.log(party);
 
@@ -116,24 +123,28 @@ function PartyPage({}: Props) {
             ))}
           </SimpleGrid>
         )}
-
-        {/* {!isPending && isError && (
-          <p>Error loading parties. Please try again later.</p>
-        )} */}
-        {/* 
-        {!isPending && parties && (
-          <>
-            {parties.totalPages > 1 && (
-              <Pagination
-                pt={32}
-                total={parties.totalPages} // Total number of pages
-                value={currentPage} // Current page
-                onChange={handlePageChange} // Page change handler
-                color="violet"
-              />
-            )}
-          </>
-        )} */}
+        {!isPending && quests && quests.length > 0 && (
+          <SimpleGrid
+            type="container"
+            cols={{
+              base: 1,
+              "550px": 1,
+              "725px": 2,
+              "1000px": 3,
+              "1700px": 4,
+              "2000px": 6,
+            }}
+          >
+            {quests.map((quest) => (
+              <Box key={quest.id}>
+                <Title>{quest.title}</Title>
+              </Box>
+            ))}
+          </SimpleGrid>
+        )}
+        {!isPending && quests && quests.length === 0 && (
+          <Text>No quests available for this party.</Text>
+        )}
       </Box>
     </>
   );
