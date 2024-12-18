@@ -7,6 +7,9 @@ import {
   Button,
   ActionIcon,
   NativeSelect,
+  Group,
+  Text,
+  MultiSelectProps,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useState, useEffect } from "react";
@@ -17,6 +20,8 @@ import { Trash2 } from "lucide-react";
 import { DateInput } from "@mantine/dates";
 import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
 import { useCreateQuest } from "../../../api/quest";
+import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
+import { UserAvatar } from "../../../../avatar/shared/avatar.types";
 
 export type QuestDrawerType = "create" | "edit" | "view";
 
@@ -55,10 +60,33 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
   }, [dueDate]);
 
   const memberData = partyMembers.map((member) => ({
-    value: member.username,
-    label: member.username,
-    avatar: member.avatar,
+    value: member.username, 
+    label: member.username, 
+    avatar: member.avatar, 
   }));
+  
+
+  const memberRecord = partyMembers.reduce(
+    (acc, member) => {
+      acc[member.username] = {
+        username: member.username,
+        avatar: member.avatar,
+      };
+      return acc;
+    },
+    {} as Record<string, { username: string; avatar: UserAvatar }>
+  );
+
+  const renderMultiSelectOption: MultiSelectProps["renderOption"] = ({
+    option,
+  }) => (
+    <Group gap="sm">
+      <AvatarDisplay avatar={memberRecord[option.value].avatar} />
+      <div>
+        <Text size="sm">{option.label}</Text>
+      </div>
+    </Group>
+  );
 
   async function onSubmit(newQuest: NewQuest) {
     try {
@@ -140,6 +168,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
             placeholder="Select Party Member"
             data={memberData}
             {...form.getInputProps("members")}
+            renderOption={renderMultiSelectOption}
           />
 
           <DateInput

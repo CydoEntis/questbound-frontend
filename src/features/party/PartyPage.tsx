@@ -30,6 +30,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
 import { formatDate } from "../../shared/utils/date.utils";
 import { getPercentage } from "../../shared/utils/account.utils";
+import PriorityBadge from "./components/quest-comps/priority-badge/PriorityBadge";
 
 type Props = {};
 
@@ -148,7 +149,7 @@ function PartyPage({}: Props) {
                     <Text size="1.75rem" fw={700} truncate="end">
                       {quest.name}
                     </Text>
-                    <Badge>{quest.priorityLevel}</Badge>
+                    <PriorityBadge priorityLevel={quest.priorityLevel} />
                   </Flex>
                   <Text truncate="end" lineClamp={4} size="md" c="dimmed">
                     {quest.description}
@@ -157,7 +158,7 @@ function PartyPage({}: Props) {
                     <Badge
                       leftSection={<Calendar size={14} />}
                       variant="outline"
-                      color="violet"
+                      color="red"
                       size="md"
                     >
                       {formatDate(quest.dueDate)}
@@ -191,10 +192,8 @@ function PartyPage({}: Props) {
                   <Flex justify="space-between">
                     <AvatarList partyMembers={quest.partyMembers} />
                     <Group gap={2}>
-                      <MessageCircle size={20}/>
-                      <Text size="md">
-                        3
-                      </Text>
+                      <MessageCircle size={20} />
+                      <Text size="md">3</Text>
                     </Group>
                   </Flex>
                 </Stack>
