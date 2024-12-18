@@ -13,7 +13,6 @@ import { useGetParties } from "../../features/party/api/party";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
 import PartySearch from "../../features/party/components/party-comps/party-search/PartySearch";
-import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 import PartySortMenu from "../../features/party/components/party-comps/party-sort/PartySortMenu";
 import PartyOrderToggle from "../../features/party/components/party-comps/party-order/PartyOrderToggle";
 import PartyDateRangePicker from "../../features/party/components/party-comps/date-range-picker/PartyDateRangePicker";

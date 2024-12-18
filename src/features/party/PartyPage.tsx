@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Group,
+  Pagination,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -27,10 +28,11 @@ import QuestSearch from "./components/quest-comps/quest-search/QuestSearch";
 import QuestSortMenu from "./components/quest-comps/quest-sort/QuestSortMenu";
 import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderToggle";
 import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 function PartyPage() {
-  // const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
-  // const navigate = useNavigate({ from: Route.fullPath });
+  const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
+  const navigate = useNavigate({ from: Route.fullPath });
   const { partyId } = Route.useParams();
 
   console.log(partyId);
@@ -49,18 +51,18 @@ function PartyPage() {
 
   console.log(party);
 
-  // const currentPage = Number(searchParams.pageNumber) || 1;
+  const currentPage = Number(searchParams.pageNumber) || 1;
 
-  // const handlePageChange = (page: number) => {
-  //   navigate({
-  //     search: (prevSearch) => {
-  //       return {
-  //         ...prevSearch,
-  //         pageNumber: page || 1,
-  //       };
-  //     },
-  //   });
-  // };
+  const handlePageChange = (page: number) => {
+    navigate({
+      search: (prevSearch) => {
+        return {
+          ...prevSearch,
+          pageNumber: page || 1,
+        };
+      },
+    });
+  };
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -125,10 +127,18 @@ function PartyPage() {
           </SimpleGrid>
         )}
         {!isPending && quests && quests.length > 0 && (
-          <QuestGrid quests={quests} />
-        )}
-        {!isPending && quests && quests.length === 0 && (
-          <Text>No quests available for this party.</Text>
+          <>
+            <QuestGrid quests={quests} />
+            {quests.totalPages > 1 && (
+              <Pagination
+                pt={32}
+                total={quests.totalPages} // Total number of pages
+                value={currentPage} // Current page
+                onChange={handlePageChange} // Page change handler
+                color="violet"
+              />
+            )}
+          </>
         )}
       </Box>
     </>
