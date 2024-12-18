@@ -1,6 +1,6 @@
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
-import { NewQuest } from "../../shared/quest.types";
+import { NewQuest, Quest } from "../../shared/quest.types";
 
 const createQuest = async (newQuest: NewQuest): Promise<void> => {
   const response = (await apiClient.post(`${endpoints.quests}`, newQuest)).data;
@@ -9,4 +9,11 @@ const createQuest = async (newQuest: NewQuest): Promise<void> => {
   return response.result;
 };
 
-export default { createQuest };
+const getPartyQuests = async (partyId: number): Promise<Quest[]> => {
+  const response = (await apiClient.get(`${endpoints.parties}/${partyId}/quests`))
+    .data;
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
+export default { createQuest, getPartyQuests };

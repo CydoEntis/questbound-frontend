@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NewQuest } from "../shared/quest.types";
 import questService from "./services/quest.service";
 import { notifications } from "@mantine/notifications";
@@ -31,3 +31,10 @@ export function useCreateQuest() {
     },
   });
 }
+
+export const useGetPartyQuests = (partyId: number) => {
+  return useQuery({
+    queryKey: ["quests", "list"],
+    queryFn: () => questService.getPartyQuests(partyId),
+  });
+};
