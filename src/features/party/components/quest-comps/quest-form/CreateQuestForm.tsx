@@ -16,6 +16,7 @@ import { NewQuest } from "../../../shared/quest.types";
 import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
 import DueDatePicker from "../due-date-picker/DueDatePicker";
 import { useState } from "react";
+import PriorityLevelSelect from "../priorty-level-select/PriortiyLevelSelect";
 
 type CreateQuestFormProps = {
   partyMembers: PartyMember[];
@@ -78,44 +79,9 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
           {...form.getInputProps("description")}
         />
 
-        {(form.values.steps || []).map((step, index) => (
-          <TextInput
-            key={index}
-            value={step}
-            onChange={(e) => updateStep(index, e.target.value)}
-            label={`Step ${index + 1}`}
-            placeholder={`Describe step ${index + 1}`}
-            rightSection={
-              <ActionIcon
-                variant="light"
-                color="red"
-                onClick={() => {
-                  const steps = (form.values.steps || []).filter(
-                    (_, i) => i !== index
-                  );
-                  form.setFieldValue("steps", steps);
-                }}
-              >
-                <Trash2 size={18} />
-              </ActionIcon>
-            }
-          />
-        ))}
 
-        <Button variant="light" color="violet" w={100} onClick={addStep}>
-          Add Step
-        </Button>
 
-        <NativeSelect
-          {...form.getInputProps("priorityLevel")}
-          data={[
-            { value: "1", label: "Low" },
-            { value: "2", label: "Medium" },
-            { value: "3", label: "High" },
-            { value: "4", label: "Critical" },
-          ]}
-          label="Priority Level"
-        />
+        <PriorityLevelSelect form={form} />
 
         <PartyMemberSelect
           partyMembers={partyMembers}
