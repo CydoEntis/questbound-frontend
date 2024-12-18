@@ -1,7 +1,6 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import AuthWrapper from "../features/auth/components/auth-wrapper/AuthWrapper";
 import localStorageService from "../api/services/localStorage.service";
-import accountService from "../features/account/api/account.service";
 
 // Define the _auth route
 export const Route = createFileRoute("/_auth")({

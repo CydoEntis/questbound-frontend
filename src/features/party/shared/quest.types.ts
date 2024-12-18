@@ -1,14 +1,15 @@
 import { z } from "zod";
 import { newQuestSchema } from "./quest.schemas";
+import { PartyMember } from "../../party-member/shared/party-members.types";
 
 export type NewQuest = z.infer<typeof newQuestSchema>;
 
 export type Quest = {
   id: number;
-  title: string;
+  name: string;
   description: string;
   priorityLevel: number;
-  partyMembers: string[];
+  partyMembers: PartyMember[];
   totalPartyMembers: number;
   totalSteps: number;
   completedSteps: number;
@@ -17,7 +18,7 @@ export type Quest = {
   updatedAt: Date;
   isCompleted: boolean;
   completedBy: string | null;
-  //   dueDate: Date;
+  dueDate: Date;
   expReward: number;
   goldReward: number;
 };

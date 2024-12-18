@@ -35,7 +35,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
     validate: zodResolver(newQuestSchema),
     initialValues: {
       partyId: partyId ? Number(partyId) : 0,
-      title: "",
+      name: "",
       description: "",
       priorityLevel: 1,
       steps: [],
@@ -86,7 +86,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
           <TextInput
             label="Quest Name"
             placeholder="The Name of your Quest"
-            {...form.getInputProps("title")}
+            {...form.getInputProps("name")}
           />
           <Textarea
             label="Quest Description"

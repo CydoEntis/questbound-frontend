@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import accountService from "../features/account/api/account.service";
 import localStorageService from "../api/services/localStorage.service";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -13,15 +12,6 @@ export const Route = createFileRoute("/_authenticated")({
 
     context.authState.loginUser();
 
-    try {
-      await context.queryClient.prefetchQuery({
-        queryKey: ["user"],
-        queryFn: accountService.getUserDetails,
-      });
-    } catch (error) {
-      console.error("Error prefetching user details:", error);
-      throw redirect({ to: "/login" });
-    }
   },
   component: AuthenticatedRoutes,
 });
