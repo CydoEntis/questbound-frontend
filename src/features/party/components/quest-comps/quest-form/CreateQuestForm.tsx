@@ -50,11 +50,17 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Stack gap={8}>
         <TextInput
+          classNames={{
+            input: "input",
+          }}
           label="Quest Name"
           placeholder="The Name of your Quest"
           {...form.getInputProps("name")}
         />
         <Textarea
+          classNames={{
+            input: "input",
+          }}
           label="Quest Description"
           placeholder="Describe your quest"
           minRows={6}

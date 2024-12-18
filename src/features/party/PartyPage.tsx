@@ -31,6 +31,8 @@ import { useGetPartyQuests } from "./api/quest";
 import { formatDate } from "../../shared/utils/date.utils";
 import { getPercentage } from "../../shared/utils/account.utils";
 import PriorityBadge from "./components/quest-comps/priority-badge/PriorityBadge";
+import QuestGrid from "./components/quest-comps/quest-grid/QuestGrid";
+import CreateQuestModal from "./components/quest-comps/create-quest-modal/CreateQuestModal";
 
 type Props = {};
 
@@ -75,7 +77,7 @@ function PartyPage({}: Props) {
 
   return (
     <>
-      <QuestDrawer
+      <CreateQuestModal
         partyMembers={party.partyMembers}
         isOpened={opened}
         onClose={close}
@@ -131,21 +133,7 @@ function PartyPage({}: Props) {
           </SimpleGrid>
         )}
         {!isPending && quests && quests.length > 0 && (
-          <SimpleGrid
-            type="container"
-            cols={{
-              base: 1,
-              "550px": 1,
-              "725px": 2,
-              "1000px": 3,
-              "1700px": 4,
-              "2000px": 6,
-            }}
-          >
-            {quests.map((quest) => (
-
-            ))}
-          </SimpleGrid>
+          <QuestGrid quests={quests} />
         )}
         {!isPending && quests && quests.length === 0 && (
           <Text>No quests available for this party.</Text>

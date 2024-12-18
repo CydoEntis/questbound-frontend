@@ -1,4 +1,4 @@
-import { Modal, Title } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 
 import CreateQuestForm from "../quest-form/CreateQuestForm";
@@ -19,7 +19,7 @@ function CreateQuestModal({
       size="lg"
       opened={isOpened}
       onClose={onClose}
-      title={<Title>Create New Quest</Title>}
+      title="Create New Quest"
     >
       <CreateQuestForm partyMembers={partyMembers} />
     </Modal>

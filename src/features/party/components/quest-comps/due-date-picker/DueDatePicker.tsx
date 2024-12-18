@@ -15,6 +15,9 @@ function DueDatePicker({ dueDate, setDueDate }: DueDatePickerProps) {
 
   return (
     <DateInput
+      classNames={{
+        input: "input",
+      }}
       value={dueDate}
       onChange={(value) => setDueDate(value)}
       label="Due Date"

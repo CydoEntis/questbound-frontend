@@ -9,6 +9,9 @@ type Props = {
 function PriorityLevelSelect({ form }: Props) {
   return (
     <NativeSelect
+      classNames={{
+        input: "input",
+      }}
       {...form.getInputProps("priorityLevel")}
       data={[
         { value: "1", label: "Low" },

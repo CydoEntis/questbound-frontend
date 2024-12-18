@@ -23,6 +23,9 @@ function AddQuestStep({ form }: AddQuestStepProps) {
     <>
       {(form.values.steps || []).map((step: string, index: number) => (
         <TextInput
+          classNames={{
+            input: "input",
+          }}
           key={index}
           value={step}
           onChange={(e) => updateStep(index, e.target.value)}

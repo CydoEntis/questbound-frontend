@@ -42,6 +42,9 @@ function PartyMemberSelect({
 
   return (
     <MultiSelect
+      classNames={{
+        input: "input",
+      }}
       label="Assign Party Members"
       placeholder="Select Party Member"
       data={memberData}
