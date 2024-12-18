@@ -1,12 +1,11 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Route } from "../../routes/_authenticated/parties";
+import { useNavigate } from "@tanstack/react-router";
+import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
 
-function OrderToggle() {
+function QuestOrderToggle() {
   const navigate = useNavigate({ from: Route.fullPath });
-
 
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
@@ -38,4 +37,4 @@ function OrderToggle() {
   );
 }
 
-export default OrderToggle;
+export default QuestOrderToggle;

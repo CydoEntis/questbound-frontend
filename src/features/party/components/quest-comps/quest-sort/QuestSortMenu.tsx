@@ -1,12 +1,10 @@
 import { Button, Checkbox, Menu, Stack } from "@mantine/core";
 import { ArrowDownUp } from "lucide-react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Route } from "../../routes/_authenticated/parties";
+import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
 import { useEffect } from "react";
 
-type Props = {};
-
-function SortMenu({}: Props) {
+function QuestSortMenu() {
   const sortOptions = [
     { label: "Name", value: "name" },
     { label: "Created At", value: "created-at" },
@@ -16,7 +14,7 @@ function SortMenu({}: Props) {
   const navigate = useNavigate({ from: Route.fullPath });
 
   const search = useSearch({
-    from: "/_authenticated/parties/",
+    from: "/_authenticated/parties/$partyId",
   });
 
   const updateFilters = (key: string, value: string) => {
@@ -68,4 +66,4 @@ function SortMenu({}: Props) {
   );
 }
 
-export default SortMenu;
+export default QuestSortMenu;

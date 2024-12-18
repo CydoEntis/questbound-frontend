@@ -22,3 +22,5 @@ export const Route = createFileRoute("/_authenticated/parties/")({
     return await partiesService.getAllParties();
   },
 });
+
+

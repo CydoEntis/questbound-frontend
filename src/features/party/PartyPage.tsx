@@ -1,42 +1,34 @@
-import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   Box,
   Button,
-  Card,
   Flex,
   Group,
-  Pagination,
-  Paper,
   SimpleGrid,
   Skeleton,
   Stack,
   Text,
   Title,
-  Badge,
-  Progress,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { useGetParties, useGetPartyDetails } from "./api/party";
+import { useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
-import { Calendar, ListCheck, MessageCircle, UserCog2 } from "lucide-react";
+import { UserCog2 } from "lucide-react";
 import NewQuestButton from "./components/quest-comps/new-quest-button/NewQuestButton";
-import PartySearch from "./components/party-comps/party-search/PartySearch";
-import SortMenu from "../../components/sort/SortMenu";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
-import OrderToggle from "../../components/order/OrderToggle";
-import QuestDrawer from "./components/quest-comps/create-quest-modal/CreateQuestModal";
+
 import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
-import { formatDate } from "../../shared/utils/date.utils";
-import { getPercentage } from "../../shared/utils/account.utils";
-import PriorityBadge from "./components/quest-comps/priority-badge/PriorityBadge";
+
 import QuestGrid from "./components/quest-comps/quest-grid/QuestGrid";
 import CreateQuestModal from "./components/quest-comps/create-quest-modal/CreateQuestModal";
 
-type Props = {};
+import QuestSearch from "./components/quest-comps/quest-search/QuestSearch";
+import QuestSortMenu from "./components/quest-comps/quest-sort/QuestSortMenu";
+import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderToggle";
+import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
 
-function PartyPage({}: Props) {
+function PartyPage() {
   // const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
   // const navigate = useNavigate({ from: Route.fullPath });
   const { partyId } = Route.useParams();
@@ -107,10 +99,10 @@ function PartyPage({}: Props) {
         </Flex>
         <Flex align="end" justify="space-between">
           <Group align="end">
-            {/* <PartySearch />
-            <SortMenu />
-            <DateRangePicker />
-            <OrderToggle /> */}
+            <QuestSearch />
+            <QuestSortMenu />
+            <QuestDateRangePicker />
+            <QuestOrderToggle />
           </Group>
         </Flex>
       </PageHeader>

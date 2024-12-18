@@ -13,9 +13,10 @@ import { useGetParties } from "../../features/party/api/party";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
 import PartySearch from "../../features/party/components/party-comps/party-search/PartySearch";
-import SortMenu from "../../components/sort/SortMenu";
-import OrderToggle from "../../components/order/OrderToggle";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
+import PartySortMenu from "../../features/party/components/party-comps/party-sort/PartySortMenu";
+import PartyOrderToggle from "../../features/party/components/party-comps/party-order/PartyOrderToggle";
+import PartyDateRangePicker from "../../features/party/components/party-comps/date-range-picker/PartyDateRangePicker";
 
 function PartiesPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
@@ -45,9 +46,9 @@ function PartiesPage() {
         <Flex align="end" justify="space-between">
           <Group align="end">
             <PartySearch />
-            <SortMenu />
-            <DateRangePicker />
-            <OrderToggle />
+            <PartySortMenu />
+            <PartyDateRangePicker />
+            <PartyOrderToggle />
           </Group>
         </Flex>
       </PageHeader>
