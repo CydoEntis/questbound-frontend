@@ -1,21 +1,22 @@
 import { DateInput } from "@mantine/dates";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-type Props = {};
+type DueDatePickerProps = {
+  dueDate: Date | null;
+  setDueDate: (date: Date | null) => void; // Allow null
+};
 
-function DueDatePicker({}: Props) {
-  const [dueDate, setDueDate] = useState<Date | null>(new Date());
-
+function DueDatePicker({ dueDate, setDueDate }: DueDatePickerProps) {
   useEffect(() => {
     if (dueDate && dueDate < new Date()) {
       setDueDate(new Date());
     }
-  }, [dueDate]);
+  }, [dueDate, setDueDate]);
 
   return (
     <DateInput
       value={dueDate}
-      onChange={setDueDate}
+      onChange={(value) => setDueDate(value)}
       label="Due Date"
       minDate={new Date()}
       placeholder="Select due date"

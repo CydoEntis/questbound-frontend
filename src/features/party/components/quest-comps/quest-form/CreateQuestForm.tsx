@@ -1,20 +1,30 @@
 import {
   ActionIcon,
   Button,
-  MultiSelect,
   NativeSelect,
   Stack,
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
 import { Trash2 } from "lucide-react";
-import React from "react";
+import PartyMemberSelect from "../party-member-select/PartyMemberSelect";
+import { useCreateQuest } from "../../../api/quest";
+import { useForm } from "@mantine/form";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { newQuestSchema } from "../../../shared/quest.schemas";
+import { NewQuest } from "../../../shared/quest.types";
+import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
+import DueDatePicker from "../due-date-picker/DueDatePicker";
+import { useState } from "react";
 
-type Props = {};
+type CreateQuestFormProps = {
+  partyMembers: PartyMember[];
+};
 
-function CreateQuestForm({}: Props) {
+function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
+  const { partyId } = Route.useParams();
   const createQuest = useCreateQuest();
+  const [dueDate, setDueDate] = useState<Date | null>(new Date());
 
   const form = useForm<NewQuest>({
     validate: zodResolver(newQuestSchema),
@@ -32,10 +42,6 @@ function CreateQuestForm({}: Props) {
       priorityLevel: Number(values.priorityLevel),
     }),
   });
-
-
-
-
 
   async function onSubmit(newQuest: NewQuest) {
     try {
@@ -111,9 +117,12 @@ function CreateQuestForm({}: Props) {
           label="Priority Level"
         />
 
- 
+        <PartyMemberSelect
+          partyMembers={partyMembers}
+          multiSelectProps={form.getInputProps("members")}
+        />
 
-
+        <DueDatePicker dueDate={dueDate} setDueDate={setDueDate} />
 
         <Button variant="light" color="violet" w={200} type="submit">
           Create Quest

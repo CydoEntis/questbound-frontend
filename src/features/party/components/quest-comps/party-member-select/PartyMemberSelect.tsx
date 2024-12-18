@@ -5,9 +5,13 @@ import { UserAvatar } from "../../../../avatar/shared/avatar.types";
 
 type PartyMemberSelectProps = {
   partyMembers: PartyMember[];
+  multiSelectProps: MultiSelectProps;
 };
 
-function PartyMemberSelect({ partyMembers }: PartyMemberSelectProps) {
+function PartyMemberSelect({
+  partyMembers,
+  multiSelectProps,
+}: PartyMemberSelectProps) {
   const memberData = partyMembers.map((member) => ({
     value: member.username,
     label: member.username,
@@ -41,7 +45,7 @@ function PartyMemberSelect({ partyMembers }: PartyMemberSelectProps) {
       label="Assign Party Members"
       placeholder="Select Party Member"
       data={memberData}
-      {...form.getInputProps("members")}
+      {...multiSelectProps}
       renderOption={renderMultiSelectOption}
     />
   );
