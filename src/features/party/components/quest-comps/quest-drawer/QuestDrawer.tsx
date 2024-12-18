@@ -32,7 +32,6 @@ type QuestDrawerProps = {
 };
 
 function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
-  const [dueDate, setDueDate] = useState<Date | null>(new Date());
   const { partyId } = Route.useParams();
   const createQuest = useCreateQuest();
 
@@ -109,81 +108,7 @@ function QuestDrawer({ isOpened, onClose, partyMembers }: QuestDrawerProps) {
 
   return (
     <Modal size="lg" opened={isOpened} onClose={onClose}>
-      <form onSubmit={form.onSubmit(onSubmit)}>
-        <Stack gap={8}>
-          <TextInput
-            label="Quest Name"
-            placeholder="The Name of your Quest"
-            {...form.getInputProps("name")}
-          />
-          <Textarea
-            label="Quest Description"
-            placeholder="Describe your quest"
-            minRows={6}
-            autosize
-            {...form.getInputProps("description")}
-          />
 
-          {(form.values.steps || []).map((step, index) => (
-            <TextInput
-              key={index}
-              value={step}
-              onChange={(e) => updateStep(index, e.target.value)}
-              label={`Step ${index + 1}`}
-              placeholder={`Describe step ${index + 1}`}
-              rightSection={
-                <ActionIcon
-                  variant="light"
-                  color="red"
-                  onClick={() => {
-                    const steps = (form.values.steps || []).filter(
-                      (_, i) => i !== index
-                    );
-                    form.setFieldValue("steps", steps);
-                  }}
-                >
-                  <Trash2 size={18} />
-                </ActionIcon>
-              }
-            />
-          ))}
-
-          <Button variant="light" color="violet" w={100} onClick={addStep}>
-            Add Step
-          </Button>
-
-          <NativeSelect
-            {...form.getInputProps("priorityLevel")}
-            data={[
-              { value: "1", label: "Low" },
-              { value: "2", label: "Medium" },
-              { value: "3", label: "High" },
-              { value: "4", label: "Critical" },
-            ]}
-            label="Priority Level"
-          />
-
-          <MultiSelect
-            label="Assign Party Members"
-            placeholder="Select Party Member"
-            data={memberData}
-            {...form.getInputProps("members")}
-            renderOption={renderMultiSelectOption}
-          />
-
-          <DateInput
-            value={dueDate}
-            onChange={setDueDate}
-            label="Due Date"
-            minDate={new Date()} // Prevent selection of past dates
-            placeholder="Select due date"
-          />
-
-          <Button variant="light" color="violet" w={200} type="submit">
-            Create Quest
-          </Button>
-        </Stack>
-      </form>
     </Modal>
   );
 }
