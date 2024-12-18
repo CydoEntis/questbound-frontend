@@ -25,7 +25,7 @@ import PartySearch from "./components/party-comps/party-search/PartySearch";
 import SortMenu from "../../components/sort/SortMenu";
 import DateRangePicker from "../../components/date-pickers/DateRangePicker";
 import OrderToggle from "../../components/order/OrderToggle";
-import QuestDrawer from "./components/quest-comps/quest-drawer/QuestDrawer";
+import QuestDrawer from "./components/quest-comps/create-quest-modal/CreateQuestModal";
 import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
 import { formatDate } from "../../shared/utils/date.utils";

@@ -1,12 +1,4 @@
-import {
-  ActionIcon,
-  Button,
-  NativeSelect,
-  Stack,
-  Textarea,
-  TextInput,
-} from "@mantine/core";
-import { Trash2 } from "lucide-react";
+import { Button, Stack, Textarea, TextInput } from "@mantine/core";
 import PartyMemberSelect from "../party-member-select/PartyMemberSelect";
 import { useCreateQuest } from "../../../api/quest";
 import { useForm } from "@mantine/form";
@@ -17,6 +9,8 @@ import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
 import DueDatePicker from "../due-date-picker/DueDatePicker";
 import { useState } from "react";
 import PriorityLevelSelect from "../priorty-level-select/PriortiyLevelSelect";
+import AddQuestStep from "../add-quest-step/AddQuestStep";
+import { PartyMember } from "../../../../party-member/shared/party-members.types";
 
 type CreateQuestFormProps = {
   partyMembers: PartyMember[];
@@ -52,17 +46,6 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
     }
   }
 
-  function addStep() {
-    const steps = [...form.values.steps, ""];
-    form.setFieldValue("steps", steps);
-  }
-
-  function updateStep(index: number, value: string) {
-    const steps = [...form.values.steps];
-    steps[index] = value;
-    form.setFieldValue("steps", steps);
-  }
-
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Stack gap={8}>
@@ -79,7 +62,7 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
           {...form.getInputProps("description")}
         />
 
-
+        <AddQuestStep form={form} />
 
         <PriorityLevelSelect form={form} />
 
