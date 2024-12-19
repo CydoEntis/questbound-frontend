@@ -15,12 +15,11 @@ export type QueryParams = {
   orderBy?: string;
   sortBy?: string;
   dateFilter?: string;
-  pageNumber: number;  
+  pageNumber: number;
   startDate?: string;
   endDate?: string;
   partyId?: string;
 };
-
 
 export type MemberRole = (typeof MEMBER_ROLES)[keyof typeof MEMBER_ROLES];
 export type DateFilter = z.infer<typeof dateFilterSchema>;

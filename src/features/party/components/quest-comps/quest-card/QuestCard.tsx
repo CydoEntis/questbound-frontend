@@ -8,11 +8,19 @@ import { Quest } from "../../../shared/quest.types";
 
 type QuestCardProps = {
   quest: Quest;
+  onClick: () => void;
 };
 
-function QuestCard({ quest }: QuestCardProps) {
+function QuestCard({ quest, onClick }: QuestCardProps) {
   return (
-    <Card bg={"card"} shadow="sm" padding="lg" radius="md" withBorder>
+    <Card
+      bg={"card"}
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      onClick={onClick}
+    >
       <Stack gap={16}>
         <Flex justify="space-between">
           <PriorityBadge priorityLevel={quest.priorityLevel} />

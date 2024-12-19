@@ -18,19 +18,6 @@ function PageHeader({ children }: PageHeaderProps) {
         borderBottom: isLightMode ? "1px solid #DCDEE0" : "1px solid #3A3A3A",
       }}
     >
-      {/* <Flex justify="space-between" align="center" w="100%" pb={16}>
-        <Group align="center" w="100%" justify="space-between">
-          <Group>
-            <Title size="2.5rem">{title}</Title>
-            {(userRole === MEMBER_ROLES.CREATOR ||
-              userRole === MEMBER_ROLES.MAINTAINER) &&
-              optionsComp}
-          </Group>
-          {(userRole === MEMBER_ROLES.CREATOR ||
-            userRole === MEMBER_ROLES.MAINTAINER) &&
-            actionBtn && <Box>{actionBtn}</Box>}
-        </Group>
-      </Flex> */}
       {children}
     </Box>
   );
