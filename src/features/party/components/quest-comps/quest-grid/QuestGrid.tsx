@@ -8,56 +8,37 @@ import {
   Group,
   Flex,
 } from "@mantine/core";
-import { Quest } from "../../../shared/quest.types";
+import { Quest, QuestDetail } from "../../../shared/quest.types";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import PriorityBadge from "../priority-badge/PriorityBadge";
 import { Clock } from "lucide-react";
 import { formatDate } from "../../../../../shared/utils/date.utils";
+import QuestDetails from "../quest-details/QuestDetails";
 
 type QuestGridProps = {
   quests: Quest[];
 };
 
 function QuestGrid({ quests }: QuestGridProps) {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
+  const [
+    isQuestDetailOpened,
+    { open: openQuest, close: closeQuestDetailHandler },
+  ] = useDisclosure(false);
+  const [selectedQuest, setSelectedQuest] = useState<number>(0);
 
-  const questOpenHandler = (quest: Quest) => {
-    setSelectedQuest(quest);
-    open();
-  };
-
-  const questCloseHandler = () => {
-    setSelectedQuest(null);
-    close();
+  const questOpenHandler = (questId: number) => {
+    setSelectedQuest(questId);
+    openQuest();
   };
 
   return (
     <>
-      <Modal
-        opened={opened} // Open modal if questId exists in the query
-        onClose={questCloseHandler}
-        title="Quest Details"
-      >
-        {selectedQuest ? (
-          <Stack>
-            <Flex justify="space-between">
-              <PriorityBadge priorityLevel={selectedQuest.priorityLevel} />
-              <Group gap={8}>
-                <Clock size={18} />
-                <Text size="xs">{formatDate(selectedQuest.dueDate)}</Text>
-              </Group>
-            </Flex>
-            <Title size="1.65rem">{selectedQuest.name}</Title>
-            <Text c="dimmed">{selectedQuest.description}</Text>
-            {selectedQuest.ste}
-          </Stack>
-        ) : (
-          "Loading..."
-        )}
-      </Modal>
-
+      <QuestDetails
+        isQuestDetailOpened={isQuestDetailOpened}
+        closeQuestDetailHandler={closeQuestDetailHandler}
+        questId={selectedQuest}
+      />
       <SimpleGrid
         type="container"
         cols={{
@@ -73,7 +54,7 @@ function QuestGrid({ quests }: QuestGridProps) {
           <QuestCard
             quest={quest}
             key={quest.id}
-            onClick={() => questOpenHandler(quest)}
+            onClick={() => questOpenHandler(quest.id)}
           />
         ))}
       </SimpleGrid>

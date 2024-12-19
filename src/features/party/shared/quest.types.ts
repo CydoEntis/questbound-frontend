@@ -78,4 +78,6 @@ export type QuestDetail = {
   questComments: QuestComment[];
   questFiles: QuestFile[];
   questSteps: QuestStep[];
+  partyMembers: PartyMember[];
+  totalPartyMembers: number;
 };

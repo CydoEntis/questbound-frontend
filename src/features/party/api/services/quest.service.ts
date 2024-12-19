@@ -1,7 +1,11 @@
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
-import { NewQuest, PaginatedQuests } from "../../shared/quest.types";
+import {
+  NewQuest,
+  PaginatedQuests,
+  QuestDetail,
+} from "../../shared/quest.types";
 
 const createQuest = async (newQuest: NewQuest): Promise<void> => {
   const response = (
@@ -32,4 +36,13 @@ const getPartyQuests = async (
   return response.result;
 };
 
-export default { createQuest, getPartyQuests };
+const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
+  const response = (
+    await apiClient.get(`${endpoints.parties}/quests/${questId}`)
+  ).data;
+
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
+export default { createQuest, getPartyQuests, getQuestDetails };

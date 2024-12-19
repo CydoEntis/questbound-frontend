@@ -8,13 +8,16 @@ type AvatarListProps = {
 };
 
 const AvatarList = ({ partyMembers, totalMembers }: AvatarListProps) => {
+  const displayedMembers = partyMembers.slice(0, 4);
+  const extraMembers = totalMembers - displayedMembers.length;
+
   return (
     <AvatarGroup>
-      {partyMembers.map((member, index) => (
+      {displayedMembers.map((member, index) => (
         <AvatarDisplay key={index} avatar={member.avatar} />
       ))}
 
-      <Avatar>+{totalMembers - 4}</Avatar>
+      {extraMembers > 0 && <Avatar>+{extraMembers}</Avatar>}
     </AvatarGroup>
   );
 };

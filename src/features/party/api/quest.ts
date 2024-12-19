@@ -34,12 +34,21 @@ export function useCreateQuest() {
   });
 }
 
-
-export const useGetPartyQuests = (partyId: number, queryParams: QueryParams) => {
+export const useGetPartyQuests = (
+  partyId: number,
+  queryParams: QueryParams
+) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
   return useQuery({
     queryKey: ["quests", "list", memoizedQueryParams],
     queryFn: () => questService.getPartyQuests(partyId, queryParams),
+  });
+};
+
+export const useGetQuestDetails = (questId: number) => {
+  return useQuery({
+    queryKey: ["quests", "detail", questId],
+    queryFn: () => questService.getQuestDetails(questId),
   });
 };
