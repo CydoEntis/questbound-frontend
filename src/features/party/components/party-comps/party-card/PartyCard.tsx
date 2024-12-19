@@ -1,13 +1,4 @@
-import {
-  Card,
-  Flex,
-  Group,
-  Stack,
-  Title,
-  Text,
-  Badge,
-  Avatar,
-} from "@mantine/core";
+import { Card, Flex, Group, Stack, Title, Text, Badge } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../../../shared/party.types";
 import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";

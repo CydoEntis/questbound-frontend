@@ -33,8 +33,10 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
   const navigate = useNavigate({ from: Route.fullPath });
-  const { partyId } = Route.useParams();
 
+  const { partyId } = Route.useParams();
+  const currentPage = Number(searchParams.pageNumber) || 1;
+  const queryParams = { ...searchParams, page: currentPage };
 
   const {
     data: party,
@@ -46,11 +48,7 @@ function PartyPage() {
     data: quests,
     isPending: isQuestsPending,
     isError: isQuestsError,
-  } = useGetPartyQuests(Number(partyId));
-
-  console.log(quests);
-
-  const currentPage = Number(searchParams.pageNumber) || 1;
+  } = useGetPartyQuests(Number(partyId), queryParams);
 
   const handlePageChange = (page: number) => {
     navigate({
@@ -89,7 +87,7 @@ function PartyPage() {
               <Text>Party Members</Text>
               <AvatarList
                 partyMembers={party.partyMembers}
-                totalMembers={party.totalMembers}
+                totalMembers={party.totalPartyMembers}
               />
             </Stack>
             <Button

@@ -34,15 +34,8 @@ export function useCreateQuest() {
   });
 }
 
-export const useGetPartyQuests = (partyId: number) => {
-  return useQuery({
-    queryKey: ["quests", "list"],
-    queryFn: () => questService.getPartyQuests(partyId),
-  });
-};
 
-
-export const useGetParties = (partyId: number, queryParams: QueryParams) => {
+export const useGetPartyQuests = (partyId: number, queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
 
   return useQuery({

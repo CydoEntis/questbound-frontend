@@ -1,5 +1,5 @@
-import { Card, Stack, Flex, Progress, Group, Badge, Text } from "@mantine/core";
-import { Calendar, Clock, ListCheck, MessageCircle } from "lucide-react";
+import { Card, Stack, Flex, Progress, Group, Text } from "@mantine/core";
+import { Clock, ListCheck, MessageCircle } from "lucide-react";
 import { getPercentage } from "../../../../../shared/utils/account.utils";
 import { formatDate } from "../../../../../shared/utils/date.utils";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
