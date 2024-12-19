@@ -22,3 +22,19 @@ export type Quest = {
   expReward: number;
   goldReward: number;
 };
+
+export type PaginatedQuests = {
+  items: Quest[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  pageRange: number[];
+};
+
+export type QuestStats = {
+  totalQuests: number;
+  completedQuests: number;
+  pastDueQuests: number;
+}

@@ -29,6 +29,7 @@ function PartyCard({ party }: PartyCardProps) {
     (member) => member.role === MEMBER_ROLES.CREATOR
   );
 
+  console.log(party);
 
   return (
     <Card
@@ -73,7 +74,10 @@ function PartyCard({ party }: PartyCardProps) {
       <Flex justify="space-between" align="center">
         <Stack gap={4} w="100%">
           <Flex justify="space-between" align="center" w="100%">
-            <AvatarList partyMembers={party.partyMembers} />
+            <AvatarList
+              partyMembers={party.partyMembers}
+              totalMembers={party.totalPartyMembers}
+            />
             <Text size="xs" c="gray">
               Last accessed: {formatDate(party.updatedAt)}
             </Text>

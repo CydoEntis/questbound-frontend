@@ -4,22 +4,17 @@ import AvatarDisplay from "../avatar-display/AvatarDisplay";
 
 type AvatarListProps = {
   partyMembers: PartyMember[];
+  totalMembers: number;
 };
 
-const AvatarList = ({ partyMembers }: AvatarListProps) => {
-  const visibleMembers = partyMembers.slice(0, 4);
-
-  const remainingMembers = partyMembers.slice(4);
-
+const AvatarList = ({ partyMembers, totalMembers }: AvatarListProps) => {
   return (
     <AvatarGroup>
-      {visibleMembers.map((member, index) => (
+      {partyMembers.map((member, index) => (
         <AvatarDisplay key={index} avatar={member.avatar} />
       ))}
 
-      {remainingMembers.length > 0 && (
-        <Avatar>+{remainingMembers.length}</Avatar>
-      )}
+      <Avatar>+{totalMembers - 4}</Avatar>
     </AvatarGroup>
   );
 };

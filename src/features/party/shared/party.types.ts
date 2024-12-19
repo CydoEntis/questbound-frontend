@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { PartyMember } from "../../party-member/shared/party-members.types";
 import { partySchema, searchSchema } from "./party.schemas";
+import { QuestStats } from "./quest.types";
 
 export type SearchTerm = z.infer<typeof searchSchema>;
 export type PartyData = z.infer<typeof partySchema>;
@@ -13,10 +14,11 @@ export type Party = {
   description: string;
   // color: Color;
   partyMembers: PartyMember[];
+  totalPartyMembers: number;
   createdAt: Date;
   updatedAt: Date;
   dueDate: Date;
-  // questStats: QuestStats;
+  questStats: QuestStats;
   currentUserRole: string;
 };
 

@@ -35,7 +35,6 @@ function PartyPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const { partyId } = Route.useParams();
 
-  console.log(partyId);
 
   const {
     data: party,
@@ -49,7 +48,7 @@ function PartyPage() {
     isError: isQuestsError,
   } = useGetPartyQuests(Number(partyId));
 
-  console.log(party);
+  console.log(quests);
 
   const currentPage = Number(searchParams.pageNumber) || 1;
 
@@ -88,7 +87,10 @@ function PartyPage() {
           <Group align="end" gap={8}>
             <Stack gap={4}>
               <Text>Party Members</Text>
-              <AvatarList partyMembers={party.partyMembers} />
+              <AvatarList
+                partyMembers={party.partyMembers}
+                totalMembers={party.totalMembers}
+              />
             </Stack>
             <Button
               leftSection={<UserCog2 size={20} />}
@@ -126,9 +128,9 @@ function PartyPage() {
             ))}
           </SimpleGrid>
         )}
-        {!isPending && quests && quests.length > 0 && (
+        {!isPending && quests && quests.items.length > 0 && (
           <>
-            <QuestGrid quests={quests} />
+            <QuestGrid quests={quests.items} />
             {quests.totalPages > 1 && (
               <Pagination
                 pt={32}
