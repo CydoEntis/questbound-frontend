@@ -14,6 +14,7 @@ import { PartyMember } from "../../../../party-member/shared/party-members.types
 
 type CreateQuestFormProps = {
   partyMembers: PartyMember[];
+  close: () => void;
 };
 
 function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
@@ -41,6 +42,9 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
   async function onSubmit(newQuest: NewQuest) {
     try {
       await createQuest.mutateAsync(newQuest);
+
+      form.reset();
+      close();
     } catch (error) {
       console.log(error);
     }
@@ -72,10 +76,7 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
 
         <PriorityLevelSelect form={form} />
 
-        <PartyMemberSelect
-          partyMembers={partyMembers}
-          multiSelectProps={form.getInputProps("members")}
-        />
+        <PartyMemberSelect partyMembers={partyMembers} form={form} />
 
         <DueDatePicker dueDate={dueDate} setDueDate={setDueDate} />
 
