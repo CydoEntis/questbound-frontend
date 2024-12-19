@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import PartiesPage from "../../../pages/parties/PartiesPage";
-import partiesService from "../../../features/party/api/services/party.service";
 import { QueryParams } from "../../../shared/types";
 
 export const Route = createFileRoute("/_authenticated/parties/")({
@@ -18,9 +17,6 @@ export const Route = createFileRoute("/_authenticated/parties/")({
     };
   },
 
-  loader: async () => {
-    return await partiesService.getAllParties();
-  },
 });
 
 

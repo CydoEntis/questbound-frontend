@@ -80,9 +80,9 @@ function PartiesPage() {
             {parties.totalPages > 1 && (
               <Pagination
                 pt={32}
-                total={parties.totalPages} // Total number of pages
-                value={currentPage} // Current page
-                onChange={handlePageChange} // Page change handler
+                total={parties.totalPages}
+                value={currentPage}
+                onChange={handlePageChange}
                 color="violet"
               />
             )}

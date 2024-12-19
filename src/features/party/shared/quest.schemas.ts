@@ -12,6 +12,11 @@ export const newQuestSchema = z.object({
     .max(120, "Description cannot exceed 120 characters"),
   priorityLevel: z.preprocess((val) => Number(val), z.number().min(1).max(4)),
   steps: z.array(z.string()).default([]),
-  partyMembers: z.array(z.string()).default([]),
+  partyMembers: z
+    .array(z.string())
+    .default([])
+    .refine((members) => members.length > 0, {
+      message: "At least one party member must be assigned to the quest.",
+    }),
   dueDate: z.date(),
 });
