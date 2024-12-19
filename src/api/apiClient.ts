@@ -13,15 +13,15 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (request) => {
-    const { isAuthenticated } = useAuthStore.getState();
+    // const { isAuthenticated } = useAuthStore.getState();
 
-    if (isAuthenticated) {
-      const csrfToken = Cookies.get("QB-CSRF-TOKEN");
+    // if (isAuthenticated) {
+    //   const csrfToken = Cookies.get("QB-CSRF-TOKEN");
 
-      if (csrfToken) {
-        request.headers["QB-CSRF-TOKEN"] = csrfToken;
-      }
-    }
+    //   if (csrfToken) {
+    //     request.headers["QB-CSRF-TOKEN"] = csrfToken;
+    //   }
+    // }
 
     return request;
   },

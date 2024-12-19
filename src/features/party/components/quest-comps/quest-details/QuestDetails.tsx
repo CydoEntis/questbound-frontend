@@ -12,7 +12,11 @@ import {
 import { Clock } from "lucide-react";
 import { formatDate } from "../../../../../shared/utils/date.utils";
 import PriorityBadge from "../priority-badge/PriorityBadge";
-import { useGetQuestDetails } from "../../../api/quest";
+import {
+  useCompleteQuest,
+  useGetQuestDetails,
+  useUpdateStepStatus,
+} from "../../../api/quest";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
 
 type QuestDetailProps = {
@@ -27,8 +31,21 @@ function QuestDetails({
   questId,
 }: QuestDetailProps) {
   const { data: questDetails } = useGetQuestDetails(questId);
-
+  const completeQuest = useCompleteQuest();
+  const updateQuestStep = useUpdateStepStatus();
   const questCloseHandler = () => {
+    closeQuestDetailHandler();
+  };
+
+  const handleCheckboxChange = (questStepId: number, isChecked: boolean) => {
+    updateQuestStep.mutateAsync({
+      questStepId: questStepId,
+      isCompleted: isChecked,
+    });
+  };
+
+  const compelteQuestHandler = async () => {
+    await completeQuest.mutateAsync(questId);
     closeQuestDetailHandler();
   };
 
@@ -54,12 +71,18 @@ function QuestDetails({
           </Stack>
           <Stack gap={8}>
             <Title order={4}>Quest Steps</Title>
-            {questDetails.questSteps.map((step, index) => (
+            {questDetails.questSteps.map((step) => (
               <Checkbox
-                key={index}
+                key={step.id}
                 checked={step.isCompleted}
                 label={step.description}
                 color="violet"
+                readOnly={questDetails.isCompleted}
+                onChange={(e) => {
+                  if (!questDetails.isCompleted) {
+                    handleCheckboxChange(step.id, e.currentTarget.checked);
+                  }
+                }}
               />
             ))}
           </Stack>
@@ -82,7 +105,15 @@ function QuestDetails({
             </Group>
           </Stack>
           <Group justify="end">
-            <Button variant="light" color="violet">Complete Quest</Button>
+            {!questDetails.isCompleted && (
+              <Button
+                variant="light"
+                color="violet"
+                onClick={compelteQuestHandler}
+              >
+                Complete Quest
+              </Button>
+            )}
           </Group>
         </Stack>
       ) : (

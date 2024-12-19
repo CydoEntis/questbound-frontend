@@ -58,12 +58,13 @@ export type QuestFile = {
 };
 
 export type QuestStep = {
-  questId: number;
+  id: number;
   description: string;
   isCompleted: boolean;
 };
 
 export type QuestDetail = {
+  id: number;
   name: string;
   description: string;
   priorityLevel: number;
@@ -80,4 +81,9 @@ export type QuestDetail = {
   questSteps: QuestStep[];
   partyMembers: PartyMember[];
   totalPartyMembers: number;
+};
+
+export type QuestStepUpdate = {
+  questStepId: number
+  isCompleted: boolean;
 };

@@ -13,19 +13,13 @@ export const useGetUser = () => {
 };
 
 export function useUpdateUserDetails() {
-  // const { updateUserDetails } = useAuthStore();
-
   return useMutation({
     mutationFn: async (
       request: UpdateUserRequest
     ): Promise<UpdateUserResponse> => {
       return await accountService.updateUserDetails(request);
     },
-    onSuccess: (data) => {
-      // updateUserDetails(data);
-
-      // localStorageService.updateItem("questbound", data);
-
+    onSuccess: () => {
       notifications.show({
         title: "Update Success",
         message: "User details updated.",
