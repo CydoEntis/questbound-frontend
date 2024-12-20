@@ -18,21 +18,21 @@ import {
 } from "../../../api/quest";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
 import QuestDetailsMenu from "./QuestDetailsMenu";
+import { QuestDetail } from "../../../shared/quest.types";
 
 type QuestDetailProps = {
   closeQuestDetailHandler: () => void;
-  questId: number;
+  questDetails: QuestDetail;
   editQuestHandler: () => void;
   deleteQuestHandler: () => void;
 };
 
 function QuestDetails({
   closeQuestDetailHandler,
-  questId,
+  questDetails,
   editQuestHandler,
   deleteQuestHandler,
 }: QuestDetailProps) {
-  const { data: questDetails } = useGetQuestDetails(questId);
   const completeQuest = useCompleteQuest();
   const updateQuestStep = useUpdateStepStatus();
 
@@ -44,7 +44,7 @@ function QuestDetails({
   };
 
   const compelteQuestHandler = async () => {
-    await completeQuest.mutateAsync(questId);
+    await completeQuest.mutateAsync(questDetails.id);
     closeQuestDetailHandler();
   };
 

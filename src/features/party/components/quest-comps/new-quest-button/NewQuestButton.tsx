@@ -15,7 +15,7 @@ function NewQuestButton({ onOpen }: NewQuestButtonProps) {
     >
       New Quest
     </Button>
-  );
+);
 }
 
 export default NewQuestButton;

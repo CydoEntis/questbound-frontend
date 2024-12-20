@@ -16,6 +16,7 @@ import { Clock } from "lucide-react";
 import { formatDate } from "../../../../../shared/utils/date.utils";
 import QuestDetails from "../quest-details/QuestDetails";
 import QuestDetailsModal from "../quest-details/QuestDetailsModal";
+import { PartyMember } from "../../../../party-member/shared/party-members.types";
 
 type QuestGridProps = {
   quests: Quest[];

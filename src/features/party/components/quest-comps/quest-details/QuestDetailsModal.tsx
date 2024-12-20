@@ -1,6 +1,8 @@
 import { Modal } from "@mantine/core";
-import React, { useState } from "react";
+import { useState } from "react";
 import QuestDetails from "./QuestDetails";
+import UpdateQuestForm from "../quest-form/UpdateQuestForm";
+import { useGetQuestDetails } from "../../../api/quest";
 
 type QuestDetailsModalProps = {
   isQuestDetailOpened: boolean;
@@ -13,8 +15,8 @@ function QuestDetailsModal({
   closeQuestDetailHandler,
   questId,
 }: QuestDetailsModalProps) {
+  const { data: questDetails } = useGetQuestDetails(questId);
   const [isEditing, setIsEditing] = useState(false);
-
   return (
     <Modal
       opened={isQuestDetailOpened}
@@ -23,13 +25,16 @@ function QuestDetailsModal({
       size="lg"
     >
       {isEditing ? (
-        <div>Editing</div>
+        <UpdateQuestForm
+          questDetails={questDetails!}
+          close={closeQuestDetailHandler}
+        />
       ) : (
         <QuestDetails
-          questId={questId}
+          questDetails={questDetails!}
           closeQuestDetailHandler={closeQuestDetailHandler}
           editQuestHandler={() => setIsEditing(true)}
-          deleteQuestHandler={() => console.log(questId)}
+          deleteQuestHandler={() => console.log(questDetails!.id)}
         />
       )}
     </Modal>

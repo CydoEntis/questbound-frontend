@@ -1,9 +1,10 @@
 import { z } from "zod";
-import { newQuestSchema } from "./quest.schemas";
+import { newQuestSchema, updateQuestSchema } from "./quest.schemas";
 import { PartyMember } from "../../party-member/shared/party-members.types";
 import { User } from "../../account/shared/account.types";
 
 export type NewQuest = z.infer<typeof newQuestSchema>;
+export type UpdateQuest = z.infer<typeof updateQuestSchema>;
 
 export type Quest = {
   id: number;
@@ -80,10 +81,11 @@ export type QuestDetail = {
   questFiles: QuestFile[];
   questSteps: QuestStep[];
   partyMembers: PartyMember[];
+  assignedMembers: PartyMember[];
   totalPartyMembers: number;
 };
 
 export type QuestStepUpdate = {
-  questStepId: number
+  questStepId: number;
   isCompleted: boolean;
 };
