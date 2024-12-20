@@ -18,7 +18,9 @@ export type Party = {
   createdAt: Date;
   updatedAt: Date;
   dueDate: Date;
-  questStats: QuestStats;
+  totalQuests: number;
+  completedQuests: number;
+  pastDueQuests: number;
   currentUserRole: string;
 };
 
