@@ -1,7 +1,6 @@
 import {
   Flex,
   Group,
-  Modal,
   Stack,
   Title,
   Text,
@@ -18,24 +17,24 @@ import {
   useUpdateStepStatus,
 } from "../../../api/quest";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
+import QuestDetailsMenu from "./QuestDetailsMenu";
 
 type QuestDetailProps = {
-  isQuestDetailOpened: boolean;
   closeQuestDetailHandler: () => void;
   questId: number;
+  editQuestHandler: () => void;
+  deleteQuestHandler: () => void;
 };
 
 function QuestDetails({
-  isQuestDetailOpened,
   closeQuestDetailHandler,
   questId,
+  editQuestHandler,
+  deleteQuestHandler,
 }: QuestDetailProps) {
   const { data: questDetails } = useGetQuestDetails(questId);
   const completeQuest = useCompleteQuest();
   const updateQuestStep = useUpdateStepStatus();
-  const questCloseHandler = () => {
-    closeQuestDetailHandler();
-  };
 
   const handleCheckboxChange = (questStepId: number, isChecked: boolean) => {
     updateQuestStep.mutateAsync({
@@ -50,20 +49,15 @@ function QuestDetails({
   };
 
   return (
-    <Modal
-      opened={isQuestDetailOpened}
-      onClose={questCloseHandler}
-      title="Quest Details"
-      size="lg"
-    >
+    <>
       {questDetails ? (
         <Stack gap={32}>
           <Flex justify="space-between">
             <PriorityBadge priorityLevel={questDetails.priorityLevel} />
-            <Group gap={8}>
-              <Clock size={18} />
-              <Text size="xs">{formatDate(questDetails.dueDate)}</Text>
-            </Group>
+            <QuestDetailsMenu
+              onEdit={editQuestHandler}
+              onDelete={deleteQuestHandler}
+            />
           </Flex>
           <Stack gap={4}>
             <Title size="1.65rem">{questDetails.name}</Title>
@@ -86,6 +80,15 @@ function QuestDetails({
               />
             ))}
           </Stack>
+
+          <Stack gap={4}>
+            <Title order={5}>Due Date</Title>
+            <Group gap={8}>
+              <Clock size={18} />
+              <Text size="xs">{formatDate(questDetails.dueDate)}</Text>
+            </Group>
+          </Stack>
+
           <Stack gap={4}>
             <Title order={5}>Assigned Members</Title>
             <AvatarList
@@ -93,6 +96,7 @@ function QuestDetails({
               totalMembers={questDetails.totalPartyMembers}
             />
           </Stack>
+
           <Stack gap={4}>
             <Title order={5}>Rewards</Title>
             <Group gap={4}>
@@ -119,7 +123,7 @@ function QuestDetails({
       ) : (
         "Loading..."
       )}
-    </Modal>
+    </>
   );
 }
 

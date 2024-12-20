@@ -15,6 +15,7 @@ import PriorityBadge from "../priority-badge/PriorityBadge";
 import { Clock } from "lucide-react";
 import { formatDate } from "../../../../../shared/utils/date.utils";
 import QuestDetails from "../quest-details/QuestDetails";
+import QuestDetailsModal from "../quest-details/QuestDetailsModal";
 
 type QuestGridProps = {
   quests: Quest[];
@@ -34,7 +35,7 @@ function QuestGrid({ quests }: QuestGridProps) {
 
   return (
     <>
-      <QuestDetails
+      <QuestDetailsModal
         isQuestDetailOpened={isQuestDetailOpened}
         closeQuestDetailHandler={closeQuestDetailHandler}
         questId={selectedQuest}
