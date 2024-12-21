@@ -2,7 +2,7 @@ import { Modal } from "@mantine/core";
 import { useState } from "react";
 import QuestDetails from "./QuestDetails";
 import UpdateQuestForm from "../quest-form/UpdateQuestForm";
-import { useGetQuestDetails } from "../../../api/quest";
+import { useDeleteQuest, useGetQuestDetails } from "../../../api/quest";
 
 type QuestDetailsModalProps = {
   isQuestDetailOpened: boolean;
@@ -17,10 +17,16 @@ function QuestDetailsModal({
 }: QuestDetailsModalProps) {
   const { data: questDetails } = useGetQuestDetails(questId);
   const [isEditing, setIsEditing] = useState(false);
+  const deleteQuest = useDeleteQuest();
 
   const handleCloseModal = () => {
     closeQuestDetailHandler();
     setIsEditing(false);
+  };
+
+  const deleteQuestHandler = async () => {
+    await deleteQuest.mutateAsync(questId);
+    closeQuestDetailHandler();
   };
 
   return (
@@ -41,7 +47,7 @@ function QuestDetailsModal({
           questDetails={questDetails!}
           closeQuestDetailHandler={handleCloseModal}
           editQuestHandler={() => setIsEditing(true)}
-          deleteQuestHandler={() => console.log(questDetails!.id)}
+          deleteQuestHandler={deleteQuestHandler}
         />
       )}
     </Modal>

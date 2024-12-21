@@ -43,7 +43,6 @@ const partyMemberSchema = z.object({
   avatar: userAvatarSchema,
 });
 
-// Updated main schema
 export const updateQuestSchema = z.object({
   questId: z.number(),
   name: z
