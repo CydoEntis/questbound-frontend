@@ -1,22 +1,12 @@
 import QuestCard from "../quest-card/QuestCard";
 import {
-  Modal,
   SimpleGrid,
-  Stack,
-  Title,
-  Text,
-  Group,
-  Flex,
 } from "@mantine/core";
-import { Quest, QuestDetail } from "../../../shared/quest.types";
+import { Quest} from "../../../shared/quest.types";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import PriorityBadge from "../priority-badge/PriorityBadge";
-import { Clock } from "lucide-react";
-import { formatDate } from "../../../../../shared/utils/date.utils";
-import QuestDetails from "../quest-details/QuestDetails";
 import QuestDetailsModal from "../quest-details/QuestDetailsModal";
-import { PartyMember } from "../../../../party-member/shared/party-members.types";
+
 
 type QuestGridProps = {
   quests: Quest[];

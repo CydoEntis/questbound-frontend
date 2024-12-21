@@ -3,20 +3,17 @@ import { useState } from "react";
 import QuestDetails from "./QuestDetails";
 import UpdateQuestForm from "../quest-form/UpdateQuestForm";
 import { useGetQuestDetails } from "../../../api/quest";
-import { PartyMember } from "../../../../party-member/shared/party-members.types";
 
 type QuestDetailsModalProps = {
   isQuestDetailOpened: boolean;
   closeQuestDetailHandler: () => void;
   questId: number;
-  partyMembers: PartyMember[];
 };
 
 function QuestDetailsModal({
   isQuestDetailOpened,
   closeQuestDetailHandler,
   questId,
-  partyMembers
 }: QuestDetailsModalProps) {
   const { data: questDetails } = useGetQuestDetails(questId);
   const [isEditing, setIsEditing] = useState(false);
@@ -24,9 +21,7 @@ function QuestDetailsModal({
   const handleCloseModal = () => {
     closeQuestDetailHandler();
     setIsEditing(false);
-  }
-
-  console.log(partyMembers);
+  };
 
   return (
     <Modal
@@ -39,7 +34,6 @@ function QuestDetailsModal({
         <UpdateQuestForm
           questDetails={questDetails!}
           close={handleCloseModal}
-          partyMembers={partyMembers}
         />
       ) : (
         <QuestDetails

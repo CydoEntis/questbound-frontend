@@ -16,8 +16,6 @@ import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
 import { UserCog2 } from "lucide-react";
 import NewQuestButton from "./components/quest-comps/new-quest-button/NewQuestButton";
-import DateRangePicker from "../../components/date-pickers/DateRangePicker";
-
 import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
 
@@ -46,8 +44,8 @@ function PartyPage() {
 
   const {
     data: quests,
-    isPending: isQuestsPending,
-    isError: isQuestsError,
+    // isPending: isQuestsPending,
+    // isError: isQuestsError,
   } = useGetPartyQuests(Number(partyId), queryParams);
 
   const handlePageChange = (page: number) => {
