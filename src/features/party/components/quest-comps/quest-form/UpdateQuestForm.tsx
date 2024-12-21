@@ -54,7 +54,6 @@ function UpdateQuestForm({
     ];
     form.setFieldValue("steps", steps);
 
-    // Allow React to update DOM, then focus the new input
     setTimeout(() => {
       inputRefs.current[steps.length - 1]?.focus();
     }, 0);
@@ -69,14 +68,18 @@ function UpdateQuestForm({
   function removeStep(index: number) {
     const steps = form.values.steps.filter((_, i) => i !== index);
     form.setFieldValue("steps", steps);
-    inputRefs.current.splice(index, 1); // Remove the corresponding ref
+    inputRefs.current.splice(index, 1); 
+  }
+
+  const handleEditFormClose = () => {
+    form.reset();
+    setDueDate(null);
+    close();
   }
 
   async function onSubmit(updatedQuest: UpdateQuest) {
     try {
-      // Handle quest update logic here, e.g., API call
-      form.reset();
-      close();
+      handleEditFormClose();
     } catch (error) {
       console.error("Failed to update quest:", error);
     }

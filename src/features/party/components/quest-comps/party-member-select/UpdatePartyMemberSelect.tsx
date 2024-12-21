@@ -14,7 +14,6 @@ type UpdatePartyMemberSelectProps = {
 function UpdatePartyMemberSelect({
   partyMembers,
   form,
-  assignedMembers,
 }: UpdatePartyMemberSelectProps) {
   const memberData = partyMembers.map((member) => ({
     value: member.userId,
@@ -43,9 +42,7 @@ function UpdatePartyMemberSelect({
       </div>
     </Group>
   );
-  const selectedPartyMembers = assignedMembers.map((member) => member.userId);
 
-  // console.log("SELECTED: ", selectedPartyMembers);
 
   return (
     <MultiSelect
