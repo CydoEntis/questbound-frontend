@@ -1,4 +1,3 @@
-
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
@@ -28,9 +27,7 @@ const getAllParties = async (
 };
 
 const getRecentParties = async (): Promise<Party[]> => {
-  const response = (
-    await apiClient.get(`${endpoints.parties}/recent`)
-  ).data;
+  const response = (await apiClient.get(`${endpoints.parties}/recent`)).data;
 
   if (!response.isSuccess) throw new Error();
   return response.result;
@@ -44,8 +41,7 @@ const getPartyById = async (partyId: number): Promise<Party> => {
 };
 
 const createParty = async (party: PartyData): Promise<Party> => {
-  const response = (await apiClient.post(`${endpoints.parties}`, party))
-    .data;
+  const response = (await apiClient.post(`${endpoints.parties}`, party)).data;
   if (!response.isSuccess) throw new Error();
 
   return response.result;
@@ -81,11 +77,12 @@ const updatePartyCreator = async (
   return response.result;
 };
 
-const deleteParty = async (partyId: number): Promise<void> => {
-  const response = (
-    await apiClient.delete(`${endpoints.parties}/${partyId}`)
-  ).data;
+const deleteParty = async (partyId: number): Promise<number> => {
+  const response = (await apiClient.delete(`${endpoints.parties}/${partyId}`))
+    .data;
   if (!response.isSuccess) throw new Error();
+
+  return response.data;
 };
 
 export default {
