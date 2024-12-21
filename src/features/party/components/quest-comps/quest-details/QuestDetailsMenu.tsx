@@ -8,7 +8,7 @@ type QuestDetailsMenu = {
 
 function QuestDetailsMenu({ onEdit, onDelete }: QuestDetailsMenu) {
   return (
-    <Menu shadow="md" width={200}>
+    <Menu shadow="md">
       <Menu.Target>
         <ActionIcon variant="light" color="dimmed">
           <MoreVertical size={20} />

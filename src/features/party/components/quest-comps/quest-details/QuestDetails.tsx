@@ -13,7 +13,6 @@ import { formatDate } from "../../../../../shared/utils/date.utils";
 import PriorityBadge from "../priority-badge/PriorityBadge";
 import {
   useCompleteQuest,
-  useGetQuestDetails,
   useUpdateStepStatus,
 } from "../../../api/quest";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";

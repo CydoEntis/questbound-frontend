@@ -1,5 +1,5 @@
 import { Card, Stack, Flex, Progress, Group, Text } from "@mantine/core";
-import { Clock, ListCheck, MessageCircle } from "lucide-react";
+import { Clock, MessageCircle } from "lucide-react";
 import { getPercentage } from "../../../../../shared/utils/account.utils";
 import { formatDate } from "../../../../../shared/utils/date.utils";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
@@ -39,26 +39,15 @@ function QuestCard({ quest, onClick }: QuestCardProps) {
         </Text>
         <Flex align="center" gap={8} w="100%" justify="end"></Flex>
         <Stack gap={1}>
-          <Group gap={4} align="center">
-            <ListCheck size={20} />
-            <Text size="sm" c="dimmed">
-              Steps
-            </Text>
-          </Group>
-          <Flex gap={4} align="center">
-            <Progress
-              w="90%"
-              color="violet"
-              radius="xl"
-              size="md"
-              value={getPercentage(quest.completedSteps, quest.totalSteps)}
-              striped
-              animated
-            />
-            <Text size="sm">
-              {quest.completedSteps} / {quest.totalSteps}
-            </Text>
-          </Flex>
+          <Progress
+            w="100%"
+            color="violet"
+            radius="xl"
+            size="md"
+            value={getPercentage(quest.completedSteps, quest.totalSteps)}
+            striped
+            animated
+          />
         </Stack>
         <Flex justify="space-between">
           <AvatarList

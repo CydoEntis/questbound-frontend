@@ -1,4 +1,12 @@
-import { Button, Stack, Textarea, TextInput, ActionIcon } from "@mantine/core";
+import {
+  Button,
+  Stack,
+  Textarea,
+  TextInput,
+  ActionIcon,
+  Text,
+  Group,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "@mantine/form";
 import { updateQuestSchema } from "../../../shared/quest.schemas";
@@ -14,15 +22,16 @@ import { useState, useRef } from "react";
 import UpdatePriorityLevelSelect from "../priorty-level-select/UpdatePriortyLevelSelect";
 import UpdatePartyMemberSelect from "../party-member-select/UpdatePartyMemberSelect";
 
-
 type UpdateQuestFormProps = {
   questDetails: QuestDetail; // The quest object to update
   close: () => void;
+  onCancel: () => void;
 };
 
 function UpdateQuestForm({
   questDetails,
   close,
+  onCancel,
 }: UpdateQuestFormProps) {
   const [dueDate, setDueDate] = useState<Date | null>(
     new Date(questDetails.dueDate)
@@ -37,7 +46,8 @@ function UpdateQuestForm({
       description: questDetails.description || "",
       priorityLevel: questDetails.priorityLevel || 1,
       steps: questDetails.questSteps || [],
-      assignedMembers: questDetails.assignedMembers.map((member) => member.userId) || [],
+      assignedMembers:
+        questDetails.assignedMembers.map((member) => member.userId) || [],
       dueDate: new Date(questDetails.dueDate),
     },
     transformValues: (values) => ({
@@ -67,18 +77,18 @@ function UpdateQuestForm({
   function removeStep(index: number) {
     const steps = form.values.steps.filter((_, i) => i !== index);
     form.setFieldValue("steps", steps);
-    inputRefs.current.splice(index, 1); 
+    inputRefs.current.splice(index, 1);
   }
 
   const handleEditFormClose = () => {
     form.reset();
     setDueDate(null);
     close();
-  }
+  };
 
   async function onSubmit(updatedQuest: UpdateQuest) {
     try {
-      console.log(updatedQuest)
+      console.log(updatedQuest);
       handleEditFormClose();
     } catch (error) {
       console.error("Failed to update quest:", error);
@@ -89,7 +99,7 @@ function UpdateQuestForm({
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
-      <Stack gap={8}>
+      <Stack gap={16}>
         <TextInput
           label="Quest Name"
           placeholder="The Name of your Quest"
@@ -103,25 +113,27 @@ function UpdateQuestForm({
           {...form.getInputProps("description")}
         />
 
-        {form.values.steps.map((step: QuestStep, index: number) => (
-          <TextInput
-            key={step.id}
-            label={`Step ${index + 1}`}
-            placeholder={`Describe step ${index + 1}`}
-            value={step.description}
-            onChange={(e) => updateStep(index, e.target.value)}
-            ref={(el) => (inputRefs.current[index] = el)}
-            rightSection={
-              <ActionIcon
-                variant="light"
-                color="red"
-                onClick={() => removeStep(index)}
-              >
-                <Trash2 size={18} />
-              </ActionIcon>
-            }
-          />
-        ))}
+        <Stack gap={8}>
+          {form.values.steps.length > 0 && <Text>Steps</Text>}
+          {form.values.steps.map((step: QuestStep, index: number) => (
+            <TextInput
+              key={step.id}
+              placeholder={`Describe step ${index + 1}`}
+              value={step.description}
+              onChange={(e) => updateStep(index, e.target.value)}
+              ref={(el) => (inputRefs.current[index] = el)}
+              rightSection={
+                <ActionIcon
+                  variant="light"
+                  color="red"
+                  onClick={() => removeStep(index)}
+                >
+                  <Trash2 size={18} />
+                </ActionIcon>
+              }
+            />
+          ))}
+        </Stack>
 
         <Button variant="light" color="violet" w={100} onClick={addStep}>
           Add Step
@@ -135,9 +147,20 @@ function UpdateQuestForm({
         />
         <DueDatePicker dueDate={dueDate} setDueDate={setDueDate} />
 
-        <Button variant="light" color="violet" w={200} type="submit">
-          Update Quest
-        </Button>
+        <Group gap={8} justify="end">
+          <Button variant="light" color="violet" w={200} type="submit">
+            Update Quest
+          </Button>
+          <Button
+            variant="light"
+            color="dimmed"
+            w={200}
+            type="button"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+        </Group>
       </Stack>
     </form>
   );

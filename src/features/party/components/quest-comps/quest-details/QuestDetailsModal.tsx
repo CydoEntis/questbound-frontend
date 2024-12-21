@@ -34,6 +34,7 @@ function QuestDetailsModal({
         <UpdateQuestForm
           questDetails={questDetails!}
           close={handleCloseModal}
+          onCancel={() => setIsEditing(false)}
         />
       ) : (
         <QuestDetails
