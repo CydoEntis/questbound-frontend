@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { NewQuest, QuestStepUpdate } from "../shared/quest.types";
+import { NewQuest, QuestStepUpdate, UpdateQuest } from "../shared/quest.types";
 import questService from "./services/quest.service";
 import { notifications } from "@mantine/notifications";
 import { useMemo } from "react";
@@ -88,6 +88,53 @@ export function useCompleteQuest() {
 
       queryClient.invalidateQueries({
         queryKey: ["user"],
+      });
+    },
+  });
+}
+
+export type UpdateQuestPayload = {
+  questId: number;
+  updateQuest: UpdateQuest;
+};
+
+export function useUpdateQuest() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      questId,
+      updateQuest,
+    }: UpdateQuestPayload): Promise<number> => {
+      return await questService.updateQuest(questId, updateQuest);
+    },
+    onSuccess: (questId) => {
+      // Invalidate specific quest detail query
+      queryClient.invalidateQueries({
+        queryKey: ["quests", "detail", questId],
+      });
+
+      // Invalidate the quests list query
+      queryClient.invalidateQueries({
+        queryKey: ["quests", "list"],
+      });
+    },
+  });
+}
+
+export function useDeleteQuest() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (questId: number): Promise<number> => {
+      return await questService.deleteQuest(questId);
+    },
+    onSuccess: (questId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["quests", "detail", questId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["quests", "list"],
       });
     },
   });

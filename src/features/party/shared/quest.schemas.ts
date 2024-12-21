@@ -61,7 +61,7 @@ export const updateQuestSchema = z.object({
     .refine((steps) => steps.length > 0, {
       message: "At least one quest step must be provided.",
     }),
-  assignedMembers: z
+  assignedPartyMembers: z
     .array(z.string())
     .default([])
     .refine((members) => members.length > 0, {

@@ -21,6 +21,7 @@ import { useState, useRef } from "react";
 
 import UpdatePriorityLevelSelect from "../priorty-level-select/UpdatePriortyLevelSelect";
 import UpdatePartyMemberSelect from "../party-member-select/UpdatePartyMemberSelect";
+import { useUpdateQuest } from "../../../api/quest";
 
 type UpdateQuestFormProps = {
   questDetails: QuestDetail; // The quest object to update
@@ -33,6 +34,8 @@ function UpdateQuestForm({
   close,
   onCancel,
 }: UpdateQuestFormProps) {
+  const updateQuest = useUpdateQuest();
+
   const [dueDate, setDueDate] = useState<Date | null>(
     new Date(questDetails.dueDate)
   );
@@ -88,7 +91,10 @@ function UpdateQuestForm({
 
   async function onSubmit(updatedQuest: UpdateQuest) {
     try {
-      console.log(updatedQuest);
+      await updateQuest.mutateAsync({
+        questId: questDetails.id,
+        updateQuest: updatedQuest,
+      });
       handleEditFormClose();
     } catch (error) {
       console.error("Failed to update quest:", error);

@@ -6,6 +6,7 @@ import {
   PaginatedQuests,
   QuestDetail,
   QuestStepUpdate,
+  UpdateQuest,
 } from "../../shared/quest.types";
 
 const createQuest = async (newQuest: NewQuest): Promise<void> => {
@@ -46,11 +47,11 @@ const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
   return response.result;
 };
 
-const updateStepStatus = async (questStep: QuestStepUpdate): Promise<number> => {
+const updateStepStatus = async (
+  questStep: QuestStepUpdate
+): Promise<number> => {
   console.log(questStep);
-  const response = (
-    await apiClient.put(`${endpoints.steps}`, questStep)
-  ).data;
+  const response = (await apiClient.put(`${endpoints.steps}`, questStep)).data;
 
   if (!response.isSuccess) throw new Error();
   return response.result;
@@ -65,10 +66,33 @@ const completeQuest = async (questId: number): Promise<number> => {
   return response.result;
 };
 
+const updateQuest = async (
+  questId: number,
+  updateQuest: UpdateQuest
+): Promise<number> => {
+  const response = (
+    await apiClient.put(`${endpoints.parties}/quests/${questId}`, updateQuest)
+  ).data;
+
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
+const deleteQuest = async (questId: number): Promise<number> => {
+  const response = (
+    await apiClient.delete(`${endpoints.parties}/quests/${questId}`)
+  ).data;
+
+  if (!response.isSuccess) throw new Error();
+  return response.result;
+};
+
 export default {
   createQuest,
   getPartyQuests,
   getQuestDetails,
   updateStepStatus,
-  completeQuest
+  completeQuest,
+  updateQuest,
+  deleteQuest,
 };

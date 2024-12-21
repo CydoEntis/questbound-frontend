@@ -91,8 +91,8 @@ function QuestDetails({
           <Stack gap={4}>
             <Title order={5}>Assigned Members</Title>
             <AvatarList
-              partyMembers={questDetails.partyMembers}
-              totalMembers={questDetails.totalPartyMembers}
+              partyMembers={questDetails.assignedMembers}
+              totalMembers={questDetails.assignedMembers.length}
             />
           </Stack>
 
