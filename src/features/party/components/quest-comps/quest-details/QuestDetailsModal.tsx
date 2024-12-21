@@ -15,7 +15,10 @@ function QuestDetailsModal({
   closeQuestDetailHandler,
   questId,
 }: QuestDetailsModalProps) {
-  const { data: questDetails } = useGetQuestDetails(questId);
+  const { data: questDetails } = useGetQuestDetails(
+    questId,
+    isQuestDetailOpened
+  );
   const [isEditing, setIsEditing] = useState(false);
   const deleteQuest = useDeleteQuest();
 

@@ -46,10 +46,11 @@ export const useGetPartyQuests = (
   });
 };
 
-export const useGetQuestDetails = (questId: number) => {
+export const useGetQuestDetails = (questId: number, enabled: boolean) => {
   return useQuery({
     queryKey: ["quests", "detail", questId],
     queryFn: () => questService.getQuestDetails(questId),
+    enabled,
   });
 };
 
@@ -89,6 +90,21 @@ export function useCompleteQuest() {
       queryClient.invalidateQueries({
         queryKey: ["user"],
       });
+
+      notifications.show({
+        title: "Success",
+        message: "Quest Completed!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Quest Completion Failed",
+        message: "Quest could not be completed.",
+        color: "red",
+        position: "top-right",
+      });
     },
   });
 }
@@ -109,14 +125,26 @@ export function useUpdateQuest() {
       return await questService.updateQuest(questId, updateQuest);
     },
     onSuccess: (questId) => {
-      // Invalidate specific quest detail query
       queryClient.invalidateQueries({
         queryKey: ["quests", "detail", questId],
       });
 
-      // Invalidate the quests list query
       queryClient.invalidateQueries({
         queryKey: ["quests", "list"],
+      });
+      notifications.show({
+        title: "Success",
+        message: "Quest Updated Successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Quest Update Failed",
+        message: "Quest could not be updated.",
+        color: "red",
+        position: "top-right",
       });
     },
   });
@@ -135,6 +163,20 @@ export function useDeleteQuest() {
 
       queryClient.invalidateQueries({
         queryKey: ["quests", "list"],
+      });
+      notifications.show({
+        title: "Success",
+        message: "Quest Deleted Successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Quest Deletion Failed",
+        message: "Quest could not be deleted.",
+        color: "red",
+        position: "top-right",
       });
     },
   });
