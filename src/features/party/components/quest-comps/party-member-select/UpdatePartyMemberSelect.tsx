@@ -52,7 +52,7 @@ function UpdatePartyMemberSelect({
       label="Assign Party Members"
       placeholder="Select Party Member"
       data={memberData}
-      {...form.getInputProps("assignedMembers")}
+      {...form.getInputProps("assignedPartyMembers")}
       renderOption={renderMultiSelectOption}
     />
   );

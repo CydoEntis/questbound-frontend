@@ -49,7 +49,7 @@ function UpdateQuestForm({
       description: questDetails.description || "",
       priorityLevel: questDetails.priorityLevel || 1,
       steps: questDetails.questSteps || [],
-      assignedMembers:
+      assignedPartyMembers:
         questDetails.assignedMembers.map((member) => member.userId) || [],
       dueDate: new Date(questDetails.dueDate),
     },
