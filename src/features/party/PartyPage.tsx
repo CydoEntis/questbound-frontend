@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { useGetPartyDetails } from "./api/party";
+import { useDeleteParty, useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
 import { UserCog2 } from "lucide-react";
@@ -27,10 +27,12 @@ import QuestSortMenu from "./components/quest-comps/quest-sort/QuestSortMenu";
 import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderToggle";
 import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
   const navigate = useNavigate({ from: Route.fullPath });
+  const deleteParty = useDeleteParty();
 
   const { partyId } = Route.useParams();
   const currentPage = Number(searchParams.pageNumber) || 1;
@@ -60,6 +62,13 @@ function PartyPage() {
   };
 
   const [opened, { open, close }] = useDisclosure(false);
+  const [editPartyOpened, { open: openEditParty, close: closeEditParty }] =
+    useDisclosure(false);
+
+  const deletePartyHandler = async () => {
+    await deleteParty.mutateAsync(Number(partyId));
+    closeEditParty();
+  };
 
   if (isPending && !party) return <div>Loading...</div>;
   if (isError) return <div>Something broken...</div>;
@@ -71,12 +80,20 @@ function PartyPage() {
         isOpened={opened}
         onClose={close}
       />
+      {/* <EditPartyModal
+        party={party}
+        isOpened={editPartyOpened}
+        onClose={closeEditParty}
+      /> */}
       <PageHeader>
         <Flex w="100%" justify="space-between">
-          <Stack gap={4}>
-            <Title size="2.5rem">{party.name}</Title>
-            <Text>{party.description}</Text>
-          </Stack>
+          <Group>
+            <Stack gap={4}>
+              <Title size="2.5rem">{party.name}</Title>
+              <Text>{party.description}</Text>
+            </Stack>
+            <PartyMenu onDelete={deletePartyHandler} onEdit={openEditParty} />
+          </Group>
           <NewQuestButton onOpen={open} />
         </Flex>
         <Flex py={16}>

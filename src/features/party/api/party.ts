@@ -77,11 +77,9 @@ export function useUpdateParty() {
       partyId,
       updatedParty,
     }: UpdatePartyPayload): Promise<NewParty> => {
-      // Correct the destructuring and call the service with the correct parameters
       return await partyService.updateParty(partyId, updatedParty);
     },
     onSuccess: () => {
-      // Invalidate relevant queries to ensure updated data
       queryClient.invalidateQueries({
         queryKey: ["parties", "list"],
       });
@@ -90,7 +88,6 @@ export function useUpdateParty() {
         queryKey: ["parties", "recent"],
       });
 
-      // Show success notification
       notifications.show({
         title: "Success",
         message: "Party Updated Successfully!",
@@ -99,7 +96,6 @@ export function useUpdateParty() {
       });
     },
     onError: () => {
-      // Show error notification
       notifications.show({
         title: "Party Update Failed",
         message: "Party could not be updated.",
