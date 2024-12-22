@@ -16,7 +16,6 @@ import { UnlockableAvatar } from "../../shared/avatar.types";
 import AvatarDisplay from "../avatar-display/AvatarDisplay";
 import Gold from "../../../../assets/gold.png";
 import { useUnlockAvatar } from "../../api/avatar";
-import useUserStore from "../../../../stores/useUserStore";
 
 type ConfirmUnlockAvatarModalProps = {
   isUnlockAvatarOpen: boolean;
@@ -30,13 +29,11 @@ function ConfirmUnlockAvatarModal({
   avatarToUnlock,
 }: ConfirmUnlockAvatarModalProps) {
   const unlockAvatar = useUnlockAvatar();
-  const { updateUserGold } = useUserStore();
   const [error, setError] = useState<Record<string, string>>();
   const unlockAvatarHandler = async () => {
     try {
       if (avatarToUnlock) {
         await unlockAvatar.mutateAsync(avatarToUnlock.id);
-        updateUserGold(avatarToUnlock.unlockCost);
         onCloseUnlockAvatar();
       }
     } catch (error) {
