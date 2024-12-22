@@ -30,6 +30,7 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
 import useUserStore from "../../stores/useUserStore";
 import { MEMBER_ROLES } from "../../shared/utils/constants";
+import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -96,11 +97,11 @@ function PartyPage() {
         isOpened={opened}
         onClose={close}
       />
-      {/* <EditPartyModal
-        party={party}
+      <UpdatePartyModal
+        partyId={party.id}
         isOpened={editPartyOpened}
         onClose={closeEditParty}
-      /> */}
+      />
       <PageHeader>
         <Flex w="100%" justify="space-between">
           <Group>

@@ -2,7 +2,6 @@ import { Button, Checkbox, Menu, Stack } from "@mantine/core";
 import { ArrowDownUp } from "lucide-react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Route } from "../../../../../routes/_authenticated/parties";
-import { useEffect } from "react";
 
 function PartySortMenu() {
   const sortOptions = [

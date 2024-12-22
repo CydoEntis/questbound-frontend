@@ -37,12 +37,6 @@ export type NewParty = {
   description: string;
 };
 
-export type UpdateParty = {
-  id: number;
-  title: string;
-  description: string;
-  dueDate: Date;
-};
 
 export type UpdatePartyLeader = {
   partyId: number;

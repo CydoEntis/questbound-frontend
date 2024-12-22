@@ -41,7 +41,10 @@ function UpdatePartyForm({ partyId, onClose }: UpdatePartyProps) {
 
   const handleSubmit = async (data: PartyData) => {
     try {
-      await updateParty.mutateAsync({ ...data, id: partyId });
+      await updateParty.mutateAsync({
+        partyId,            
+        updatedParty: data,  
+      });
       onClose();
     } catch (error) {
       console.error("Error updating party", error);

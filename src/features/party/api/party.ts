@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import partyService from "./services/party.service";
 import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
-import { NewParty, PartyData, UpdateParty } from "../shared/party.types";
+import { NewParty, PartyData } from "../shared/party.types";
 import { notifications } from "@mantine/notifications";
 
 export const useGetParties = (queryParams: QueryParams) => {
@@ -67,7 +67,7 @@ export function useCreateParty() {
 
 export type UpdatePartyPayload = {
   partyId: number;
-  updatedParty: UpdateParty;
+  updatedParty: PartyData;
 };
 
 export function useUpdateParty() {
@@ -76,12 +76,16 @@ export function useUpdateParty() {
     mutationFn: async ({
       partyId,
       updatedParty,
-    }: UpdatePartyPayload): Promise<NewParty> => {
+    }: UpdatePartyPayload): Promise<number> => {
       return await partyService.updateParty(partyId, updatedParty);
     },
-    onSuccess: () => {
+    onSuccess: (id) => {
       queryClient.invalidateQueries({
         queryKey: ["parties", "list"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", id],
       });
 
       queryClient.invalidateQueries({
