@@ -4,8 +4,8 @@ import { ChevronRight } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import styles from "./account-button.module.css";
 import AccountModal from "../account-modal/AccountModal";
-import { AuthenticatedUser, User } from "../../shared/account.types";
 import Avatar from "../../../avatar/components/avatar-display/AvatarDisplay";
+import { User } from "../../shared/account.types";
 
 type AccountButtonProps = {
   user: User;

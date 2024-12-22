@@ -4,7 +4,7 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { AxiosError } from "axios";
 import { TextInput } from "@mantine/core";
 import { AtSign, User2 } from "lucide-react";
-import { AuthenticatedUser, UpdateAccount, User } from "../../shared/account.types";
+import { UpdateAccount, User } from "../../shared/account.types";
 import { useUpdateUserDetails } from "../../api/account";
 import { updateAccountSchema } from "../../shared/account.schemas";
 
@@ -25,7 +25,6 @@ function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
     },
   });
 
-  console.log(form.errors);
   async function onSubmit(request: UpdateAccount) {
     try {
       await updateUserDetails.mutateAsync(request);

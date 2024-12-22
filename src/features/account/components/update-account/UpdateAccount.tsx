@@ -1,8 +1,8 @@
 import { Stack } from "@mantine/core";
 import AccountDetails from "../account-details/AccountDetails";
 import UpdateAccountForm from "../update-account-form/UpdateAccountForm";
-import ManageAccountControls from "../update-account-toggle/UpdateAccountToggle";
-import { AuthenticatedUser, User } from "../../shared/account.types";
+
+import { User } from "../../shared/account.types";
 import UpdateAccountToggle from "../update-account-toggle/UpdateAccountToggle";
 
 type UpdateAccountProps = {
