@@ -2,7 +2,8 @@ import { useDisclosure } from "@mantine/hooks";
 import SidebarNavAuth from "./SidebarNavAuth";
 import AvatarShop from "../../../../features/avatar/components/avatar-shop/AvatarShop";
 import { useGetUser } from "../../../../features/account/api/account";
-import PartyDrawer from "../../../../features/party/components/party-comps/party-drawer/PartyDrawer";
+import PartyDrawer from "../../../../features/party/components/party-comps/party-modals/PartyModal";
+import CreateParty from "../../../../features/party/components/party-comps/create-party/CreateParty";
 
 type SidebarProps = {
   onClose: () => void;
@@ -27,11 +28,7 @@ function Sidebar({ onClose }: SidebarProps) {
 
   return (
     <>
-      <PartyDrawer
-        isOpened={createPartyOpened}
-        onClose={closeCreateParty}
-        drawerMode={"create"}
-      />
+      <CreateParty isOpened={createPartyOpened} onClose={closeCreateParty} />
       <AvatarShop
         avatarShopOpen={avatarShopOpen}
         closeAvatarShop={closeAvatarShop}
