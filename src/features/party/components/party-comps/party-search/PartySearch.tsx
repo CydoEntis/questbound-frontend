@@ -12,9 +12,8 @@ import {
   Button,
 } from "@mantine/core";
 import { Search, X } from "lucide-react";
-type Props = {};
 
-function PartySearch({}: Props) {
+function PartySearch() {
   const useSearchParams = useSearch({
     from: "/_authenticated/parties/",
   });
@@ -34,10 +33,12 @@ function PartySearch({}: Props) {
 
     if (result.success) {
       navigate({
+        to: Route.fullPath,
         search: (prevSearch) => ({
           ...prevSearch,
           search: result.data.search,
         }),
+        replace: false,
       });
     } else {
       console.log("Validation failed", result.error.errors);

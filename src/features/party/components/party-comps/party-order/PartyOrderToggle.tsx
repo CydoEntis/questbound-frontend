@@ -11,10 +11,12 @@ function PartyOrderToggle() {
 
   const updateOrder = (order: string) => {
     navigate({
+      to: Route.fullPath,
       search: (prevSearch) => ({
         ...prevSearch,
         orderBy: order,
       }),
+      replace: false,
     });
   };
 

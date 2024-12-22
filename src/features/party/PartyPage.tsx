@@ -62,6 +62,7 @@ function PartyPage() {
           pageNumber: page || 1,
         };
       },
+      replace: false,
     });
   };
 

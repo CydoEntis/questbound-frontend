@@ -28,12 +28,6 @@ function QuestSortMenu() {
 
   const selectedSortBy = search.sortBy || "created-at";
 
-  useEffect(() => {
-    if (!search.sortBy) {
-      updateFilters("sortBy", "created-at");
-    }
-  }, [search.sortBy]);
-
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>

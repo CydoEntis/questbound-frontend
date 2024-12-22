@@ -48,11 +48,13 @@ function DateRangePicker() {
 
     if (result.success) {
       navigate({
+        to: Route.fullPath,
         search: (prevSearch) => ({
           ...prevSearch,
           startDate: result.data.startDate || undefined,
           endDate: result.data.endDate || undefined,
         }),
+        replace: false,
       });
       console.log("Date range applied:", result.data);
     } else {

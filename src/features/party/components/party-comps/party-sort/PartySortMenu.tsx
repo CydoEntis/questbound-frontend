@@ -19,20 +19,18 @@ function PartySortMenu() {
 
   const updateFilters = (key: string, value: string) => {
     navigate({
+      to: Route.fullPath,
       search: (prevSearch) => ({
         ...prevSearch,
         [key]: value,
       }),
+      replace: false,
     });
   };
 
   const selectedSortBy = search.sortBy || "created-at";
 
-  useEffect(() => {
-    if (!search.sortBy) {
-      updateFilters("sortBy", "created-at");
-    }
-  }, [search.sortBy]);
+
 
   return (
     <Menu shadow="md" width={200}>

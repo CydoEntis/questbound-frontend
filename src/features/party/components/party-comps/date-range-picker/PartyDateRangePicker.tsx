@@ -14,7 +14,7 @@ function PartyDateRangePicker() {
   );
 
   const useSearchParams = useSearch({
-    from: "/_authenticated/parties/", // TODO:  Update to dynamic path
+    from: "/_authenticated/parties/",
   });
 
   const navigate = useNavigate({ from: Route.fullPath });
@@ -48,11 +48,13 @@ function PartyDateRangePicker() {
 
     if (result.success) {
       navigate({
+        to: Route.fullPath,
         search: (prevSearch) => ({
           ...prevSearch,
           startDate: result.data.startDate || undefined,
           endDate: result.data.endDate || undefined,
         }),
+        replace: false,
       });
       console.log("Date range applied:", result.data);
     } else {
