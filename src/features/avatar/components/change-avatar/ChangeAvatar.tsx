@@ -12,7 +12,7 @@ type ChangeAvatarProps = {
 };
 
 function ChangeAvatar({ avatar, activeAvatar }: ChangeAvatarProps) {
-  const { data: unUnlockableAvatars, isPending, isError } = useGetUnUnlockableAvatars();
+  const { data: unUnlockableAvatars, isPending } = useGetUnUnlockableAvatars();
   const updateAvatar = useUpdateAvatar();
   return (
     <Popover position="bottom" offset={0}>

@@ -1,13 +1,11 @@
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import localStorageService from "../../../api/services/localStorage.service";
-import useAuthStore from "../../../stores/useAuthStore";
 import avatarService from "./avatar.service";
 import { UserAvatar } from "../shared/avatar.types";
 import { useQueryClient } from "@tanstack/react-query";
-import useUserStore from "../../../stores/useUserStore";
 export function useUpdateAvatar() {
-  const { updateUserAvatar } = useUserStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: number): Promise<UserAvatar> => {
@@ -16,7 +14,9 @@ export function useUpdateAvatar() {
     onSuccess: (data) => {
       localStorageService.updateItem("questbound", data);
 
-      updateUserAvatar(data);
+      queryClient.invalidateQueries({
+        queryKey: ["user",],
+      });
 
       notifications.show({
         title: "Update Success",
@@ -59,15 +59,13 @@ export const useGetUnlockableAvatars = () => {
 };
 
 export function useUnlockAvatar() {
-  const { updateUserAvatar } = useUserStore();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: number): Promise<UserAvatar> => {
       return await avatarService.unlockAvatar(id);
     },
-    onSuccess: (data) => {
-      // updateUserAvatar(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["avatars", "unlockable"],
       });

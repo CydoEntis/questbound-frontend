@@ -13,7 +13,6 @@ const getUnlockableAvatars = async (): Promise<UnlockableAvatar[]> => {
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
-// TODO: Refactor needs a different Type maybe UnlockableAvatar?
 const getAllUnlockableAvatars = async (): Promise<UnlockableAvatar[]> => {
   const response = (await apiClient.get(`${endpoints.avatars}/unlockable`))
     .data;
@@ -27,8 +26,6 @@ const updateAvatar = async (id: number): Promise<UserAvatar> => {
   ).data;
   if (!response.isSuccess) throw new Error();
 
-  console.log(response.result);
-
   return response.result;
 };
 
@@ -37,8 +34,6 @@ const unlockAvatar = async (id: number): Promise<UserAvatar> => {
     await apiClient.post(`${endpoints.avatars}/unlock`, { avatarId: id })
   ).data;
   if (!response.isSuccess) throw new Error();
-
-  console.log(response.result);
 
   return response.result;
 };
