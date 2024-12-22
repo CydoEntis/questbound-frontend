@@ -28,6 +28,8 @@ import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderTog
 import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
+import useUserStore from "../../stores/useUserStore";
+import { MEMBER_ROLES } from "../../shared/utils/constants";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -43,6 +45,8 @@ function PartyPage() {
     isPending,
     isError,
   } = useGetPartyDetails(Number(partyId), { enabled: true });
+
+  const { userId } = useUserStore();
 
   const {
     data: quests,
@@ -66,12 +70,23 @@ function PartyPage() {
     useDisclosure(false);
 
   const deletePartyHandler = async () => {
-    await deleteParty.mutateAsync(Number(partyId));
-    closeEditParty();
+    try {
+      await deleteParty.mutateAsync(Number(partyId));
+      closeEditParty();
+      navigate({ to: "/parties", search: { pageNumber: 1 } });
+    } catch (error) {
+      console.error("Failed to delete party:", error);
+    }
   };
 
   if (isPending && !party) return <div>Loading...</div>;
   if (isError) return <div>Something broken...</div>;
+
+  const memberRole = party.partyMembers.find(
+    (member) => member.userId === userId
+  )?.role;
+
+  console.log(memberRole);
 
   return (
     <>
@@ -89,10 +104,17 @@ function PartyPage() {
         <Flex w="100%" justify="space-between">
           <Group>
             <Stack gap={4}>
-              <Title size="2.5rem">{party.name}</Title>
+              <Group align="center">
+                <Title size="2.5rem">{party.name}</Title>
+                {memberRole === MEMBER_ROLES.CREATOR && (
+                  <PartyMenu
+                    onDelete={deletePartyHandler}
+                    onEdit={openEditParty}
+                  />
+                )}
+              </Group>
               <Text>{party.description}</Text>
             </Stack>
-            <PartyMenu onDelete={deletePartyHandler} onEdit={openEditParty} />
           </Group>
           <NewQuestButton onOpen={open} />
         </Flex>

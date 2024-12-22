@@ -16,10 +16,10 @@ function PartyMenu({ onEdit, onDelete }: PartyMenu) {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item leftSection={<Edit2 size={20} />} onClick={onEdit}>
+        <Menu.Item leftSection={<Edit2 size={16} />} onClick={onEdit}>
           Edit
         </Menu.Item>
-        <Menu.Item leftSection={<Trash2 size={20} />} onClick={onDelete}>
+        <Menu.Item leftSection={<Trash2 size={16} />} onClick={onDelete}>
           Delete
         </Menu.Item>
       </Menu.Dropdown>
