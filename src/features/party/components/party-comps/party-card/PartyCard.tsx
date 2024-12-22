@@ -6,18 +6,17 @@ import {
   Title,
   Text,
   Badge,
-  ActionIcon,
   Divider,
   Progress,
 } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import { Party } from "../../../shared/party.types";
-import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
-import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
+
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
 import { isSameDay } from "../../../../../shared/utils/date.utils";
-import { CalendarPlus, MoreVertical } from "lucide-react";
+import { CalendarPlus } from "lucide-react";
 import { getPercentage } from "../../../../../shared/utils/account.utils";
+import styles from "./party-card.module.css";
 
 type PartyCardProps = { party: Party };
 
@@ -30,16 +29,12 @@ const formatDate = (date: Date) => {
 };
 
 function PartyCard({ party }: PartyCardProps) {
-  const partyLeader = party.partyMembers.find(
-    (member) => member.role === MEMBER_ROLES.CREATOR
-  );
-
   return (
     <Card
       component={Link}
       to={`/parties/${party.id}`}
       key={party.id}
-      className="transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
+      className={styles.card}
       shadow="sm"
       padding="lg"
       bg="card"
@@ -71,12 +66,8 @@ function PartyCard({ party }: PartyCardProps) {
             </Badge>
           )}
         </Group>
-        <ActionIcon variant="subtle" color="dimmed">
-          <MoreVertical size={20} />
-        </ActionIcon>
       </Flex>
       <Stack justify="space-between" gap="md" h="100%">
-        {/* Party Title and Description */}
         <Stack gap="xs">
           <Title size="1.5rem" fw={600} className="truncate ...">
             {party.name}
