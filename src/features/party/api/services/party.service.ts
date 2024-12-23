@@ -81,6 +81,15 @@ const deleteParty = async (partyId: number): Promise<number> => {
   return response.data;
 };
 
+const leaveParty = async (partyId: number): Promise<number> => {
+  const response = (
+    await apiClient.delete(`${endpoints.parties}/${partyId}/leave`)
+  ).data;
+  if (!response.isSuccess) throw new Error();
+
+  return response.data;
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -89,4 +98,5 @@ export default {
   updateParty,
   updatePartyCreator,
   deleteParty,
+  leaveParty,
 };

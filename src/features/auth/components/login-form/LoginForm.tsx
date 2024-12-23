@@ -11,9 +11,7 @@ import { LoginRequest } from "../../shared/auth.types";
 import { loginSchema } from "../../shared/auth.schemas";
 import { CamelCasedErrors, Errors } from "../../../../shared/types";
 
-type Props = {};
-
-function LoginForm({}: Props) {
+function LoginForm() {
   const login = useLogin();
   const router = useRouter();
 

@@ -142,3 +142,36 @@ export function useDeleteParty() {
     },
   });
 }
+
+export function useLeaveParty() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (partyId: number): Promise<number> => {
+      return await partyService.leaveParty(partyId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "list"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "recent"],
+      });
+
+      notifications.show({
+        title: "Success",
+        message: "Party Left Successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Leaving Party Failed",
+        message: "Party could not be left.",
+        color: "red",
+        position: "top-right",
+      });
+    },
+  });
+}
