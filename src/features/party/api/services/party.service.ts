@@ -1,6 +1,7 @@
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
+import { PartyMember } from "../../../party-member/shared/party-members.types";
 import {
   PaginatedParties,
   Party,
@@ -90,6 +91,16 @@ const leaveParty = async (partyId: number): Promise<number> => {
   return response.data;
 };
 
+const getPartyMembers = async (partyId: number): Promise<PartyMember[]> => {
+  const response = (await apiClient.get(`${endpoints.partyMembers}/${partyId}`))
+    .data;
+
+  console.log(response);
+  if (!response.isSuccess) throw new Error();
+
+  return response.result;
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -99,4 +110,5 @@ export default {
   updatePartyCreator,
   deleteParty,
   leaveParty,
+  getPartyMembers,
 };

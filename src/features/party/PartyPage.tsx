@@ -31,6 +31,7 @@ import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
 import useUserStore from "../../stores/useUserStore";
 import { MEMBER_ROLES } from "../../shared/utils/constants";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
+import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -72,6 +73,10 @@ function PartyPage() {
   const [opened, { open, close }] = useDisclosure(false);
   const [editPartyOpened, { open: openEditParty, close: closeEditParty }] =
     useDisclosure(false);
+  const [
+    partyManagementOpened,
+    { open: openPartyManagement, close: closePartyManagement },
+  ] = useDisclosure(false);
 
   const deletePartyHandler = async () => {
     try {
@@ -107,6 +112,12 @@ function PartyPage() {
         isOpened={editPartyOpened}
         onClose={closeEditParty}
       />
+      <PartyManagementModal
+        isOpened={partyManagementOpened}
+        onClose={closePartyManagement}
+        partyId={party.id}
+      />
+
       <PageHeader>
         <Flex w="100%" justify="space-between">
           <Group>
@@ -138,6 +149,7 @@ function PartyPage() {
               leftSection={<UserCog2 size={20} />}
               color="violet"
               variant="light"
+              onClick={openPartyManagement}
             >
               Manage
             </Button>

@@ -175,3 +175,11 @@ export function useLeaveParty() {
     },
   });
 }
+
+export const useGetPartyMembers = (partyId: number) => {
+  return useQuery({
+    queryKey: ["party-members", partyId],
+    queryFn: () => partyService.getPartyMembers(partyId),
+    enabled: !!partyId,
+  });
+};
