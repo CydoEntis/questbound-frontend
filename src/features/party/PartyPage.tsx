@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import PageHeader from "../../components/page/PageHeader";
-import { useDeleteParty, useGetPartyDetails } from "./api/party";
+import { useDeleteParty, useGetPartyDetails, useLeaveParty } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
 import { UserCog2 } from "lucide-react";
@@ -55,6 +55,8 @@ function PartyPage() {
     // isError: isQuestsError,
   } = useGetPartyQuests(Number(partyId), queryParams);
 
+  const leaveParty = useLeaveParty();
+
   const handlePageChange = (page: number) => {
     navigate({
       search: (prevSearch) => {
@@ -88,7 +90,10 @@ function PartyPage() {
     (member) => member.userId === userId
   )?.role;
 
-  console.log(memberRole);
+  const leavePartyHandler = async () => {
+    await leaveParty.mutateAsync(Number(partyId));
+    navigate({ to: "/parties", search: { pageNumber: 1 } });
+  };
 
   return (
     <>
@@ -135,6 +140,9 @@ function PartyPage() {
               variant="light"
             >
               Manage
+            </Button>
+            <Button variant="light" color="violet" onClick={leavePartyHandler}>
+              Leave
             </Button>
           </Group>
         </Flex>

@@ -83,7 +83,7 @@ const deleteParty = async (partyId: number): Promise<number> => {
 
 const leaveParty = async (partyId: number): Promise<number> => {
   const response = (
-    await apiClient.delete(`${endpoints.parties}/${partyId}/leave`)
+    await apiClient.delete(`${endpoints.partyMembers}/${partyId}/leave`)
   ).data;
   if (!response.isSuccess) throw new Error();
 
