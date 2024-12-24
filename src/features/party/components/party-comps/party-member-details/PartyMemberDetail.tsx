@@ -26,6 +26,7 @@ function PartyMemberDetail({ partyMembers }: PartyMemberDetailProps) {
         {partyMembers.map((member) => (
           <PartyMemberRow
             level={member.currentLevel}
+            joinDate={member.joinedAt}
             key={member.userId}
             {...member}
           />

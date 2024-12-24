@@ -30,6 +30,8 @@ function PartyManagementModal({
   const [editingPartyLeader, setEditingPartyLeader] = useState(false);
   const [editingPartyMembers, setEditingPartyMembers] = useState(false);
 
+  console.log(partyMembers);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"currentLevel" | "username" | "role">(
     "username"
