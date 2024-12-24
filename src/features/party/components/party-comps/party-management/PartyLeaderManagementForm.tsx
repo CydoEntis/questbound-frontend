@@ -56,6 +56,9 @@ function PartyLeaderManagementForm({
 
             <Table.Td>
               <Select
+                classNames={{
+                  input: "input",
+                }}
                 data={Object.entries(ROLE_LABELS).map(([value, label]) => ({
                   value,
                   label,
@@ -67,6 +70,9 @@ function PartyLeaderManagementForm({
 
             <Table.Td>
               <Select
+                classNames={{
+                  input: "input",
+                }}
                 data={partyMembers
                   .filter((member) => member.userId !== partyLeader.userId)
                   .map((member) => ({
@@ -82,9 +88,11 @@ function PartyLeaderManagementForm({
       </Table>
 
       {/* Submit Button */}
-      <Box mt="md">
-        <Button type="submit">Submit Changes</Button>
-      </Box>
+      <Group justify="start" my="md" >
+        <Button type="submit" variant="light" color="violet">
+          Update Leader
+        </Button>
+      </Group>
     </form>
   );
 }

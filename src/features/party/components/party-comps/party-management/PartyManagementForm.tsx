@@ -105,7 +105,7 @@ function PartyManagementForm({ partyMembers }: PartyManagementFormProps) {
 
       {/* Submit Button */}
       <Box mt="md">
-        <Button type="submit">Submit Changes</Button>
+        <Button type="submit" variant="light" color="violet">Save Changes</Button>
       </Box>
     </form>
   );
