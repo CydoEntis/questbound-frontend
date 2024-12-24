@@ -30,7 +30,10 @@ function PartyManagementModal({
 
   return (
     <PartyModal onClose={onClose} isOpened={isOpened} title="Party Management">
-      <PartyLeaderManagementForm partyLeader={leader!} />
+      <PartyLeaderManagementForm
+        partyLeader={leader!}
+        partyMembers={otherMembers}
+      />
       <PartyManagementForm partyMembers={otherMembers} />
     </PartyModal>
   );

@@ -34,6 +34,8 @@ const getPartyQuests = async (
     )
   ).data;
 
+  console.log("Quests: ", response.result);
+
   if (!response.isSuccess) throw new Error();
   return response.result;
 };
