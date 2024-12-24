@@ -13,11 +13,13 @@ const ROLE_LABELS = {
 type PartyLeaderManagementFormProps = {
   partyLeader: PartyMember;
   partyMembers: PartyMember[];
+  onCancel: () => void;
 };
 
 function PartyLeaderManagementForm({
   partyLeader,
   partyMembers,
+  onCancel,
 }: PartyLeaderManagementFormProps) {
   const form = useForm({
     initialValues: {
@@ -88,9 +90,12 @@ function PartyLeaderManagementForm({
       </Table>
 
       {/* Submit Button */}
-      <Group justify="start" my="md">
+      <Group justify="start" my="md" gap={8}>
         <Button type="submit" variant="light" color="violet">
           Update Leader
+        </Button>
+        <Button type="button" variant="light" color="red" onClick={onCancel}>
+          Cancel
         </Button>
       </Group>
     </form>

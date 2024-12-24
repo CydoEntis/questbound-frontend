@@ -1,5 +1,5 @@
 import PartyModal from "../party-modals/PartyModal";
-import { useGetPartyMembers } from "../../../api/party";
+import { useGetPartyMembers, useLeaveParty } from "../../../api/party";
 import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
 import PartyManagementForm from "./PartyManagementForm";
 import PartyLeaderManagementForm from "./PartyLeaderManagementForm";
@@ -11,9 +11,12 @@ import {
   Flex,
   Button,
   ActionIcon,
+  Group,
 } from "@mantine/core";
 import PartyMemberDetail from "../party-member-details/PartyMemberDetail";
 import { X } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { Route } from "../../../../../routes/_authenticated/parties";
 
 type PartyManagementModalProps = {
   isOpened: boolean;
@@ -26,10 +29,18 @@ function PartyManagementModal({
   onClose,
   partyId,
 }: PartyManagementModalProps) {
-  const { data: partyMembers } = useGetPartyMembers(partyId);
-  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate({ from: Route.fullPath });
 
-  console.log(partyMembers);
+  const { data: partyMembers } = useGetPartyMembers(partyId);
+  const leaveParty = useLeaveParty();
+
+  const leavePartyHandler = async () => {
+    await leaveParty.mutateAsync(Number(partyId));
+    navigate({ to: "/parties", search: { pageNumber: 1 } });
+  };
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isTransferOwnership, setIsTransferOwnership] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"currentLevel" | "username" | "role">(
@@ -81,19 +92,20 @@ function PartyManagementModal({
   return (
     <PartyModal onClose={onClose} isOpened={isOpened} title="Party Management">
       <Stack>
-        {isEditing ? (
-          <>
-            <PartyLeaderManagementForm
-              partyLeader={partyLeaders[0]}
-              partyMembers={otherMembers}
-            />
-            <PartyManagementForm
-              partyMembers={otherMembers}
-              onCancel={() => setIsEditing(false)}
-            />
-          </>
+        {isTransferOwnership ? (
+          <PartyLeaderManagementForm
+            partyLeader={partyLeaders[0]}
+            partyMembers={otherMembers}
+            onCancel={() => setIsTransferOwnership(false)}
+          />
+        ) : isEditing ? (
+          <PartyManagementForm
+            partyMembers={otherMembers}
+            onCancel={() => setIsEditing(false)}
+          />
         ) : (
           <>
+            {/* Search and Filter Section */}
             <Flex gap={8} align="end" mb="sm" w="100%">
               <TextInput
                 classNames={{
@@ -143,15 +155,33 @@ function PartyManagementModal({
                 <X size={20} />
               </ActionIcon>
             </Flex>
+
+            {/* Party Member Details */}
             <PartyMemberDetail partyMembers={partyLeaders} />
             <PartyMemberDetail partyMembers={otherMembers} />
-            <Button
-              onClick={() => setIsEditing(true)}
-              variant="light"
-              color="violet"
-            >
-              Manage Party Members
-            </Button>
+
+            {/* Action Buttons */}
+            <Flex justify="space-between" align="center" w="100%">
+              <Group gap={8}>
+                <Button
+                  onClick={() => setIsEditing(true)}
+                  variant="light"
+                  color="violet"
+                >
+                  Manage Party Members
+                </Button>
+                <Button
+                  onClick={() => setIsTransferOwnership(true)}
+                  variant="light"
+                  color="violet"
+                >
+                  Transfer Ownership
+                </Button>
+              </Group>
+              <Button variant="light" color="red" onClick={leavePartyHandler}>
+                Leave Party
+              </Button>
+            </Flex>
           </>
         )}
       </Stack>
