@@ -1,12 +1,12 @@
 import { Modal } from "@mantine/core";
 
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 
 type PartyModalProps = {
   isOpened: boolean;
   onClose: () => void;
   children: ReactNode;
-  title: string;
+  title: string | ReactElement;
 };
 
 function PartyModal({ isOpened, children, onClose, title }: PartyModalProps) {

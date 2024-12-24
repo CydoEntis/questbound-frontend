@@ -27,8 +27,7 @@ function PartyManagementModal({
   partyId,
 }: PartyManagementModalProps) {
   const { data: partyMembers } = useGetPartyMembers(partyId);
-  const [editingPartyLeader, setEditingPartyLeader] = useState(false);
-  const [editingPartyMembers, setEditingPartyMembers] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   console.log(partyMembers);
 
@@ -81,70 +80,80 @@ function PartyManagementModal({
 
   return (
     <PartyModal onClose={onClose} isOpened={isOpened} title="Party Management">
-      {editingPartyLeader && (
-        <PartyLeaderManagementForm
-          partyLeader={partyLeaders[0]}
-          partyMembers={otherMembers}
-        />
-      )}
-      {editingPartyMembers && (
-        <PartyManagementForm partyMembers={otherMembers} />
-      )}
-
-      {/* Search and Sort Inputs */}
-      <Flex gap={8} align="end" mb="sm" w="100%">
-        <TextInput
-          classNames={{
-            input: "input",
-          }}
-          label="Search"
-          placeholder="Search by username"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          w="40%"
-        />
-
-        <Select
-          classNames={{
-            input: "input",
-          }}
-          label="Sort By"
-          value={sortBy}
-          onChange={(value) =>
-            setSortBy(value as "currentLevel" | "username" | "role")
-          }
-          data={[
-            { label: "Username", value: "username" },
-            { label: "Level", value: "currentLevel" },
-            { label: "Role", value: "role" },
-          ]}
-        />
-        <Select
-          classNames={{
-            input: "input",
-          }}
-          label="Sort Order"
-          value={sortOrder}
-          onChange={(value) => setSortOrder(value as "asc" | "desc")}
-          data={[
-            { label: "Ascending", value: "asc" },
-            { label: "Descending", value: "desc" },
-          ]}
-        />
-        <ActionIcon
-          onClick={resetFilters}
-          variant="light"
-          color="red"
-          size="lg"
-          mb={1}
-        >
-          <X size={20} />
-        </ActionIcon>
-      </Flex>
-
       <Stack>
-        <PartyMemberDetail partyMembers={partyLeaders} />
-        <PartyMemberDetail partyMembers={otherMembers} />
+        {isEditing ? (
+          <>
+            <PartyLeaderManagementForm
+              partyLeader={partyLeaders[0]}
+              partyMembers={otherMembers}
+            />
+            <PartyManagementForm
+              partyMembers={otherMembers}
+              onCancel={() => setIsEditing(false)}
+            />
+          </>
+        ) : (
+          <>
+            <Flex gap={8} align="end" mb="sm" w="100%">
+              <TextInput
+                classNames={{
+                  input: "input",
+                }}
+                label="Search"
+                placeholder="Search by username"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                w="40%"
+              />
+
+              <Select
+                classNames={{
+                  input: "input",
+                }}
+                label="Sort By"
+                value={sortBy}
+                onChange={(value) =>
+                  setSortBy(value as "currentLevel" | "username" | "role")
+                }
+                data={[
+                  { label: "Username", value: "username" },
+                  { label: "Level", value: "currentLevel" },
+                  { label: "Role", value: "role" },
+                ]}
+              />
+              <Select
+                classNames={{
+                  input: "input",
+                }}
+                label="Sort Order"
+                value={sortOrder}
+                onChange={(value) => setSortOrder(value as "asc" | "desc")}
+                data={[
+                  { label: "Ascending", value: "asc" },
+                  { label: "Descending", value: "desc" },
+                ]}
+              />
+              <ActionIcon
+                onClick={resetFilters}
+                variant="light"
+                color="red"
+                size="lg"
+                mb={1}
+              >
+                <X size={20} />
+              </ActionIcon>
+            </Flex>
+            <PartyMemberDetail partyMembers={partyLeaders} />
+            <PartyMemberDetail partyMembers={otherMembers} />
+            <Button
+              onClick={() => setIsEditing(true)}
+              variant="light"
+              color="violet"
+            >
+              Manage Party Members
+            </Button>
+          </>
+        )}
       </Stack>
     </PartyModal>
   );

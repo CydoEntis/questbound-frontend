@@ -12,7 +12,7 @@ function PartyMemberDetail({ partyMembers }: PartyMemberDetailProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
-    <Table highlightOnHover>
+    <Table w="100%">
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Avatar</Table.Th>

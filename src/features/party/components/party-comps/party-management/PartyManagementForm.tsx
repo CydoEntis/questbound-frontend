@@ -12,8 +12,6 @@ import { PartyMember } from "../../../../party-member/shared/party-members.types
 import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
 import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
 
-
-
 const ROLE_LABELS = {
   [MEMBER_ROLES.LEADER]: "Leader",
   [MEMBER_ROLES.CAPTAIN]: "Captain",
@@ -22,9 +20,13 @@ const ROLE_LABELS = {
 
 type PartyManagementFormProps = {
   partyMembers: PartyMember[];
+  onCancel: () => void;
 };
 
-function PartyManagementForm({ partyMembers }: PartyManagementFormProps) {
+function PartyManagementForm({
+  partyMembers,
+  onCancel,
+}: PartyManagementFormProps) {
   const form = useForm({
     initialValues: {
       members: partyMembers.map((member) => ({
@@ -47,8 +49,6 @@ function PartyManagementForm({ partyMembers }: PartyManagementFormProps) {
     const updatedRoles = values.members
       .filter((m) => !m.delete)
       .map((m) => ({ id: m.id, role: Number(m.role) }));
-
-
   };
 
   const rows = form.values.members.map((member, index) => (
@@ -104,9 +104,14 @@ function PartyManagementForm({ partyMembers }: PartyManagementFormProps) {
       </Table>
 
       {/* Submit Button */}
-      <Box mt="md">
-        <Button type="submit" variant="light" color="violet">Save Changes</Button>
-      </Box>
+      <Group mt="md" gap={8}>
+        <Button type="submit" variant="light" color="violet">
+          Save Changes
+        </Button>
+        <Button type="button" variant="light" color="red" onClick={onCancel}>
+          Cancel
+        </Button>
+      </Group>
     </form>
   );
 }
