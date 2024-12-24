@@ -8,4 +8,5 @@ export type PartyMember = {
   currentLevel: number;
   role: MemberRole;
   avatar: UserAvatar;
+  joinDate: Date;
 };

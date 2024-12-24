@@ -1,4 +1,4 @@
-import { Table, Group, Select, Button, Box, Text, Avatar } from "@mantine/core";
+import { Table, Group, Select, Button, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
@@ -88,7 +88,7 @@ function PartyLeaderManagementForm({
       </Table>
 
       {/* Submit Button */}
-      <Group justify="start" my="md" >
+      <Group justify="start" my="md">
         <Button type="submit" variant="light" color="violet">
           Update Leader
         </Button>
