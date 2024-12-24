@@ -1,7 +1,10 @@
-import { Title } from "@mantine/core";
 import PartyModal from "../party-modals/PartyModal";
 import { useGetPartyMembers } from "../../../api/party";
-import { Route } from "../../../../../routes/_authenticated/parties/$partyId";
+
+import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
+
+import PartyManagementForm from "./PartyManagementForm";
+import PartyLeaderManagementForm from "./PartyLeaderManagementForm";
 
 type PartyManagementModalProps = {
   isOpened: boolean;
@@ -16,11 +19,19 @@ function PartyManagementModal({
 }: PartyManagementModalProps) {
   const { data: partyMembers } = useGetPartyMembers(partyId);
 
-  console.log("All party members ", partyMembers);
+  if (!partyMembers) return null;
+
+  const leader = partyMembers.find(
+    (member) => member.role === MEMBER_ROLES.LEADER
+  );
+  const otherMembers = partyMembers.filter(
+    (member) => member.role !== MEMBER_ROLES.LEADER
+  );
 
   return (
     <PartyModal onClose={onClose} isOpened={isOpened} title="Party Management">
-      <Title>Party Management</Title>
+      <PartyLeaderManagementForm partyLeader={leader!} />
+      <PartyManagementForm partyMembers={otherMembers} />
     </PartyModal>
   );
 }

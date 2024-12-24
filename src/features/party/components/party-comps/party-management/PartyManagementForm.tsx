@@ -1,62 +1,91 @@
-import { zodResolver } from "@mantine/form";
-import { Button, Stack } from "@mantine/core";
+import { Group, Select, Stack, Checkbox, Button, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { partySchema } from "../../../shared/party.schemas";
-import { PartyData } from "../../../shared/party.types";
-import { AxiosError } from "axios";
-import { Errors, CamelCasedErrors } from "../../../../../shared/types";
-import { transformErrorsToCamelCase } from "../../../../../shared/utils/password.utils";
 import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 
-type PartyManagementFormProps = {
-  onClose: () => void;
-  partyMembers: PartyMember[]
+const MEMBER_ROLES = {
+  CREATOR: 3,
+  MAINTAINER: 2,
+  MEMBER: 1,
+} as const;
+
+const ROLE_LABELS = {
+  [MEMBER_ROLES.CREATOR]: "Creator",
+  [MEMBER_ROLES.MAINTAINER]: "Maintainer",
+  [MEMBER_ROLES.MEMBER]: "Member",
 };
 
-function PartyManagementFormForm({ onClose }: PartyManagementFormProps) {
-  const form = useForm<PartyData>({
-    validate: zodResolver(partySchema),
+type PartyManagementFormProps = {
+  partyMembers: PartyMember[];
+};
+
+function PartyManagementForm({ partyMembers }: PartyManagementFormProps) {
+  const form = useForm({
     initialValues: {
-      name: "",
-      description: "",
+      members:
+        partyMembers?.map((member) => ({
+          id: member.userId,
+          role: String(member.role),
+          delete: false,
+        })) || [],
+    },
+
+    validate: {
+      members: {
+        role: (value) => (value.length === 0 ? "Role is required" : null),
+      },
     },
   });
 
-  const handleSubmit = async () => {
-    try {
-      onClose();
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        const errors: Errors = error.response.data;
-        const transformedErrors: CamelCasedErrors =
-          transformErrorsToCamelCase(errors);
-        form.setErrors(transformedErrors);
-      }
-    }
+  const handleSubmit = (values: typeof form.values) => {
+    const membersToDelete = values.members
+      .filter((m) => m.delete)
+      .map((m) => m.id);
+    const updatedRoles = values.members
+      .filter((m) => !m.delete)
+      .map((m) => ({ id: m.id, role: Number(m.role) }));
+
+    console.log("Members to delete:", membersToDelete);
+    console.log("Updated roles:", updatedRoles);
   };
+
+  if (!partyMembers) return null;
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Stack gap={8}>
-        {/* <AvatarDisplay /> */}
-        {/* <TextInput
-          label="Party Name"
-          placeholder="Name of your Party?"
-          {...form.getInputProps("name")}
-        />
-        <Textarea
-          label="Description"
-          placeholder="Describe your party"
-          autosize
-          {...form.getInputProps("description")}
-        /> */}
+      <Stack>
+        {form.values.members.map((member, index) => (
+          <Group key={member.id}>
+            <Checkbox
+              checked={member.delete}
+              onChange={(event) =>
+                form.setFieldValue(
+                  `members.${index}.delete`,
+                  event.currentTarget.checked
+                )
+              }
+            />
+            <AvatarDisplay avatar={partyMembers[index]?.avatar} />
+            <Select
+              data={Object.entries(ROLE_LABELS).map(([value, label]) => ({
+                value,
+                label,
+              }))}
+              value={member.role}
+              onChange={(value) =>
+                form.setFieldValue(`members.${index}.role`, value)
+              }
+            />
+          </Group>
+        ))}
+
+        {/* Submit Button */}
+        <Box>
+          <Button type="submit">Submit Changes</Button>
+        </Box>
       </Stack>
-      <Button fullWidth mt="xl" color="violet" variant="light" type="submit">
-        Create Party
-      </Button>
     </form>
   );
 }
 
-export default PartyManagementFormForm;
+export default PartyManagementForm;

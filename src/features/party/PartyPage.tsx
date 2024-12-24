@@ -56,6 +56,8 @@ function PartyPage() {
     // isError: isQuestsError,
   } = useGetPartyQuests(Number(partyId), queryParams);
 
+  console.log(quests);
+
   const leaveParty = useLeaveParty();
 
   const handlePageChange = (page: number) => {
@@ -124,7 +126,7 @@ function PartyPage() {
             <Stack gap={4}>
               <Group align="center">
                 <Title size="2.5rem">{party.name}</Title>
-                {memberRole === MEMBER_ROLES.CREATOR && (
+                {memberRole === MEMBER_ROLES.LEADER && (
                   <PartyMenu
                     onDelete={deletePartyHandler}
                     onEdit={openEditParty}
