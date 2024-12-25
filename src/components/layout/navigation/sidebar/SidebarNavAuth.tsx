@@ -1,4 +1,4 @@
-import { Button, NavLink, Stack, Text } from "@mantine/core";
+import { Button, Flex, Indicator, NavLink, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -61,6 +61,8 @@ function SidebarNavAuth({
   const toggleRecentOpen = () => {
     setIsRecentOpen((prev) => !prev);
   };
+
+  const partyColors = ["red", "blue", "yellow", "green", "pink"];
 
   return (
     <Stack
@@ -126,14 +128,23 @@ function SidebarNavAuth({
           {!isLoading && recentParties?.length === 0 && (
             <Text size="xs">No recent parties</Text>
           )}
-          {recentParties?.map((party) => (
+          {recentParties?.map((party, index) => (
             <NavLink
               key={party.id}
               component={Link}
-              to={`/parties/${party.id}/quests`}
-              label={party.name}
+              to={`/parties/${party.id}`}
+              label={
+                <Flex align="center" gap={16} px={8}>
+                  <Indicator
+                    inline
+                    color={partyColors[index % partyColors.length]}
+                    processing
+                    size={10}
+                  />
+                  <Text size="sm">{party.name}</Text>
+                </Flex>
+              }
               color="violet"
-              className="rounded-md"
               mt={8}
               onClick={handleClose}
             />
@@ -141,10 +152,7 @@ function SidebarNavAuth({
         </NavLink>
       </Stack>
 
-      {/* Bottom Buttons */}
-      <Stack
-        mt="auto" // Moves this section to the bottom
-      >
+      <Stack mt="auto">
         <Button
           justify="start"
           leftSection={<ShoppingBag size={20} />}
