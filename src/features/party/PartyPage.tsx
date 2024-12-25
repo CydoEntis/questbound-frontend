@@ -29,9 +29,9 @@ import QuestDateRangePicker from "./components/quest-comps/date-range-picker/Que
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
 import useUserStore from "../../stores/useUserStore";
-import { MEMBER_ROLES } from "../../shared/utils/constants";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
+import PartyLeaderRequiredGuard from "./components/party-comps/party-leader-required/PartyLeaderRequiredGuard";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -117,12 +117,12 @@ function PartyPage() {
             <Stack gap={4}>
               <Group align="center">
                 <Title size="2.5rem">{party.name}</Title>
-                {memberRole === MEMBER_ROLES.LEADER && (
+                <PartyLeaderRequiredGuard memberRole={memberRole!}>
                   <PartyMenu
                     onDelete={deletePartyHandler}
                     onEdit={openEditParty}
                   />
-                )}
+                </PartyLeaderRequiredGuard>
               </Group>
               <Text>{party.description}</Text>
             </Stack>
