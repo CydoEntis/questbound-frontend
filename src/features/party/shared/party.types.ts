@@ -19,7 +19,7 @@ export type Party = {
   totalQuests: number;
   completedQuests: number;
   pastDueQuests: number;
-  currentUserRole: string;
+  currentUserRole: number;
 };
 
 export type PaginatedParties = {

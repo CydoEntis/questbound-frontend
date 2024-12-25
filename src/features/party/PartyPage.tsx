@@ -28,7 +28,6 @@ import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderTog
 import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
-import useUserStore from "../../stores/useUserStore";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
 import PartyLeaderRequiredGuard from "./components/party-comps/party-leader-required/PartyLeaderRequiredGuard";
@@ -49,9 +48,6 @@ function PartyPage() {
     isPending,
     isError,
   } = useGetPartyDetails(Number(partyId), { enabled: true });
-
-  const { userId } = useUserStore();
-
   const {
     data: quests,
     // isPending: isQuestsPending,
@@ -91,13 +87,6 @@ function PartyPage() {
   if (isPending && !party) return <div>Loading...</div>;
   if (isError) return <div>Something broken...</div>;
 
-  const memberRole = party.partyMembers.find(
-    (member) => member.userId === userId
-  )?.role;
-
-  console.log("Party Members: ", party.partyMembers)
-  console.log("Current user role: ", memberRole);
-
   return (
     <>
       <CreateQuestModal
@@ -114,7 +103,7 @@ function PartyPage() {
         isOpened={partyManagementOpened}
         onClose={closePartyManagement}
         partyId={party.id}
-        memberRole={memberRole!}
+        memberRole={party.currentUserRole}
       />
 
       <PageHeader>
@@ -123,7 +112,7 @@ function PartyPage() {
             <Stack gap={4}>
               <Group align="center">
                 <Title size="2.5rem">{party.name}</Title>
-                <PartyLeaderRequiredGuard memberRole={memberRole!}>
+                <PartyLeaderRequiredGuard memberRole={party.currentUserRole}>
                   <PartyMenu
                     onDelete={deletePartyHandler}
                     onEdit={openEditParty}
@@ -133,7 +122,7 @@ function PartyPage() {
               <Text>{party.description}</Text>
             </Stack>
           </Group>
-          <LeaderOrCaptainOnlyGuard memberRole={memberRole!}>
+          <LeaderOrCaptainOnlyGuard memberRole={party.currentUserRole}>
             <NewQuestButton onOpen={open} />
           </LeaderOrCaptainOnlyGuard>
         </Flex>
@@ -148,7 +137,7 @@ function PartyPage() {
             </Stack>
             <Button
               leftSection={
-                memberRole === MEMBER_ROLES.MEMBER ? (
+                party.currentUserRole === MEMBER_ROLES.MEMBER ? (
                   <User2 size={20} />
                 ) : (
                   <UserCog2 size={20} />
@@ -158,7 +147,9 @@ function PartyPage() {
               variant="light"
               onClick={openPartyManagement}
             >
-              {memberRole === MEMBER_ROLES.MEMBER ? "View Members" : "Manage"}
+              {party.currentUserRole === MEMBER_ROLES.MEMBER
+                ? "View Members"
+                : "Manage"}
             </Button>
           </Group>
         </Flex>
