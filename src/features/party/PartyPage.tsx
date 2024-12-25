@@ -14,7 +14,7 @@ import PageHeader from "../../components/page/PageHeader";
 import { useDeleteParty, useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import AvatarList from "../avatar/components/avatar-list/AvatarList";
-import { UserCog2 } from "lucide-react";
+import { User2, UserCog2 } from "lucide-react";
 import NewQuestButton from "./components/quest-comps/new-quest-button/NewQuestButton";
 import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
@@ -32,6 +32,8 @@ import useUserStore from "../../stores/useUserStore";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
 import PartyLeaderRequiredGuard from "./components/party-comps/party-leader-required/PartyLeaderRequiredGuard";
+import LeaderOrCaptainOnlyGuard from "./components/party-comps/leader-or-captain-guard/LeaderOrCaptainOnlyGuard";
+import { MEMBER_ROLES } from "../../shared/utils/constants";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -93,6 +95,9 @@ function PartyPage() {
     (member) => member.userId === userId
   )?.role;
 
+  console.log("Party Members: ", party.partyMembers)
+  console.log("Current user role: ", memberRole);
+
   return (
     <>
       <CreateQuestModal
@@ -109,6 +114,7 @@ function PartyPage() {
         isOpened={partyManagementOpened}
         onClose={closePartyManagement}
         partyId={party.id}
+        memberRole={memberRole!}
       />
 
       <PageHeader>
@@ -127,7 +133,9 @@ function PartyPage() {
               <Text>{party.description}</Text>
             </Stack>
           </Group>
-          <NewQuestButton onOpen={open} />
+          <LeaderOrCaptainOnlyGuard memberRole={memberRole!}>
+            <NewQuestButton onOpen={open} />
+          </LeaderOrCaptainOnlyGuard>
         </Flex>
         <Flex py={16}>
           <Group align="end" gap={8}>
@@ -139,12 +147,18 @@ function PartyPage() {
               />
             </Stack>
             <Button
-              leftSection={<UserCog2 size={20} />}
+              leftSection={
+                memberRole === MEMBER_ROLES.MEMBER ? (
+                  <User2 size={20} />
+                ) : (
+                  <UserCog2 size={20} />
+                )
+              }
               color="violet"
               variant="light"
               onClick={openPartyManagement}
             >
-              Manage
+              {memberRole === MEMBER_ROLES.MEMBER ? "View Members" : "Manage"}
             </Button>
           </Group>
         </Flex>
@@ -181,9 +195,9 @@ function PartyPage() {
             {quests.totalPages > 1 && (
               <Pagination
                 pt={32}
-                total={quests.totalPages} // Total number of pages
-                value={currentPage} // Current page
-                onChange={handlePageChange} // Page change handler
+                total={quests.totalPages}
+                value={currentPage}
+                onChange={handlePageChange}
                 color="violet"
               />
             )}
