@@ -3,6 +3,8 @@ import { useForm } from "@mantine/form";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
 import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
+import { useUpdatePartyLeader } from "../../../api/party";
+import { MemberRole } from "../../../../../shared/types";
 
 const ROLE_LABELS = {
   [MEMBER_ROLES.LEADER]: "Leader",
@@ -25,16 +27,35 @@ function PartyLeaderManagementForm({
     initialValues: {
       currentLeaderId: partyLeader.userId,
       newLeaderId: "",
-      newRole: String(partyLeader.role),
+      newRole: partyLeader.role, // Role is kept as a number
     },
     validate: {
       newLeaderId: (value) => (value ? null : "New leader is required"),
-      newRole: (value) => (value ? null : "Role is required"),
+      newRole: (value) =>
+        typeof value === "number" && value > 0 ? null : "Role is required",
     },
   });
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log("Updated leader details:", values);
+  const updatePartyLeader = useUpdatePartyLeader();
+
+  const handleSubmit = async (values: typeof form.values) => {
+    await updatePartyLeader.mutateAsync(
+      {
+        partyId: partyLeader.partyId,
+        data: {
+          currentLeaderId: values.currentLeaderId,
+          newLeaderId: values.newLeaderId,
+          newRoleForPreviousLeader: values.newRole,
+        },
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          onCancel();
+        },
+        onError: () => {},
+      }
+    );
   };
 
   return (
@@ -62,11 +83,17 @@ function PartyLeaderManagementForm({
                   input: "input",
                 }}
                 data={Object.entries(ROLE_LABELS).map(([value, label]) => ({
-                  value,
+                  value: value.toString(),
                   label,
                 }))}
-                value={form.values.newRole}
-                onChange={(value) => form.setFieldValue("newRole", value!)}
+                value={form.values.newRole.toString()}
+                onChange={(value) =>
+                  form.setFieldValue(
+                    "newRole",
+                    parseInt(value!, 10) as MemberRole
+                  )
+                }
+                error={form.errors.newRole}
               />
             </Table.Td>
 
@@ -83,13 +110,13 @@ function PartyLeaderManagementForm({
                   }))}
                 value={form.values.newLeaderId}
                 onChange={(value) => form.setFieldValue("newLeaderId", value!)}
+                error={form.errors.newLeaderId}
               />
             </Table.Td>
           </Table.Tr>
         </Table.Tbody>
       </Table>
 
-      {/* Submit Button */}
       <Group justify="start" my="md" gap={8}>
         <Button type="submit" variant="light" color="violet">
           Update Leader

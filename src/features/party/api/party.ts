@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import partyService from "./services/party.service";
+import partyService, { ChangeLeader } from "./services/party.service";
 import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
 import { NewParty, PartyData } from "../shared/party.types";
@@ -183,3 +183,41 @@ export const useGetPartyMembers = (partyId: number) => {
     enabled: !!partyId,
   });
 };
+
+export function useUpdatePartyLeader() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      partyId,
+      data,
+    }: {
+      partyId: number;
+      data: ChangeLeader;
+    }): Promise<number> => {
+      return await partyService.updatePartyLeader(partyId, data);
+    },
+    onSuccess: (partyId) => {
+      queryClient.invalidateQueries({ queryKey: ["party", "details"] });
+      queryClient.invalidateQueries({ queryKey: ["party-members", partyId] });
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", partyId],
+      });
+
+      notifications.show({
+        title: "Success",
+        message: "Party leader updated successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "Failed to update the party leader.",
+        color: "red",
+        position: "top-right",
+      });
+    },
+  });
+}

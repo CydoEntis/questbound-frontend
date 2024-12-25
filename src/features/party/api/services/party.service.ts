@@ -101,6 +101,33 @@ const getPartyMembers = async (partyId: number): Promise<PartyMember[]> => {
   return response.result;
 };
 
+export type ChangeLeader = {
+  currentLeaderId: string;
+  newLeaderId: string;
+  newRoleForPreviousLeader: number;
+};
+
+const updatePartyLeader = async (partyId: number, data: ChangeLeader): Promise<number> => {
+  try {
+    const response = (
+      await apiClient.put(
+        `${endpoints.partyMembers}/${partyId}/change-leader`,
+        data
+      )
+    ).data;
+
+    if (!response.isSuccess) {
+      console.error("Error updating party leader:", response.errors);
+      throw new Error("Failed to update the party leader.");
+    }
+
+    return response.result;
+  } catch (error) {
+    console.error("An error occurred while updating the party leader:", error);
+    throw error;
+  }
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -111,4 +138,5 @@ export default {
   deleteParty,
   leaveParty,
   getPartyMembers,
+  updatePartyLeader,
 };
