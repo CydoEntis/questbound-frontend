@@ -67,6 +67,9 @@ function PartyManagementForm({
       {/* Role Selector */}
       <Table.Td>
         <Select
+          classNames={{
+            input: "input",
+          }}
           data={Object.entries(ROLE_LABELS).map(([value, label]) => ({
             value,
             label,
@@ -81,6 +84,7 @@ function PartyManagementForm({
       {/* Remove Checkbox */}
       <Table.Td>
         <Checkbox
+          color="violet"
           checked={member.delete}
           onChange={(event) =>
             form.setFieldValue(
