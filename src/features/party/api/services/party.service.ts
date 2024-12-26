@@ -1,7 +1,10 @@
 import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
-import { PartyMember } from "../../../party-member/shared/party-members.types";
+import {
+  MemberUpdate,
+  PartyMember,
+} from "../../../party-member/shared/party-members.types";
 import {
   PaginatedParties,
   Party,
@@ -107,7 +110,10 @@ export type ChangeLeader = {
   newRoleForPreviousLeader: number;
 };
 
-const updatePartyLeader = async (partyId: number, data: ChangeLeader): Promise<number> => {
+const updatePartyLeader = async (
+  partyId: number,
+  data: ChangeLeader
+): Promise<number> => {
   try {
     const response = (
       await apiClient.put(
@@ -128,6 +134,18 @@ const updatePartyLeader = async (partyId: number, data: ChangeLeader): Promise<n
   }
 };
 
+const updatePartyMembers = async (
+  partyId: number,
+  members: MemberUpdate[]
+): Promise<number> => {
+  const response = (
+    await apiClient.put(`${endpoints.partyMembers}/${partyId}/members`, members)
+  ).data;
+  if (!response.isSuccess) throw new Error("Failed to update party members.");
+
+  return response.result;
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -139,4 +157,5 @@ export default {
   leaveParty,
   getPartyMembers,
   updatePartyLeader,
+  updatePartyMembers,
 };

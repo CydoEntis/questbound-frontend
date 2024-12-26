@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
 import { NewParty, PartyData } from "../shared/party.types";
 import { notifications } from "@mantine/notifications";
+import { MemberUpdate } from "../../party-member/shared/party-members.types";
 
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
@@ -215,6 +216,44 @@ export function useUpdatePartyLeader() {
       notifications.show({
         title: "Error",
         message: "Failed to update the party leader.",
+        color: "red",
+        position: "top-right",
+      });
+    },
+  });
+}
+
+export function useUpdatePartyMembers() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      partyId,
+      members,
+    }: {
+      partyId: number;
+      members: MemberUpdate[];
+    }): Promise<number> => {
+      return await partyService.updatePartyMembers(partyId, members);
+    },
+    onSuccess: (partyId: number) => {
+      queryClient.invalidateQueries({ queryKey: ["party", "details"] });
+      queryClient.invalidateQueries({ queryKey: ["party-members", partyId] });
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", partyId],
+      });
+
+      notifications.show({
+        title: "Success",
+        message: "Party members updated successfully!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "Failed to update party members.",
         color: "red",
         position: "top-right",
       });

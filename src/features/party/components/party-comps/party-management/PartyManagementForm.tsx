@@ -1,29 +1,23 @@
-import {
-  Table,
-  Group,
-  Select,
-  Checkbox,
-  Button,
-  Text,
-  Box,
-} from "@mantine/core";
+import { Table, Group, Select, Checkbox, Button, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
 import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
+import { useUpdatePartyMembers } from "../../../api/party";
 
 const ROLE_LABELS = {
-  [MEMBER_ROLES.LEADER]: "Leader",
   [MEMBER_ROLES.CAPTAIN]: "Captain",
   [MEMBER_ROLES.MEMBER]: "Member",
 };
 
 type PartyManagementFormProps = {
+  partyId: number; // Expecting partyId as a prop
   partyMembers: PartyMember[];
   onCancel: () => void;
 };
 
 function PartyManagementForm({
+  partyId,
   partyMembers,
   onCancel,
 }: PartyManagementFormProps) {
@@ -42,13 +36,22 @@ function PartyManagementForm({
     },
   });
 
+  const updatePartyMembers = useUpdatePartyMembers();
+
   const handleSubmit = (values: typeof form.values) => {
-    const membersToDelete = values.members
-      .filter((m) => m.delete)
-      .map((m) => m.id);
-    const updatedRoles = values.members
-      .filter((m) => !m.delete)
-      .map((m) => ({ id: m.id, role: Number(m.role) }));
+    const membersToUpdate = values.members.map((m) => ({
+      id: m.id,
+      role: m.delete ? 0 : Number(m.role),
+      delete: m.delete,
+    }));
+
+    updatePartyMembers.mutateAsync({
+      partyId,
+      members: membersToUpdate,
+    });
+
+    form.reset();
+    onCancel();
   };
 
   const rows = form.values.members.map((member, index) => (

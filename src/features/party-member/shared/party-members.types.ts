@@ -10,3 +10,9 @@ export type PartyMember = {
   avatar: UserAvatar;
   joinedAt: Date;
 };
+
+export type MemberUpdate = {
+  id: string;
+  role: number;
+  delete: boolean;
+};

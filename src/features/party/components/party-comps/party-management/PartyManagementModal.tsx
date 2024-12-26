@@ -106,6 +106,7 @@ function PartyManagementModal({
           <PartyManagementForm
             partyMembers={otherMembers}
             onCancel={() => setIsEditing(false)}
+            partyId={partyId}
           />
         ) : (
           <>
