@@ -24,6 +24,8 @@ function QuestGrid({ quests }: QuestGridProps) {
     openQuest();
   };
 
+    console.log(quests);
+
   return (
     <>
       <QuestDetailsModal

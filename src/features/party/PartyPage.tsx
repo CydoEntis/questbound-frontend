@@ -1,9 +1,12 @@
 import {
+  Anchor,
   Box,
   Button,
+  Center,
   Flex,
   Group,
   Pagination,
+  Paper,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -26,7 +29,7 @@ import QuestSearch from "./components/quest-comps/quest-search/QuestSearch";
 import QuestSortMenu from "./components/quest-comps/quest-sort/QuestSortMenu";
 import QuestOrderToggle from "./components/quest-comps/quest-order/QuestOrderToggle";
 import QuestDateRangePicker from "./components/quest-comps/date-range-picker/QuestDateRangePicker";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import PartyMenu from "./components/party-comps/party-menu/PartyMenu";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
@@ -86,6 +89,8 @@ function PartyPage() {
 
   if (isPending && !party) return <div>Loading...</div>;
   if (isError) return <div>Something broken...</div>;
+
+  console.log(party.currentUserRole);
 
   return (
     <>
@@ -179,6 +184,30 @@ function PartyPage() {
               <Skeleton key={index} visible h={320} />
             ))}
           </SimpleGrid>
+        )}
+        {!isPending && !quests && (
+          <Center>
+            <Paper p={32} withBorder>
+              <Stack align="center">
+                <Title>UH OH!</Title>
+                <Text size="xl">
+                  You haven't been assigned to any quests yet 👀
+                </Text>
+                <Text size="xs" c="dimmed">
+                  Please contact your party leader
+                </Text>
+                <Anchor
+                  component={Link}
+                  to="/parties"
+                  size="sm"
+                  c="violet"
+                  variant="link"
+                >
+                  View All Parties
+                </Anchor>
+              </Stack>
+            </Paper>
+          </Center>
         )}
         {!isPending && quests && quests.items.length > 0 && (
           <>

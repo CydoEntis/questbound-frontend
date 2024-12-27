@@ -41,6 +41,17 @@ export type QuestStats = {
   pastDueQuests: number;
 };
 
+
+export type PaginatedComments = {
+  items: QuestComment[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  pageRange: number[];
+};
+
 export type QuestComment = {
   id: number;
   questId: number;
