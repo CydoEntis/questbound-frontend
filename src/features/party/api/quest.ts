@@ -317,17 +317,15 @@ export function useDeleteComment() {
     onSuccess: (questId) => {
       console.log("Comment deleted for questId:", questId);
 
-      // Invalidate the query with the full query key including memoizedQueryParams
       queryClient.invalidateQueries({
         queryKey: ["comments", "list", questId],
       });
 
-      // Manually refetch the comments to ensure updated data
       queryClient.refetchQueries({
         queryKey: ["comments", "list", questId],
       });
 
-      // Invalidate the quest details and list to ensure consistency across the app
+
       queryClient.invalidateQueries({
         queryKey: ["quests", "detail", questId],
       });

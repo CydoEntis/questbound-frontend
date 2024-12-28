@@ -3,58 +3,72 @@ import { baseUrl } from "./endpoints";
 import useAuthStore from "../stores/useAuthStore";
 import authService from "../features/auth/api/auth.service";
 import localStorageService from "./services/localStorage.service";
-import Cookies from 'js-cookie';
-
 
 const apiClient = axios.create({
   baseURL: baseUrl,
-  withCredentials: true, 
+  withCredentials: true,
 });
+
 
 apiClient.interceptors.request.use(
   (request) => {
-    // const { isAuthenticated } = useAuthStore.getState();
-
-    // if (isAuthenticated) {
-    //   const csrfToken = Cookies.get("QB-CSRF-TOKEN");
-
-    //   if (csrfToken) {
-    //     request.headers["QB-CSRF-TOKEN"] = csrfToken;
-    //   }
-    // }
-
+    // Add any request logic here (e.g., CSRF tokens)
     return request;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
-
 
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Handle server down or unreachable
+    if (!error.response) {
+      console.error("Server unreachable. Logging out.");
+      useAuthStore.getState().logoutUser();
+      localStorageService.removeItem("questbound");
+      window.location.href = "/login";
+      return Promise.reject(error);
+    }
+
+    // Handle 401 Unauthorized and token refresh
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        await authService.refreshTokens(); 
-
-        console.log("Tokens refreshed successfully.");
-
-        return apiClient(originalRequest); 
-      } catch (error) {
-        console.log(error);
-        console.log("Token refresh failed, logging out.");
-        useAuthStore.getState().logoutUser(); 
+        await authService.refreshTokens();
+        return apiClient(originalRequest); // Retry the original request
+      } catch {
+        console.error("Token refresh failed. Logging out.");
+        useAuthStore.getState().logoutUser();
         localStorageService.removeItem("questbound");
-        window.location.href = "/login"; 
+        window.location.href = "/login";
       }
     }
+
+    // Attach formatted validation errors
+    if (error.response?.status === 400) {
+      const validationErrors = formatValidationErrors(
+        error.response.data.errors
+      );
+      return Promise.reject(validationErrors);
+    }
+
     return Promise.reject(error);
   }
 );
+
+function formatValidationErrors(
+  errors: Record<string, string[]>
+): Record<string, string> {
+  return Object.entries(errors).reduce(
+    (acc, [field, messages]) => {
+      acc[field] = messages[0]; // Use the first error message for each field
+      return acc;
+    },
+    {} as Record<string, string>
+  );
+}
 
 export default apiClient;

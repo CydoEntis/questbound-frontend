@@ -6,6 +6,9 @@ import {
   Textarea,
   Title,
   Text,
+  Paper,
+  Flex,
+  ActionIcon,
 } from "@mantine/core";
 import {
   useAddComment,
@@ -14,6 +17,8 @@ import {
 } from "../../../api/quest";
 import { QuestComment } from "../../../shared/quest.types";
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
+import AvatarDisplay from "../../../../avatar/components/avatar-display/AvatarDisplay";
 
 function CommentSection({
   questId,
@@ -41,6 +46,8 @@ function CommentSection({
     await deleteComment.mutateAsync({ questId, commentId });
   };
 
+  console.log(comments);
+
   return (
     <Stack gap={4}>
       <Title order={5}>Comments</Title>
@@ -48,7 +55,20 @@ function CommentSection({
         <ScrollArea h={200}>
           {comments.map((comment) => (
             <Group key={comment.id}>
-              <Text size="sm">{comment.content}</Text>
+              <Paper bg="secondary" variant="light" withBorder p={8} w="100%">
+                <Stack w="100%">
+                  <Flex justify="space-between" align="center" w="100%">
+                    <Group>
+                      <AvatarDisplay avatar={comment.partyMember.avatar} />
+                      <Text>{comment.partyMember.username}</Text>
+                    </Group>
+                    <ActionIcon variant="light" color="red">
+                      <Trash2 size={20} />
+                    </ActionIcon>
+                  </Flex>
+                </Stack>
+                <Text size="sm" mt={12}>{comment.content}</Text>
+              </Paper>
               <Group>
                 <Button
                   size="xs"

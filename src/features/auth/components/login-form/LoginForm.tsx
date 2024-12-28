@@ -2,14 +2,12 @@ import { Anchor, Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Link, useRouter } from "@tanstack/react-router";
 
-import { transformErrorsToCamelCase } from "../../../../shared/utils/password.utils";
 import { useLogin } from "../../api/auth";
 import { LoginRequest } from "../../shared/auth.types";
 import { loginSchema } from "../../shared/auth.schemas";
-import { CamelCasedErrors, Errors } from "../../../../shared/types";
 
 function LoginForm() {
   const login = useLogin();
@@ -30,19 +28,11 @@ function LoginForm() {
       const redirectTo = searchParams.get("redirect") || "/";
       router.history.push(redirectTo);
       form.reset();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 400) {
-        // Extract validation errors from the response
-        const validationErrors = error.response.data;
-
-        form.setErrors(validationErrors);
-      }
-      if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors: Errors = error.response.data.errors;
-        const transformedErrors: CamelCasedErrors =
-          transformErrorsToCamelCase(errors);
-        form.setErrors(transformedErrors);
-      }
+    } catch (err) {
+      const error = err as Record<string, string>;
+      console.log("Login Error: ", error);
+      form.setErrors(error);
+      // console.log("Login Error 2: ", error.response?.data?.errors)
     }
   }
 
