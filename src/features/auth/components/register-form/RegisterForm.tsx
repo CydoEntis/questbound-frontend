@@ -7,12 +7,12 @@ import {
   TextInput,
   Text,
   Paper,
+  Alert,
 } from "@mantine/core";
 import { AtSign, Lock, User2, Check } from "lucide-react";
 
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
-import { AxiosError } from "axios";
 import { useState } from "react";
 import MaleA from "../../../../assets/male_a.png";
 import MaleB from "../../../../assets/male_b.png";
@@ -20,15 +20,17 @@ import FemaleA from "../../../../assets/female_a.png";
 import FemaleB from "../../../../assets/female_b.png";
 import { useNavigate } from "@tanstack/react-router";
 
-import { CamelCasedErrors, Errors } from "../../../../shared/types/types";
-import { transformErrorsToCamelCase } from "../../../../shared/utils/password.utils";
 import { useRegister } from "../../api/auth";
 import { RegisterRequest } from "../../shared/auth.types";
 import { registerSchema } from "../../shared/auth.schemas";
 import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
+import { ErrorResponse } from "../../../../api/errors/error.types";
+import { ERROR_TYPES } from "../../../../api/errors/error.constants";
 
 function RegisterForm() {
   const [selectedAvatar, setSelectedAvatar] = useState(1);
+  const [error, setError] = useState("");
+
   const register = useRegister();
   const navigate = useNavigate();
   const startAvatars = [
@@ -58,12 +60,16 @@ function RegisterForm() {
       await register.mutateAsync(newUser);
       form.reset();
       navigate({ to: "/" });
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors: Errors = error.response.data.errors;
-        const transformedErrors: CamelCasedErrors =
-          transformErrorsToCamelCase(errors);
-        form.setErrors(transformedErrors);
+    } catch (err) {
+      const error = err as ErrorResponse;
+      if (error.type === ERROR_TYPES.VALIDATION_ERROR) {
+        form.setErrors(error.errors);
+      } else if (error.type == ERROR_TYPES.NOT_FOUND_ERROR) {
+        form.setFieldError("email", "Invalid username or password");
+      } else if (error.type == ERROR_TYPES.UNEXPECTED_ERROR) {
+        setError(
+          "An unexpected error has occured and we could not log you in."
+        );
       }
     }
   }
@@ -71,6 +77,17 @@ function RegisterForm() {
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Stack gap={16}>
+        {error ? (
+          <Alert
+            color="red"
+            variant="light"
+            title="Unexpected Error"
+            ta="center"
+            my={8}
+          >
+            {error}
+          </Alert>
+        ) : null}
         <TextInput
           label="Email"
           placeholder="you@example.com"
