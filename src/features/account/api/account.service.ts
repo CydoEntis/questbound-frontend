@@ -7,14 +7,13 @@ const updateUserDetails = async (
 ): Promise<UpdateUserResponse> => {
   const response = (await apiClient.put(`${endpoints.user}`, request)).data;
   if (!response.success) throw new Error();
-  return response.result;
+  return response.data;
 };
 
 const getUserDetails = async (): Promise<User> => {
-  const response = (await apiClient.get(`${endpoints.user}`)).data;
+  const response = (await apiClient.get(`${endpoints.user}`)).data
   if (!response.success) throw new Error();
-  console.log(response.result);
-  return response.result;
+  return response.data;
 };
 
 export default {

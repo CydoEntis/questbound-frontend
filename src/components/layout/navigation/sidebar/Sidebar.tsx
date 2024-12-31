@@ -12,8 +12,11 @@ type SidebarProps = {
 };
 
 function Sidebar({ onClose }: SidebarProps) {
-  const { data: user } = useGetUser(); // Get the user data
-  const { setUserId } = useUserStore(); // Access the store's setUserId function
+  const { data: user } = useGetUser(); 
+
+  console.log("User: ", user)
+
+  const { setUserId } = useUserStore(); 
   const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
     useDisclosure(false);
 
