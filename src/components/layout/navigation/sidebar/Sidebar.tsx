@@ -6,17 +6,18 @@ import { useGetUser } from "../../../../features/account/api/account";
 import CreateParty from "../../../../features/party/components/party-comps/create-party/CreateParty";
 import useUserStore from "../../../../stores/useUserStore";
 import { useEffect } from "react";
+import { Skeleton, Stack } from "@mantine/core";
 
 type SidebarProps = {
   onClose: () => void;
 };
 
 function Sidebar({ onClose }: SidebarProps) {
-  const { data: user } = useGetUser(); 
+  const { data: user } = useGetUser();
 
-  console.log("User: ", user)
+  console.log("User: ", user);
 
-  const { setUserId } = useUserStore(); 
+  const { setUserId } = useUserStore();
   const [avatarShopOpen, { open: openAvatarShop, close: closeAvatarShop }] =
     useDisclosure(false);
 
@@ -32,7 +33,35 @@ function Sidebar({ onClose }: SidebarProps) {
   }, [user, setUserId]);
 
   if (!user) {
-    return <p>Loading...</p>;
+    return (
+      <Stack
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "calc(100vh - 120px)",
+        }}
+      >
+        <Stack
+          gap={16}
+          style={{
+            flexGrow: 1,
+            overflowY: "auto",
+          }}
+        >
+          <Skeleton height={60} />
+          <Skeleton height={50} />
+
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+        </Stack>
+
+        <Stack mt="auto">
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+        </Stack>
+      </Stack>
+    );
   }
 
   return (
