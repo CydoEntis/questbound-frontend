@@ -6,13 +6,14 @@ const updateUserDetails = async (
   request: UpdateUserRequest
 ): Promise<UpdateUserResponse> => {
   const response = (await apiClient.put(`${endpoints.user}`, request)).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
   return response.result;
 };
 
 const getUserDetails = async (): Promise<User> => {
   const response = (await apiClient.get(`${endpoints.user}`)).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
+  console.log(response.result);
   return response.result;
 };
 
