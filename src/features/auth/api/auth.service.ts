@@ -6,60 +6,71 @@ import {
   ForgotPasswordRequest,
   ResetPasswordRequest,
   ChangePasswordRequest,
+  AuthSuccessResponse,
 } from "../shared/auth.types";
 
-const registerUser = async (credentials: RegisterRequest): Promise<boolean> => {
+const registerUser = async (
+  credentials: RegisterRequest
+): Promise<AuthSuccessResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/register`, credentials)
   ).data;
   if (!response.success) throw new Error();
-  return true;
+  return response.data;
 };
 
-const loginUser = async (credentials: LoginRequest): Promise<boolean> => {
+const loginUser = async (
+  credentials: LoginRequest
+): Promise<AuthSuccessResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/login`, credentials)
   ).data;
 
   if (!response.success) throw new Error("Login unsuccessful!");
 
-  return true;
+  return response.data;
 };
 
-const logoutUser = async (): Promise<void> => {
+const logoutUser = async (): Promise<AuthSuccessResponse> => {
   const response = (await apiClient.post(`${endpoints.auth}/logout`)).data;
   if (!response.success) throw new Error();
+  return response.data;
 };
 
-const refreshTokens = async (): Promise<void> => {
+const refreshTokens = async (): Promise<AuthSuccessResponse> => {
   const response = (await apiClient.post(`${endpoints.auth}/refresh`)).data;
   if (!response.success) throw new Error();
+  return response.data;
 };
 
-const forgotPassword = async (email: ForgotPasswordRequest): Promise<void> => {
+const forgotPassword = async (
+  email: ForgotPasswordRequest
+): Promise<AuthSuccessResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/forgot-password`, email)
   ).data;
   if (!response.success) throw new Error();
-  return response.result;
+  return response.data;
 };
 
-const resetPassword = async (request: ResetPasswordRequest): Promise<void> => {
+const resetPassword = async (
+  request: ResetPasswordRequest
+): Promise<AuthSuccessResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/reset-password`, request)
   ).data;
   if (!response.success) throw new Error();
-  return response.result;
+  return response.data;
 };
 
 const changePassword = async (
   request: ChangePasswordRequest
-): Promise<void> => {
+): Promise<AuthSuccessResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/change-password`, request)
   ).data;
   if (!response.success) throw new Error();
-  return response.result;
+  return response.data;
 };
 
 export default {

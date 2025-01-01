@@ -7,6 +7,7 @@ import {
   ForgotPasswordRequest,
   ResetPasswordRequest,
   ChangePasswordRequest,
+  AuthSuccessResponse,
 } from "../shared/auth.types";
 import localStorageService from "../../../api/services/localStorage.service";
 import { notifications } from "@mantine/notifications";
@@ -15,7 +16,9 @@ export function useLogin() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (credentials: LoginRequest): Promise<boolean> => {
+    mutationFn: async (
+      credentials: LoginRequest
+    ): Promise<AuthSuccessResponse> => {
       return await authService.loginUser(credentials);
     },
     onSuccess: (data) => {
@@ -49,7 +52,9 @@ export function useRegister() {
   const { loginUser } = useAuthStore();
 
   return useMutation({
-    mutationFn: async (credentials: RegisterRequest): Promise<boolean> => {
+    mutationFn: async (
+      credentials: RegisterRequest
+    ): Promise<AuthSuccessResponse> => {
       return await authService.registerUser(credentials);
     },
     onSuccess: () => {
@@ -79,9 +84,8 @@ export function useRegister() {
 }
 
 export function useRefreshTokens() {
-
   return useMutation({
-    mutationFn: async (): Promise<void> => {
+    mutationFn: async (): Promise<AuthSuccessResponse> => {
       return await authService.refreshTokens();
     },
     onError: (error: Error) => {
@@ -114,10 +118,10 @@ export function useLogout() {
   };
 
   return useMutation({
-    mutationFn: async (): Promise<void> => {
-      await authService.logoutUser();
+    mutationFn: async (): Promise<AuthSuccessResponse> => {
+      return await authService.logoutUser();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       logoutUser();
       localStorageService.removeItem("questbound");
 
@@ -126,7 +130,7 @@ export function useLogout() {
 
       notifications.show({
         title: "Success",
-        message: "Logout successful!",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
@@ -145,15 +149,17 @@ export function useLogout() {
 
 export function useForgotPassword() {
   return useMutation({
-    mutationFn: async (email: ForgotPasswordRequest): Promise<void> => {
-      await authService.forgotPassword(email);
+    mutationFn: async (
+      email: ForgotPasswordRequest
+    ): Promise<AuthSuccessResponse> => {
+      return await authService.forgotPassword(email);
     },
     onSuccess: (data) => {
       console.log(data);
 
       notifications.show({
         title: "Success",
-        message: "Email has been sent.",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
@@ -172,15 +178,17 @@ export function useForgotPassword() {
 
 export function useResetPassword() {
   return useMutation({
-    mutationFn: async (request: ResetPasswordRequest): Promise<void> => {
-      await authService.resetPassword(request);
+    mutationFn: async (
+      request: ResetPasswordRequest
+    ): Promise<AuthSuccessResponse> => {
+      return await authService.resetPassword(request);
     },
     onSuccess: (data) => {
       console.log(data);
 
       notifications.show({
         title: "Success",
-        message: "Password has been reset.",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
@@ -199,15 +207,16 @@ export function useResetPassword() {
 
 export function useChangePassword() {
   return useMutation({
-    mutationFn: async (request: ChangePasswordRequest): Promise<void> => {
-      await authService.changePassword(request);
+    mutationFn: async (
+      request: ChangePasswordRequest
+    ): Promise<AuthSuccessResponse> => {
+      return await authService.changePassword(request);
     },
     onSuccess: (data) => {
-      console.log(data);
 
       notifications.show({
         title: "Success",
-        message: "Password updated successfully!",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
