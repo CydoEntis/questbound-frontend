@@ -5,6 +5,7 @@ import { formatDate } from "../../../../../shared/utils/date.utils";
 import AvatarList from "../../../../avatar/components/avatar-list/AvatarList";
 import PriorityBadge from "../priority-badge/PriorityBadge";
 import { Quest } from "../../../shared/quest.types";
+import styles from "./quest-card.module.css";
 
 type QuestCardProps = {
   quest: Quest;
@@ -20,6 +21,7 @@ function QuestCard({ quest, onClick }: QuestCardProps) {
       radius="md"
       withBorder
       onClick={onClick}
+      className={styles.card}
     >
       <Stack gap={16}>
         <Flex justify="space-between">

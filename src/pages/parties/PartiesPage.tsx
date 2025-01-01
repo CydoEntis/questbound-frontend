@@ -31,7 +31,6 @@ function PartiesPage() {
     });
   };
 
-  console.log("History length after:", window.history.length);
 
   return (
     <>
