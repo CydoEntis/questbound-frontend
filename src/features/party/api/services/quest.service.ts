@@ -14,9 +14,9 @@ const createQuest = async (newQuest: NewQuest): Promise<void> => {
   const response = (
     await apiClient.post(`${endpoints.parties}/quests`, newQuest)
   ).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
-  return response.result;
+  return response.data;
 };
 
 const getPartyQuests = async (
@@ -35,10 +35,10 @@ const getPartyQuests = async (
     )
   ).data;
 
-  console.log("Quests: ", response.result);
+  console.log(response);
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
@@ -46,8 +46,8 @@ const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
     await apiClient.get(`${endpoints.parties}/quests/${questId}`)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const updateStepStatus = async (
@@ -56,8 +56,8 @@ const updateStepStatus = async (
   console.log(questStep);
   const response = (await apiClient.put(`${endpoints.steps}`, questStep)).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const completeQuest = async (questId: number): Promise<number> => {
@@ -65,8 +65,8 @@ const completeQuest = async (questId: number): Promise<number> => {
     await apiClient.put(`${endpoints.parties}/quests/${questId}/complete`)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const updateQuest = async (
@@ -77,8 +77,8 @@ const updateQuest = async (
     await apiClient.put(`${endpoints.parties}/quests/${questId}`, updateQuest)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const deleteQuest = async (questId: number): Promise<number> => {
@@ -86,8 +86,8 @@ const deleteQuest = async (questId: number): Promise<number> => {
     await apiClient.delete(`${endpoints.parties}/quests/${questId}`)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const getPaginatedComments = async (
@@ -106,8 +106,8 @@ const getPaginatedComments = async (
     )
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const addComment = async (
@@ -120,8 +120,8 @@ const addComment = async (
     })
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const editComment = async (
@@ -136,8 +136,8 @@ const editComment = async (
     )
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const deleteComment = async (
@@ -150,8 +150,8 @@ const deleteComment = async (
     )
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 export default {

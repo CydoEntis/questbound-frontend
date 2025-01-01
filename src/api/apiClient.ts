@@ -25,7 +25,6 @@ apiClient.interceptors.response.use(
 
     // Handle server down or unreachable
     if (!error.response) {
-      console.error("Server unreachable. Logging out.");
       useAuthStore.getState().logoutUser();
       localStorageService.removeItem("questbound");
       window.location.href = "/login";
@@ -52,7 +51,6 @@ apiClient.interceptors.response.use(
       }
     }
 
-    console.log("Status Code: ", error.response.status);
 
     // Attach formatted validation errors
     if (error.response?.status === 400) {
@@ -64,7 +62,6 @@ apiClient.interceptors.response.use(
     }
 
     if (error.response?.status === 404) {
-      console.log("Not found errors: ", error.response.data.errors);
 
       const errorMessage =
         Object.values(error.response.data.errors)?.[0] || "Resource not found.";
@@ -77,7 +74,6 @@ apiClient.interceptors.response.use(
     }
 
     if (error.response?.status === 409) {
-      console.log("Conflict errors: ", error.response.data.errors);
 
       const errorMessage =
         Object.values(error.response.data.errors)?.[0] || "Resource conflict.";
