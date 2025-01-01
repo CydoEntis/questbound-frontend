@@ -1,4 +1,3 @@
-import React from "react";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
 import { Table } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
