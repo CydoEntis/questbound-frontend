@@ -55,7 +55,7 @@ function UnlockableAvatarList({
               labelPosition="center"
             />
 
-            <SimpleGrid cols={10} spacing="xs">
+            <SimpleGrid cols={{ base: 5, md: 10 }} spacing="xs">
               {avatarsByTier.map((avatar) =>
                 avatar.isUnlocked ? (
                   <Tooltip label={avatar.displayName}>
@@ -64,17 +64,17 @@ function UnlockableAvatarList({
                 ) : (
                   <Tooltip label={avatar.displayName}>
                     <Stack gap={4}>
-                    <LockedAvatar
-                      size="lg"
-                      key={avatar.id}
-                      avatar={avatar}
-                      onClick={() => avatarSelectionHandler(avatar)}
-                    />
-                    <Flex gap={4} justify="center" align="center">
-                      <Image src={Gold} w={10} />
-                      <Text size="xs">{avatar?.unlockCost}</Text>
-                    </Flex>
-                  </Stack>
+                      <LockedAvatar
+                        size="lg"
+                        key={avatar.id}
+                        avatar={avatar}
+                        onClick={() => avatarSelectionHandler(avatar)}
+                      />
+                      <Flex gap={4} justify="center" align="center">
+                        <Image src={Gold} w={10} />
+                        <Text size="xs">{avatar?.unlockCost}</Text>
+                      </Flex>
+                    </Stack>
                   </Tooltip>
                 )
               )}

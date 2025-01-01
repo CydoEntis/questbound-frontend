@@ -1,4 +1,12 @@
-import { Group, Modal, Text, Image } from "@mantine/core";
+import {
+  Group,
+  Modal,
+  Text,
+  Image,
+  Skeleton,
+  SimpleGrid,
+  Stack,
+} from "@mantine/core";
 import ConfirmUnlockAvatarModal from "../confirm-avatar-unlock-modal/ConfirmAvatarUnlockModal";
 import { useGetUnlockableAvatars } from "../../api/avatar";
 import { UnlockableAvatar } from "../../shared/avatar.types";
@@ -50,7 +58,23 @@ function AvatarShop({
         <Image src={Gold} w={20} />
       </Group>
       {isPending ? (
-        <Text>Loading...</Text>
+        <Stack gap="md" mt={16}>
+          {Array.from({ length: 10 }).map((_, rowIndex) => (
+            <div key={rowIndex}>
+              {/* Skeleton divider for the row */}
+              <Skeleton h={10} w="100%" mb={20} />
+              <SimpleGrid
+                cols={{ base: 5, md: 10 }} // Default is 10 columns
+                spacing="xs"
+                my={8}
+              >
+                {Array.from({ length: 10 }).map((_, colIndex) => (
+                  <Skeleton key={colIndex} w={50} h={50} radius="xl" />
+                ))}
+              </SimpleGrid>
+            </div>
+          ))}
+        </Stack>
       ) : (
         <UnlockableAvatarList
           onOpenUnlockAvatar={openUnlockAvatar}
