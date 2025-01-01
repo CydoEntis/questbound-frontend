@@ -4,7 +4,7 @@ import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
 import PartyManagementForm from "./PartyManagementForm";
 import PartyLeaderManagementForm from "./PartyLeaderManagementForm";
 import { useState, useEffect } from "react";
-import { Stack, Flex, Button, Group } from "@mantine/core";
+import { Stack, Flex, Button, Group, Center, Text, Paper } from "@mantine/core";
 import PartyMemberDetail from "../party-member-details/PartyMemberDetail";
 import { useNavigate } from "@tanstack/react-router";
 import { Route } from "../../../../../routes/_authenticated/parties";
@@ -114,8 +114,21 @@ function PartyManagementModal({
               <PartyManagementLoadingSkeleton />
             ) : (
               <>
-                <PartyMemberDetail partyMembers={partyLeaders} />
-                <PartyMemberDetail partyMembers={otherMembers} />
+                {partyLeaders ? (
+                  <PartyMemberDetail partyMembers={partyLeaders} />
+                ) : (
+                  <Paper p={16} w="100%" withBorder bg="secondary">
+                    <Text ta="center">No Party Leader</Text>
+                  </Paper>
+                )}
+
+                {partyMembers.length > 1 ? (
+                  <PartyMemberDetail partyMembers={otherMembers} />
+                ) : (
+                  <Paper p={16} w="100%" withBorder bg="secondary">
+                    <Text ta="center">No Party Members</Text>
+                  </Paper>
+                )}
               </>
             )}
 
