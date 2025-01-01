@@ -102,7 +102,7 @@ function RegisterForm() {
           }}
         />
         <TextInput
-          label="Display Name"
+          label="Username"
           placeholder="Questbounder"
           classNames={{
             input: "input",

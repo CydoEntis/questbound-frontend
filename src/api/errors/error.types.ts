@@ -15,4 +15,9 @@ export type UnexpectedError = {
   error: string;
 };
 
-export type ErrorResponse = ValidationError | NotFoundError | UnexpectedError;
+export type ConflictError = {
+  type: typeof ERROR_TYPES.CONFLICT_ERROR;
+  error: string;
+};
+
+export type ErrorResponse = ValidationError | NotFoundError | UnexpectedError | ConflictError;

@@ -76,6 +76,19 @@ apiClient.interceptors.response.use(
       });
     }
 
+    if (error.response?.status === 409) {
+      console.log("Conflict errors: ", error.response.data.errors);
+
+      const errorMessage =
+        Object.values(error.response.data.errors)?.[0] || "Resource conflict.";
+
+      return Promise.reject({
+        type: ERROR_TYPES.CONFLICT_ERROR,
+        error: errorMessage,
+        statusCode: error.response.status,
+      });
+    }
+
     const errorMessage =
       Object.values(error.response.data.errors)?.[0] ||
       "An unknown error occurred.";

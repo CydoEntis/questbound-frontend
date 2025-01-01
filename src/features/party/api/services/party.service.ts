@@ -25,29 +25,29 @@ const getAllParties = async (
     await apiClient.get(`${endpoints.parties}?${queryParams.toString()}`)
   ).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const getRecentParties = async (): Promise<Party[]> => {
   const response = (await apiClient.get(`${endpoints.parties}/recent`)).data;
 
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const getPartyById = async (partyId: number): Promise<Party> => {
   const response = (await apiClient.get(`${endpoints.parties}/${partyId}`))
     .data;
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const createParty = async (party: PartyData): Promise<Party> => {
   const response = (await apiClient.post(`${endpoints.parties}`, party)).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
-  return response.result;
+  return response.data;
 };
 
 const updateParty = async (
@@ -57,11 +57,11 @@ const updateParty = async (
   const response = (
     await apiClient.put(`${endpoints.parties}/${partyId}`, updatedPartyDetails)
   ).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
-  console.log(response.result);
+  console.log(response.data);
 
-  return response.result;
+  return response.data;
 };
 
 const updatePartyCreator = async (
@@ -73,14 +73,14 @@ const updatePartyCreator = async (
       newPartyCreator
     )
   ).data;
-  if (!response.isSuccess) throw new Error();
-  return response.result;
+  if (!response.success) throw new Error();
+  return response.data;
 };
 
 const deleteParty = async (partyId: number): Promise<number> => {
   const response = (await apiClient.delete(`${endpoints.parties}/${partyId}`))
     .data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
   return response.data;
 };
@@ -89,7 +89,7 @@ const leaveParty = async (partyId: number): Promise<number> => {
   const response = (
     await apiClient.delete(`${endpoints.partyMembers}/${partyId}/leave`)
   ).data;
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
   return response.data;
 };
@@ -99,9 +99,9 @@ const getPartyMembers = async (partyId: number): Promise<PartyMember[]> => {
     .data;
 
   console.log(response);
-  if (!response.isSuccess) throw new Error();
+  if (!response.success) throw new Error();
 
-  return response.result;
+  return response.data;
 };
 
 export type ChangeLeader = {
@@ -122,12 +122,12 @@ const updatePartyLeader = async (
       )
     ).data;
 
-    if (!response.isSuccess) {
+    if (!response.success) {
       console.error("Error updating party leader:", response.errors);
       throw new Error("Failed to update the party leader.");
     }
 
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error("An error occurred while updating the party leader:", error);
     throw error;
@@ -141,9 +141,9 @@ const updatePartyMembers = async (
   const response = (
     await apiClient.put(`${endpoints.partyMembers}/${partyId}/members`, members)
   ).data;
-  if (!response.isSuccess) throw new Error("Failed to update party members.");
+  if (!response.success) throw new Error("Failed to update party members.");
 
-  return response.result;
+  return response.data;
 };
 
 export default {
