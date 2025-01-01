@@ -1,16 +1,26 @@
-import { Box, Pagination } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Center,
+  Container,
+  Pagination,
+  Paper,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { useDeleteParty, useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
 import { useDisclosure } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
 import QuestGrid from "./components/quest-comps/quest-grid/QuestGrid";
 import CreateQuestModal from "./components/quest-comps/create-quest-modal/CreateQuestModal";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import UpdatePartyModal from "./components/party-comps/update-party-modal/UpdatePartyModal";
 import PartyManagementModal from "./components/party-comps/party-management/PartyManagementModal";
 import PartyHeader from "./components/party-comps/party-header/PartyHeader";
 import QuestsLoadingSkeleton from "./components/quest-comps/quest-loading/QuestsLoadingSkeleton";
 import NoQuestsAssigned from "./components/quest-comps/no-quests/NoQuestsAssigned";
+import PartiesPageLoadingSkeleton from "./components/party-comps/parties-loader/PartiesPageLoadingSkeleton";
 
 function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
@@ -40,7 +50,8 @@ function PartyPage() {
     });
   };
 
-  const [newQuestOpened, { open: openNewQuest, close: closeNewQuest }] = useDisclosure(false);
+  const [newQuestOpened, { open: openNewQuest, close: closeNewQuest }] =
+    useDisclosure(false);
   const [editPartyOpened, { open: openEditParty, close: closeEditParty }] =
     useDisclosure(false);
   const [
@@ -58,8 +69,21 @@ function PartyPage() {
     }
   };
 
-  if (isPending && !party) return <div>Loading...</div>;
-  if (isError) return <div>Something broken...</div>;
+  if (isPending && !party) return <PartiesPageLoadingSkeleton />;
+
+  if (isError)
+    return (
+      <Container p={32}>
+        <Center>
+          <Paper p={32} withBorder bg="card">
+            <Stack justify="center" align="center">
+            <Title>Unexpected Error Has Occured</Title>
+            <Anchor component={Link} to="/dashboard" size="sm" c="violet" variant="link">Return to Dashboard</Anchor>
+            </Stack>
+          </Paper>
+        </Center>
+      </Container>
+    );
 
   console.log(isPending);
   return (
