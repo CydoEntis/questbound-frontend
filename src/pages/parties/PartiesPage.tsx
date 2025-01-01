@@ -1,21 +1,11 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import {
-  Box,
-  Flex,
-  Group,
-  Pagination,
-  SimpleGrid,
-  Skeleton,
-  Title,
-} from "@mantine/core";
-import PageHeader from "../../components/page/PageHeader";
+import { Box, Pagination } from "@mantine/core";
 import { useGetParties } from "../../features/party/api/party";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
-import PartySearch from "../../features/party/components/party-comps/party-search/PartySearch";
-import PartySortMenu from "../../features/party/components/party-comps/party-sort/PartySortMenu";
-import PartyOrderToggle from "../../features/party/components/party-comps/party-order/PartyOrderToggle";
-import PartyDateRangePicker from "../../features/party/components/party-comps/date-range-picker/PartyDateRangePicker";
+
+import PartiesHeader from "../../features/party/components/party-comps/parties-header/PartiesHeader";
+import PartiesLoadingSkeleton from "../../features/party/components/party-comps/parties-loader/PartiesLoadingSkeleton";
 
 function PartiesPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
@@ -45,35 +35,9 @@ function PartiesPage() {
 
   return (
     <>
-      <PageHeader>
-        <Title>Your Joined Parties</Title>
-        <Flex align="end" justify="space-between">
-          <Group align="end">
-            <PartySearch />
-            <PartySortMenu />
-            <PartyDateRangePicker />
-            <PartyOrderToggle />
-          </Group>
-        </Flex>
-      </PageHeader>
+      <PartiesHeader />
       <Box p={32}>
-        {isPending && (
-          <SimpleGrid
-            type="container"
-            cols={{
-              base: 1,
-              "550px": 1,
-              "725px": 2,
-              "1000px": 3,
-              "1700px": 4,
-              "2000px": 6,
-            }}
-          >
-            {Array.from({ length: 24 }).map((_, index) => (
-              <Skeleton key={index} visible h={320} />
-            ))}
-          </SimpleGrid>
-        )}
+        {isPending && <PartiesLoadingSkeleton />}
 
         {!isPending && isError && (
           <p>Error loading parties. Please try again later.</p>
