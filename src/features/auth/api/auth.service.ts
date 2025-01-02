@@ -39,6 +39,9 @@ const logoutUser = async (): Promise<AuthSuccessResponse> => {
 
 const refreshTokens = async (): Promise<AuthSuccessResponse> => {
   const response = (await apiClient.post(`${endpoints.auth}/refresh`)).data;
+
+  console.log("ARE TOKENS REFRESHING? ", response);
+
   if (!response.success) throw new Error();
   return response.data;
 };
