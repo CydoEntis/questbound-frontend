@@ -48,3 +48,9 @@ export type NewPartyCreator = {
   partyId: number;
   memberId: number;
 };
+
+export type PartyModifiedResponse = {
+  message: string;
+  partyId: number;
+}
+

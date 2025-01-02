@@ -2,7 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import partyService, { ChangeLeader } from "./services/party.service";
 import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
-import { NewParty, PartyData } from "../shared/party.types";
+import {
+  NewParty,
+  PartyData,
+  PartyModifiedResponse,
+} from "../shared/party.types";
 import { notifications } from "@mantine/notifications";
 import { MemberUpdate } from "../../party-member/shared/party-members.types";
 
@@ -77,16 +81,18 @@ export function useUpdateParty() {
     mutationFn: async ({
       partyId,
       updatedParty,
-    }: UpdatePartyPayload): Promise<number> => {
+    }: UpdatePartyPayload): Promise<PartyModifiedResponse> => {
       return await partyService.updateParty(partyId, updatedParty);
     },
-    onSuccess: (id) => {
+    onSuccess: (data) => {
+      console.log(data);
+
       queryClient.invalidateQueries({
         queryKey: ["parties", "list"],
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["parties", "detail", id],
+        queryKey: ["parties", "detail", data.partyId],
       });
 
       queryClient.invalidateQueries({
@@ -95,7 +101,7 @@ export function useUpdateParty() {
 
       notifications.show({
         title: "Success",
-        message: "Party Updated Successfully!",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
@@ -114,7 +120,7 @@ export function useUpdateParty() {
 export function useDeleteParty() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (partyId: number): Promise<number> => {
+    mutationFn: async (partyId: number): Promise<PartyModifiedResponse> => {
       return await partyService.deleteParty(partyId);
     },
     onSuccess: () => {

@@ -10,6 +10,7 @@ import {
   Party,
   NewPartyCreator,
   PartyData,
+  PartyModifiedResponse,
 } from "../../shared/party.types";
 
 const getAllParties = async (
@@ -53,7 +54,7 @@ const createParty = async (party: PartyData): Promise<Party> => {
 const updateParty = async (
   partyId: number,
   updatedPartyDetails: PartyData
-): Promise<number> => {
+): Promise<PartyModifiedResponse> => {
   const response = (
     await apiClient.put(`${endpoints.parties}/${partyId}`, updatedPartyDetails)
   ).data;
@@ -77,7 +78,7 @@ const updatePartyCreator = async (
   return response.data;
 };
 
-const deleteParty = async (partyId: number): Promise<number> => {
+const deleteParty = async (partyId: number): Promise<PartyModifiedResponse> => {
   const response = (await apiClient.delete(`${endpoints.parties}/${partyId}`))
     .data;
   if (!response.success) throw new Error();
