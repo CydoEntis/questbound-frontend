@@ -21,7 +21,7 @@ export function useLogin() {
     ): Promise<AuthSuccessResponse> => {
       return await authService.loginUser(credentials);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       loginUser();
 
       const questbound = { isAuthenticated: true };
@@ -87,7 +87,6 @@ export function useRefreshTokens() {
     mutationFn: async (): Promise<AuthSuccessResponse> => {
       return await authService.refreshTokens();
     },
-    onSuccess: (data) => {console.log("Refresh tokens: ", data)},
     onError: (error: Error) => {
       notifications.show({
         title: "Login Expired",
@@ -213,7 +212,6 @@ export function useChangePassword() {
       return await authService.changePassword(request);
     },
     onSuccess: (data) => {
-
       notifications.show({
         title: "Success",
         message: data.message,
