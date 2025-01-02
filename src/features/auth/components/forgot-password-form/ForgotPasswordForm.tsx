@@ -10,9 +10,7 @@ import { useForgotPassword } from "../../api/auth";
 import { ForgotPasswordRequest } from "../../shared/auth.types";
 import { forgotPasswordSchema } from "../../shared/auth.schemas";
 
-type Props = {};
-
-function ForgotPassword({}: Props) {
+function ForgotPassword() {
   const forgotPassword = useForgotPassword();
   const router = useRouter();
 
@@ -47,7 +45,7 @@ function ForgotPassword({}: Props) {
         label="Email"
         placeholder="you@example.com"
         classNames={{
-          input: "input"
+          input: "input",
         }}
         leftSection={<AtSign size={20} />}
         {...form.getInputProps("email")}

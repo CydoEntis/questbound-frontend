@@ -50,8 +50,8 @@ export const resetPasswordSchema = z
     confirmNewPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
+    message: "New password and confirm new password do not match.",
+    path: ["newPassword"],
   });
 
 export const changePasswordSchema = z

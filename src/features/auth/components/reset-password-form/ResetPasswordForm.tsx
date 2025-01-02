@@ -1,22 +1,21 @@
 import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { AxiosError } from "axios";
 import { Alert, Button, PasswordInput, TextInput } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 
-import { useState } from "react";
 import { useResetPassword } from "../../api/auth";
 import { ResetPasswordRequest } from "../../shared/auth.types";
 import { resetPasswordSchema } from "../../shared/auth.schemas";
 import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
+import { ErrorResponse } from "../../../../api/errors/error.types";
+import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
 
-type Props = {};
-
-function ResetPassword({}: Props) {
+function ResetPassword() {
   const resetPassword = useResetPassword();
   const router = useRouter();
-  const [error, setError] = useState("");
+  const { error, handleAuthFormErrors } =
+    useFormErrorHandler<ResetPasswordRequest>();
 
   const searchParams = new URLSearchParams(window.location.search);
   const token = searchParams.get("token");
@@ -34,32 +33,20 @@ function ResetPassword({}: Props) {
   async function onSubmit(request: ResetPasswordRequest) {
     try {
       if (token) {
-        // URL encode the token before sending it to the server
         const encodedToken = encodeURIComponent(token);
 
         await resetPassword.mutateAsync({
           ...request,
-          token: encodedToken, // Send the encoded token
+          token: encodedToken,
         });
 
-        const searchParams = new URLSearchParams(window.location.search);
         const redirectTo = searchParams.get("redirect") || "/";
-
         router.history.push(redirectTo);
         form.reset();
       }
-    } catch (error) {
-      console.log("Error: ", error);
-      if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors = error.response.data.errors;
-        Object.entries(errors).forEach(([field, messages]) => {
-          form.setErrors({ [field]: (messages as string[]).join(" ") });
-        });
-
-        if (errors["token"]) {
-          setError(errors["token"]);
-        }
-      }
+    } catch (e) {
+      const error = e as ErrorResponse;
+      handleAuthFormErrors(error, form);
     }
   }
 
@@ -104,10 +91,6 @@ function ResetPassword({}: Props) {
           input: "input",
         }}
         {...form.getInputProps("confirmNewPassword")}
-        // value={form.values.confirmNewPassword}
-        // onChange={(event) => {
-        //   form.setFieldValue("confirmNewPassword", event.currentTarget.value);
-        // }}
         leftSection={<Lock size={20} />}
       />
       <Button
