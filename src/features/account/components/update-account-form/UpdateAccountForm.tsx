@@ -1,5 +1,4 @@
 import { useForm } from "@mantine/form";
-import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { LoadingOverlay, TextInput } from "@mantine/core";
 import { AtSign, User2 } from "lucide-react";
@@ -16,7 +15,6 @@ type UpdateAccountFormProps = {
 
 function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
   const updateUserDetails = useUpdateUserDetails();
-  const router = useRouter();
   const { handleFormErrors } = useFormErrorHandler<UpdateAccount>();
 
   const form = useForm<UpdateAccount>({
@@ -30,10 +28,6 @@ function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
   async function onSubmit(request: UpdateAccount) {
     try {
       await updateUserDetails.mutateAsync(request);
-      const searchParams = new URLSearchParams(window.location.search);
-      const redirectTo = searchParams.get("redirect") || "/";
-
-      router.history.push(redirectTo);
       handleClose();
       form.reset();
     } catch (err) {
