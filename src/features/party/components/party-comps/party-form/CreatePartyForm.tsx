@@ -7,6 +7,8 @@ import { PartyData } from "../../../shared/party.types";
 import { AxiosError } from "axios";
 import { Errors, CamelCasedErrors } from "../../../../../shared/types";
 import { transformErrorsToCamelCase } from "../../../../../shared/utils/password.utils";
+import useFormErrorHandler from "../../../../../shared/hooks/useHandleErrors";
+import { ErrorResponse } from "../../../../../api/errors/error.types";
 
 type CreatePartyProps = {
   onClose: () => void;
@@ -14,6 +16,7 @@ type CreatePartyProps = {
 
 function CreatePartyForm({ onClose }: CreatePartyProps) {
   const createParty = useCreateParty();
+  const { handleFormErrors } = useFormErrorHandler<PartyData>();
 
   const form = useForm<PartyData>({
     validate: zodResolver(partySchema),
@@ -28,13 +31,9 @@ function CreatePartyForm({ onClose }: CreatePartyProps) {
       const newlyCreatedParty = await createParty.mutateAsync(data);
       console.log(newlyCreatedParty);
       onClose();
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        const errors: Errors = error.response.data;
-        const transformedErrors: CamelCasedErrors =
-          transformErrorsToCamelCase(errors);
-        form.setErrors(transformedErrors);
-      }
+    } catch (e) {
+      const error = e as ErrorResponse;
+      handleFormErrors(error, form);
     }
   };
 
@@ -42,11 +41,13 @@ function CreatePartyForm({ onClose }: CreatePartyProps) {
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack gap={8}>
         <TextInput
+          classNames={{ input: "input" }}
           label="Party Name"
           placeholder="Name of your Party?"
           {...form.getInputProps("name")}
         />
         <Textarea
+          classNames={{ input: "input" }}
           label="Description"
           placeholder="Describe your party"
           autosize
