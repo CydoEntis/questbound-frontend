@@ -101,7 +101,7 @@ function PartyManagementModal({
         ) : (
           <>
             {/* Search and Sort */}
-            <LeaderOrCaptainOnlyGuard memberRole={memberRole} >
+            <LeaderOrCaptainOnlyGuard memberRole={memberRole}>
               <InviteMemberForm partyId={partyId} />
             </LeaderOrCaptainOnlyGuard>
             <PartyMemberSearch
@@ -138,26 +138,30 @@ function PartyManagementModal({
 
             {/* Action Buttons */}
             <Flex justify="space-between" align="center" w="100%">
-              <Group gap={8}>
-                <LeaderOrCaptainOnlyGuard memberRole={memberRole}>
-                  <Button
-                    onClick={() => setIsEditing(true)}
-                    variant="light"
-                    color="violet"
-                  >
-                    Manage Party Members
-                  </Button>
-                </LeaderOrCaptainOnlyGuard>
-                <PartyLeaderRequiredGuard memberRole={memberRole}>
-                  <Button
-                    onClick={() => setIsTransferOwnership(true)}
-                    variant="light"
-                    color="violet"
-                  >
-                    Transfer Ownership
-                  </Button>
-                </PartyLeaderRequiredGuard>
-              </Group>
+              {partyMembers.length > 1 ? (
+                <Group gap={8}>
+                  <LeaderOrCaptainOnlyGuard memberRole={memberRole}>
+                    <Button
+                      onClick={() => setIsEditing(true)}
+                      variant="light"
+                      color="violet"
+                    >
+                      Manage Party Members
+                    </Button>
+                  </LeaderOrCaptainOnlyGuard>
+                  <PartyLeaderRequiredGuard memberRole={memberRole}>
+                    <Button
+                      onClick={() => setIsTransferOwnership(true)}
+                      variant="light"
+                      color="violet"
+                    >
+                      Transfer Ownership
+                    </Button>
+                  </PartyLeaderRequiredGuard>
+                </Group>
+              ) : (
+                <Group />
+              )}
               <Button variant="light" color="red" onClick={leavePartyHandler}>
                 Leave Party
               </Button>
