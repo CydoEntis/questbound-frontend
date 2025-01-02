@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { NewQuest, QuestStepUpdate, UpdateQuest } from "../shared/quest.types";
+import {
+  CreateQuestResponse,
+  ModifedQuestResponse,
+  NewQuest,
+  QuestStepUpdate,
+  UpdateQuest,
+} from "../shared/quest.types";
 import questService from "./services/quest.service";
 import { notifications } from "@mantine/notifications";
 import { useMemo } from "react";
@@ -8,7 +14,7 @@ import { QueryParams } from "../../../shared/types";
 export function useCreateQuest() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (newQuest: NewQuest): Promise<void> => {
+    mutationFn: async (newQuest: NewQuest): Promise<CreateQuestResponse> => {
       return await questService.createQuest(newQuest);
     },
     onSuccess: () => {
@@ -57,12 +63,14 @@ export const useGetQuestDetails = (questId: number, enabled: boolean) => {
 export function useUpdateStepStatus() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (questStep: QuestStepUpdate): Promise<number> => {
+    mutationFn: async (
+      questStep: QuestStepUpdate
+    ): Promise<ModifedQuestResponse> => {
       return await questService.updateStepStatus(questStep);
     },
-    onSuccess: (questId) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
+        queryKey: ["quests", "detail", data.questId],
       });
 
       queryClient.invalidateQueries({
@@ -121,12 +129,12 @@ export function useUpdateQuest() {
     mutationFn: async ({
       questId,
       updateQuest,
-    }: UpdateQuestPayload): Promise<number> => {
+    }: UpdateQuestPayload): Promise<ModifedQuestResponse> => {
       return await questService.updateQuest(questId, updateQuest);
     },
-    onSuccess: (questId) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
+        queryKey: ["quests", "detail", data.questId],
       });
 
       queryClient.invalidateQueries({
@@ -153,12 +161,12 @@ export function useUpdateQuest() {
 export function useDeleteQuest() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (questId: number): Promise<number> => {
+    mutationFn: async (questId: number): Promise<ModifedQuestResponse> => {
       return await questService.deleteQuest(questId);
     },
-    onSuccess: (questId) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
+        queryKey: ["quests", "detail", data.questId],
       });
 
       queryClient.invalidateQueries({
@@ -324,7 +332,6 @@ export function useDeleteComment() {
       queryClient.refetchQueries({
         queryKey: ["comments", "list", questId],
       });
-
 
       queryClient.invalidateQueries({
         queryKey: ["quests", "detail", questId],

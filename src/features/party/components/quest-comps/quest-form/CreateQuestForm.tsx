@@ -11,6 +11,8 @@ import { useState } from "react";
 import PriorityLevelSelect from "../priorty-level-select/PriortiyLevelSelect";
 import AddQuestStep from "../add-quest-step/AddQuestStep";
 import { PartyMember } from "../../../../party-member/shared/party-members.types";
+import useFormErrorHandler from "../../../../../shared/hooks/useHandleErrors";
+import { ErrorResponse } from "../../../../../api/errors/error.types";
 
 type CreateQuestFormProps = {
   partyMembers: PartyMember[];
@@ -21,6 +23,7 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
   const { partyId } = Route.useParams();
   const createQuest = useCreateQuest();
   const [dueDate, setDueDate] = useState<Date | null>(new Date());
+  const { handleFormErrors } = useFormErrorHandler<NewQuest>();
 
   const form = useForm<NewQuest>({
     validate: zodResolver(newQuestSchema),
@@ -45,8 +48,9 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
 
       form.reset();
       close();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      const error = e as ErrorResponse;
+      handleFormErrors(error, form);
     }
   }
 

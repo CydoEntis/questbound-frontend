@@ -1,4 +1,4 @@
-import { TextInput, ActionIcon, Button } from "@mantine/core";
+import { TextInput, ActionIcon, Button, Text } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { Trash2 } from "lucide-react";
 import { useRef } from "react";
@@ -9,14 +9,12 @@ type AddQuestStepProps = {
 };
 
 function AddQuestStep({ form }: AddQuestStepProps) {
-  // Store refs for each step input
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   function addStep() {
     const steps = [...form.values.steps, ""];
     form.setFieldValue("steps", steps);
 
-    // Allow React to update DOM, then focus the new input
     setTimeout(() => {
       inputRefs.current[steps.length - 1]?.focus();
     }, 0);
@@ -31,21 +29,21 @@ function AddQuestStep({ form }: AddQuestStepProps) {
   function removeStep(index: number) {
     const steps = (form.values.steps || []).filter((_, i) => i !== index);
     form.setFieldValue("steps", steps);
-    inputRefs.current.splice(index, 1); // Remove the corresponding ref
+    inputRefs.current.splice(index, 1);
   }
 
   return (
     <>
+      <Text size="sm">Quest Steps</Text>
       {(form.values.steps || []).map((step: string, index: number) => (
         <TextInput
           classNames={{
             input: "input",
           }}
-          ref={(el) => (inputRefs.current[index] = el)} // Assign ref to input
+          ref={(el) => (inputRefs.current[index] = el)}
           value={step}
           key={index}
           onChange={(e) => updateStep(index, e.target.value)}
-          label={`Step ${index + 1}`}
           placeholder={`Describe step ${index + 1}`}
           rightSection={
             <ActionIcon

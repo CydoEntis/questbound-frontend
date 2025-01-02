@@ -41,7 +41,6 @@ export type QuestStats = {
   pastDueQuests: number;
 };
 
-
 export type PaginatedComments = {
   items: QuestComment[];
   totalCount: number;
@@ -100,3 +99,11 @@ export type QuestStepUpdate = {
   questStepId: number;
   isCompleted: boolean;
 };
+
+export type CreateQuestResponse = {
+  message: string;
+  questId: number;
+  partyId: number;
+};
+
+export type ModifedQuestResponse = CreateQuestResponse;

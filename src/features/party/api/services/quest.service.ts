@@ -2,6 +2,8 @@ import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
 import {
+  CreateQuestResponse,
+  ModifedQuestResponse,
   NewQuest,
   PaginatedComments,
   PaginatedQuests,
@@ -10,7 +12,7 @@ import {
   UpdateQuest,
 } from "../../shared/quest.types";
 
-const createQuest = async (newQuest: NewQuest): Promise<void> => {
+const createQuest = async (newQuest: NewQuest): Promise<CreateQuestResponse> => {
   const response = (
     await apiClient.post(`${endpoints.parties}/quests`, newQuest)
   ).data;
@@ -52,7 +54,7 @@ const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
 
 const updateStepStatus = async (
   questStep: QuestStepUpdate
-): Promise<number> => {
+): Promise<ModifedQuestResponse> => {
   console.log(questStep);
   const response = (await apiClient.put(`${endpoints.steps}`, questStep)).data;
 
@@ -72,7 +74,7 @@ const completeQuest = async (questId: number): Promise<number> => {
 const updateQuest = async (
   questId: number,
   updateQuest: UpdateQuest
-): Promise<number> => {
+): Promise<ModifedQuestResponse> => {
   const response = (
     await apiClient.put(`${endpoints.parties}/quests/${questId}`, updateQuest)
   ).data;
@@ -81,7 +83,7 @@ const updateQuest = async (
   return response.data;
 };
 
-const deleteQuest = async (questId: number): Promise<number> => {
+const deleteQuest = async (questId: number): Promise<ModifedQuestResponse> => {
   const response = (
     await apiClient.delete(`${endpoints.parties}/quests/${questId}`)
   ).data;

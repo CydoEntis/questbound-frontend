@@ -12,14 +12,14 @@ type PartyMemberSelectProps = {
 
 function PartyMemberSelect({ partyMembers, form }: PartyMemberSelectProps) {
   const memberData = partyMembers.map((member) => ({
-    value: member.username,
+    value: member.userId,
     label: member.username,
     avatar: member.avatar,
   }));
 
   const memberRecord = partyMembers.reduce(
     (acc, member) => {
-      acc[member.username] = {
+      acc[member.userId] = {
         username: member.username,
         avatar: member.avatar,
       };
@@ -34,7 +34,7 @@ function PartyMemberSelect({ partyMembers, form }: PartyMemberSelectProps) {
     <Group gap="sm">
       <AvatarDisplay avatar={memberRecord[option.value].avatar} />
       <div>
-        <Text size="sm">{option.label}</Text>
+        <Text size="sm">{memberRecord[option.value].username}</Text>{" "}
       </div>
     </Group>
   );
@@ -45,7 +45,7 @@ function PartyMemberSelect({ partyMembers, form }: PartyMemberSelectProps) {
         input: "input",
       }}
       label="Assign Party Members"
-      placeholder="Select Party Member"
+      placeholder="Select Party Members"
       data={memberData}
       {...form.getInputProps("partyMembers")}
       renderOption={renderMultiSelectOption}
