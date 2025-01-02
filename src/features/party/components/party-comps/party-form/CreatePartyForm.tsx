@@ -4,9 +4,7 @@ import { useForm } from "@mantine/form";
 import { useCreateParty } from "../../../api/party";
 import { partySchema } from "../../../shared/party.schemas";
 import { PartyData } from "../../../shared/party.types";
-import { AxiosError } from "axios";
-import { Errors, CamelCasedErrors } from "../../../../../shared/types";
-import { transformErrorsToCamelCase } from "../../../../../shared/utils/password.utils";
+
 import useFormErrorHandler from "../../../../../shared/hooks/useHandleErrors";
 import { ErrorResponse } from "../../../../../api/errors/error.types";
 
