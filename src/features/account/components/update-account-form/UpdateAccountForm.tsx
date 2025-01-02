@@ -1,12 +1,13 @@
 import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { AxiosError } from "axios";
 import { TextInput } from "@mantine/core";
 import { AtSign, User2 } from "lucide-react";
 import { UpdateAccount, User } from "../../shared/account.types";
 import { useUpdateUserDetails } from "../../api/account";
 import { updateAccountSchema } from "../../shared/account.schemas";
+import { ErrorResponse } from "../../../../api/errors/error.types";
+import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
 
 type UpdateAccountFormProps = {
   user: User;
@@ -16,6 +17,7 @@ type UpdateAccountFormProps = {
 function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
   const updateUserDetails = useUpdateUserDetails();
   const router = useRouter();
+  const { handleFormErrors } = useFormErrorHandler<UpdateAccount>();
 
   const form = useForm<UpdateAccount>({
     validate: zodResolver(updateAccountSchema),
@@ -34,13 +36,9 @@ function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
       router.history.push(redirectTo);
       handleClose();
       form.reset();
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors = error.response.data.errors;
-        Object.entries(errors).forEach(([field, messages]) => {
-          form.setErrors({ [field]: (messages as string[]).join(" ") });
-        });
-      }
+    } catch (err) {
+      const error = err as ErrorResponse;
+      handleFormErrors(error, form);
     }
   }
 

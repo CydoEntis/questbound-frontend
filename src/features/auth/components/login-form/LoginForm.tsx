@@ -15,13 +15,13 @@ import { useLogin } from "../../api/auth";
 import { LoginRequest } from "../../shared/auth.types";
 import { loginSchema } from "../../shared/auth.schemas";
 import { ErrorResponse } from "../../../../api/errors/error.types";
-import { useState } from "react";
-import { ERROR_TYPES } from "../../../../api/errors/error.constants";
+import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
 
 function LoginForm() {
   const login = useLogin();
   const router = useRouter();
-  const [error, setError] = useState("");
+  const { error, handleAuthFormErrors, resetError } =
+    useFormErrorHandler<LoginRequest>();
   const form = useForm<LoginRequest>({
     validate: zodResolver(loginSchema),
     initialValues: {
@@ -40,23 +40,9 @@ function LoginForm() {
       form.reset();
     } catch (err) {
       const error = err as ErrorResponse;
-      if (error.type === ERROR_TYPES.VALIDATION_ERROR) {
-        form.setErrors(error.errors);
-      } else if (error.type == ERROR_TYPES.NOT_FOUND_ERROR) {
-        form.setFieldError("email", "Invalid username or password");
-      } else if (error.type == ERROR_TYPES.UNEXPECTED_ERROR) {
-        setError(
-          "An unexpected error has occured and we could not log you in."
-        );
-      }
+      handleAuthFormErrors(error, form);
     }
   }
-
-  const handleFieldInteraction = () => {
-    if (error) {
-      setError("");
-    }
-  };
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
@@ -82,7 +68,7 @@ function LoginForm() {
         onChange={(event) => {
           const lowerCaseEmail = event.currentTarget.value.toLowerCase();
           form.setFieldValue("email", lowerCaseEmail);
-          handleFieldInteraction();
+          resetError();
         }}
       />
       <PasswordInput
@@ -98,7 +84,7 @@ function LoginForm() {
         {...form.getInputProps("password")}
         onChange={(event) => {
           form.setFieldValue("password", event.currentTarget.value);
-          handleFieldInteraction();
+          resetError();
         }}
       />
       <Group justify="end" mt="lg">

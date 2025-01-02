@@ -21,3 +21,9 @@ export type ConflictError = {
 };
 
 export type ErrorResponse = ValidationError | NotFoundError | UnexpectedError | ConflictError;
+
+export type ApiError = {
+  type: string;
+  error: string;
+  statusCode: number;
+}

@@ -3,6 +3,7 @@ import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import accountService from "./account.service";
 import { UpdateUserRequest, UpdateUserResponse } from "../shared/account.types";
+import { ApiError } from "../../../api/errors/error.types";
 
 export const useGetUser = () => {
   return useQuery({
@@ -33,10 +34,12 @@ export function useUpdateUserDetails() {
         position: "top-right",
       });
     },
-    onError: (error: Error) => {
+    onError: (error: ApiError) => {
+      console.log(error);
+
       notifications.show({
         title: "Update Failed",
-        message: "User details update failed.",
+        message: error.error,
         color: "red",
         position: "top-right",
       });
