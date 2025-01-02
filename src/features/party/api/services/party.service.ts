@@ -146,6 +146,23 @@ const updatePartyMembers = async (
   return response.data;
 };
 
+
+const inviteMemberToParty = async ({
+  partyId,
+  email,
+}: {
+  partyId: number;
+  email: string;
+}): Promise<void> => {
+  const response = (
+    await apiClient.post(`${endpoints.partyMembers}/${partyId}/invite`, { email })
+  ).data;
+
+  if (!response.success) {
+    throw new Error(response.errors?.join(", ") || "Failed to send invitation");
+  }
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -158,4 +175,5 @@ export default {
   getPartyMembers,
   updatePartyLeader,
   updatePartyMembers,
+  inviteMemberToParty
 };

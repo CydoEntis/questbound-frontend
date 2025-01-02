@@ -260,3 +260,23 @@ export function useUpdatePartyMembers() {
     },
   });
 }
+
+export function useInviteMember() {
+  return useMutation({
+    mutationFn: partyService.inviteMemberToParty,
+    onSuccess: () => {
+      notifications.show({
+        title: "Success",
+        message: "Invitation sent successfully!",
+        color: "green",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to send invitation.",
+        color: "red",
+      });
+    },
+  });
+}

@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { PartyMember } from "../../party-member/shared/party-members.types";
-import { partySchema, searchSchema } from "./party.schemas";
+import { inviteSchema, partySchema, searchSchema } from "./party.schemas";
 
 export type SearchTerm = z.infer<typeof searchSchema>;
 export type PartyData = z.infer<typeof partySchema>;
+export type InviteMember = z.infer<typeof inviteSchema>;
 
 export type Party = {
   id: number;

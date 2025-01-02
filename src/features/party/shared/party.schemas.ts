@@ -14,3 +14,7 @@ export const partySchema = z.object({
     .min(5, "Description must be more than 5 characters")
     .max(120, "Description cannot exceed 120 characters"),
 });
+
+export const inviteSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});

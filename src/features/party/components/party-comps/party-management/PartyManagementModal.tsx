@@ -4,7 +4,7 @@ import { MEMBER_ROLES } from "../../../../../shared/utils/constants";
 import PartyManagementForm from "./PartyManagementForm";
 import PartyLeaderManagementForm from "./PartyLeaderManagementForm";
 import { useState, useEffect } from "react";
-import { Stack, Flex, Button, Group, Center, Text, Paper } from "@mantine/core";
+import { Stack, Flex, Button, Group, Text, Paper } from "@mantine/core";
 import PartyMemberDetail from "../party-member-details/PartyMemberDetail";
 import { useNavigate } from "@tanstack/react-router";
 import { Route } from "../../../../../routes/_authenticated/parties";
@@ -12,6 +12,7 @@ import PartyLeaderRequiredGuard from "../party-leader-required/PartyLeaderRequir
 import LeaderOrCaptainOnlyGuard from "../leader-or-captain-guard/LeaderOrCaptainOnlyGuard";
 import PartyMemberSearch from "./PartyMemberSearch";
 import PartyManagementLoadingSkeleton from "./PartyManagementLoadingSkeleton";
+import InviteMemberForm from "./InviteMemberForm";
 
 type PartyManagementModalProps = {
   isOpened: boolean;
@@ -99,7 +100,10 @@ function PartyManagementModal({
           />
         ) : (
           <>
-            {/* Search and Filter Section */}
+            {/* Search and Sort */}
+            <LeaderOrCaptainOnlyGuard memberRole={memberRole} >
+              <InviteMemberForm partyId={partyId} />
+            </LeaderOrCaptainOnlyGuard>
             <PartyMemberSearch
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
