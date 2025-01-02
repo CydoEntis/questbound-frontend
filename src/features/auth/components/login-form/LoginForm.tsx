@@ -22,6 +22,7 @@ function LoginForm() {
   const router = useRouter();
   const { error, handleAuthFormErrors, resetError } =
     useFormErrorHandler<LoginRequest>();
+    
   const form = useForm<LoginRequest>({
     validate: zodResolver(loginSchema),
     initialValues: {

@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { TextInput } from "@mantine/core";
+import { LoadingOverlay, TextInput } from "@mantine/core";
 import { AtSign, User2 } from "lucide-react";
 import { UpdateAccount, User } from "../../shared/account.types";
 import { useUpdateUserDetails } from "../../api/account";
@@ -44,6 +44,7 @@ function UpdateAccountForm({ user, handleClose }: UpdateAccountFormProps) {
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)} id="updateAccountForm">
+      <LoadingOverlay visible={updateUserDetails.isPending} />
       <TextInput
         label="Username"
         placeholder="Your Username"

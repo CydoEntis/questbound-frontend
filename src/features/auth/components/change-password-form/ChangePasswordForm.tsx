@@ -1,15 +1,15 @@
 import { useForm } from "@mantine/form";
 import { useRouter } from "@tanstack/react-router";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { AxiosError } from "axios";
 import { Button, Flex, PasswordInput } from "@mantine/core";
 import { Lock } from "lucide-react";
-import { CamelCasedErrors, Errors } from "../../../../shared/types/types";
-import { transformErrorsToCamelCase } from "../../../../shared/utils/password.utils";
+
 import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
 import { useChangePassword } from "../../api/auth";
 import { changePasswordSchema } from "../../shared/auth.schemas";
 import { ChangePasswordRequest } from "../../shared/auth.types";
+import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
+import { ErrorResponse } from "../../../../api/errors/error.types";
 
 type ChangePasswordFormProps = {
   handleClose: () => void;
@@ -18,7 +18,7 @@ type ChangePasswordFormProps = {
 function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
   const changePassword = useChangePassword();
   const router = useRouter();
-
+  const { handleAuthFormErrors } = useFormErrorHandler<ChangePasswordRequest>();
   const form = useForm<ChangePasswordRequest>({
     validate: zodResolver(changePasswordSchema),
     initialValues: {
@@ -34,7 +34,6 @@ function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
   };
 
   async function onSubmit(request: ChangePasswordRequest) {
-    console.log("IS THIS WORKING??");
     try {
       await changePassword.mutateAsync(request);
 
@@ -44,15 +43,9 @@ function ChangePasswordForm({ handleClose }: ChangePasswordFormProps) {
       router.history.push(redirectTo);
       handleClose();
       form.reset();
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data?.errors) {
-        const errors: Errors = error.response.data.errors;
-        const transformedErrors: CamelCasedErrors =
-          transformErrorsToCamelCase(errors);
-        console.log("Transformed: ", transformErrorsToCamelCase);
-        form.setErrors(transformedErrors);
-      }
-      console.log(error);
+    } catch (err) {
+      const error = err as ErrorResponse;
+      handleAuthFormErrors(error, form);
     }
   }
 
