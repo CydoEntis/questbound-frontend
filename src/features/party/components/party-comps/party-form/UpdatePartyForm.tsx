@@ -5,6 +5,8 @@ import { partySchema } from "../../../shared/party.schemas";
 import { PartyData } from "../../../shared/party.types";
 import { useGetPartyDetails, useUpdateParty } from "../../../api/party";
 import { useEffect } from "react";
+import { ErrorResponse } from "../../../../../api/errors/error.types";
+import useFormErrorHandler from "../../../../../shared/hooks/useHandleErrors";
 
 type UpdatePartyProps = {
   partyId: number;
@@ -21,6 +23,7 @@ function UpdatePartyForm({ partyId, onClose }: UpdatePartyProps) {
   });
 
   const updateParty = useUpdateParty();
+  const { handleFormErrors } = useFormErrorHandler<PartyData>();
 
   const form = useForm<PartyData>({
     validate: zodResolver(partySchema),
@@ -42,12 +45,13 @@ function UpdatePartyForm({ partyId, onClose }: UpdatePartyProps) {
   const handleSubmit = async (data: PartyData) => {
     try {
       await updateParty.mutateAsync({
-        partyId,            
-        updatedParty: data,  
+        partyId,
+        updatedParty: data,
       });
       onClose();
-    } catch (error) {
-      console.error("Error updating party", error);
+    } catch (e) {
+      const error = e as ErrorResponse;
+      handleFormErrors(error, form);
     }
   };
 
@@ -58,11 +62,13 @@ function UpdatePartyForm({ partyId, onClose }: UpdatePartyProps) {
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack gap={8}>
         <TextInput
+          classNames={{ input: "input" }}
           label="Party Name"
           placeholder="Name of your Party?"
           {...form.getInputProps("name")}
         />
         <Textarea
+          classNames={{ input: "input" }}
           label="Description"
           placeholder="Describe your party"
           autosize
