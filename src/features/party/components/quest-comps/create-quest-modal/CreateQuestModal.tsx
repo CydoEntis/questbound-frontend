@@ -21,7 +21,7 @@ function CreateQuestModal({
       onClose={onClose}
       title="Create New Quest"
     >
-      <CreateQuestForm partyMembers={partyMembers} close={onClose} />
+      <CreateQuestForm partyMembers={partyMembers} handleClose={onClose} />
     </Modal>
   );
 }

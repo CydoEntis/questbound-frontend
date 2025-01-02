@@ -16,10 +16,10 @@ import { ErrorResponse } from "../../../../../api/errors/error.types";
 
 type CreateQuestFormProps = {
   partyMembers: PartyMember[];
-  close: () => void;
+  handleClose: () => void;
 };
 
-function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
+function CreateQuestForm({ partyMembers, handleClose }: CreateQuestFormProps) {
   const { partyId } = Route.useParams();
   const createQuest = useCreateQuest();
   const [dueDate, setDueDate] = useState<Date | null>(new Date());
@@ -47,7 +47,7 @@ function CreateQuestForm({ partyMembers }: CreateQuestFormProps) {
       await createQuest.mutateAsync(newQuest);
 
       form.reset();
-      close();
+      handleClose();
     } catch (e) {
       const error = e as ErrorResponse;
       handleFormErrors(error, form);
