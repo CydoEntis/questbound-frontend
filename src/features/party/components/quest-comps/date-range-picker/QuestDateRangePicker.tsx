@@ -14,7 +14,7 @@ function QuestDateRangePicker() {
   );
 
   const useSearchParams = useSearch({
-    from: "/_authenticated/parties/$partyId", // TODO:  Update to dynamic path
+    from: "/_authenticated/parties/$partyId", 
   });
 
   const navigate = useNavigate({ from: Route.fullPath });

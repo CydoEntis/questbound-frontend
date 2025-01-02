@@ -3,7 +3,7 @@ import { Group, Text, ActionIcon, Button } from "@mantine/core";
 import { CalendarRange, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Route } from "../../../../../routes/_authenticated";
+import { Route } from "../../../../../routes/_authenticated/parties";
 import { useForm, zodResolver } from "@mantine/form";
 import { dateFilterSchema } from "../../../../../shared/schemas";
 import { DateFilter } from "../../../../../shared/types";
