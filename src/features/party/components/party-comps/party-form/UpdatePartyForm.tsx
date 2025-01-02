@@ -1,5 +1,13 @@
 import { zodResolver } from "@mantine/form";
-import { Button, Stack, Textarea, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Skeleton,
+  Stack,
+  Textarea,
+  TextInput,
+  Text,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { partySchema } from "../../../shared/party.schemas";
 import { PartyData } from "../../../shared/party.types";
@@ -55,8 +63,27 @@ function UpdatePartyForm({ partyId, onClose }: UpdatePartyProps) {
     }
   };
 
-  if (isPending) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching party details</div>;
+  if (isPending)
+    return (
+      <Stack gap={8}>
+        <Skeleton height={40} radius="md" w="100%" />
+        <Skeleton height={40} radius="md" w="100%" />
+        <Group mt={16}>
+          <Skeleton height={40} radius="md" w="100%" />
+        </Group>
+      </Stack>
+    );
+  if (isError)
+    return (
+      <Stack gap={8} align="center">
+        <Text ta="center" c="red">
+          Party details could not be loaded
+        </Text>
+        <Button onClick={onClose} variant="light" color="red" w={120}>
+          Close
+        </Button>
+      </Stack>
+    );
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
