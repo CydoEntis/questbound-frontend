@@ -1,10 +1,10 @@
 import { Flex, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
-import ManageAccountDetails from "../update-account/UpdateAccount";
 import AccountLevel from "../account-level/AccountLevel";
 import ChangePassword from "../../../auth/components/change-password/ChangePassword";
 import ChangeAvatar from "../../../avatar/components/change-avatar/ChangeAvatar";
 import { User } from "../../shared/account.types";
+import ManageAccountDetails from "../manage-account/ManageAccountDetails";
 
 type AccountModalProps = {
   user: User;

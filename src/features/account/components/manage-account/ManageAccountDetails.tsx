@@ -27,7 +27,7 @@ function UpdateAccount({
       />
       <Stack gap={4}>
         {isOpen ? (
-          <UpdateAccountForm user={user} handleClose={closeFormHandler} />
+          <UpdateAccountForm handleClose={closeFormHandler} user={user} />
         ) : (
           <AccountDetails user={user} />
         )}
