@@ -16,3 +16,15 @@ export type MemberUpdate = {
   role: number;
   delete: boolean;
 };
+
+export type ChangeLeader = {
+  currentLeaderId: string;
+  newLeaderId: string;
+  newRoleForPreviousLeader: number;
+};
+
+export type UpdatePartyMemberResponse = {
+  message: string;
+  partyId: number;
+  partyMemberId: number;
+};

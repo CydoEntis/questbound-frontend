@@ -2,8 +2,10 @@ import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
 import {
+  ChangeLeader,
   MemberUpdate,
   PartyMember,
+  UpdatePartyMemberResponse,
 } from "../../../party-member/shared/party-members.types";
 import {
   PaginatedParties,
@@ -60,8 +62,6 @@ const updateParty = async (
   ).data;
   if (!response.success) throw new Error();
 
-  (response.data);
-
   return response.data;
 };
 
@@ -99,22 +99,15 @@ const getPartyMembers = async (partyId: number): Promise<PartyMember[]> => {
   const response = (await apiClient.get(`${endpoints.partyMembers}/${partyId}`))
     .data;
 
-  (response);
   if (!response.success) throw new Error();
 
   return response.data;
 };
 
-export type ChangeLeader = {
-  currentLeaderId: string;
-  newLeaderId: string;
-  newRoleForPreviousLeader: number;
-};
-
 const updatePartyLeader = async (
   partyId: number,
   data: ChangeLeader
-): Promise<number> => {
+): Promise<UpdatePartyMemberResponse> => {
   try {
     const response = (
       await apiClient.put(
@@ -138,7 +131,7 @@ const updatePartyLeader = async (
 const updatePartyMembers = async (
   partyId: number,
   members: MemberUpdate[]
-): Promise<number> => {
+): Promise<UpdatePartyMemberResponse> => {
   const response = (
     await apiClient.put(`${endpoints.partyMembers}/${partyId}/members`, members)
   ).data;
@@ -146,7 +139,6 @@ const updatePartyMembers = async (
 
   return response.data;
 };
-
 
 const inviteMemberToParty = async ({
   partyId,
@@ -156,7 +148,9 @@ const inviteMemberToParty = async ({
   email: string;
 }): Promise<void> => {
   const response = (
-    await apiClient.post(`${endpoints.partyMembers}/${partyId}/invite`, { email })
+    await apiClient.post(`${endpoints.partyMembers}/${partyId}/invite`, {
+      email,
+    })
   ).data;
 
   if (!response.success) {
@@ -176,5 +170,5 @@ export default {
   getPartyMembers,
   updatePartyLeader,
   updatePartyMembers,
-  inviteMemberToParty
+  inviteMemberToParty,
 };

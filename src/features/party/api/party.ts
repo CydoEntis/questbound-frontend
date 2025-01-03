@@ -8,7 +8,10 @@ import {
   PartyModifiedResponse,
 } from "../shared/party.types";
 import { notifications } from "@mantine/notifications";
-import { MemberUpdate } from "../../party-member/shared/party-members.types";
+import {
+  MemberUpdate,
+  UpdatePartyMemberResponse,
+} from "../../party-member/shared/party-members.types";
 
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
@@ -85,8 +88,6 @@ export function useUpdateParty() {
       return await partyService.updateParty(partyId, updatedParty);
     },
     onSuccess: (data) => {
-      (data);
-
       queryClient.invalidateQueries({
         queryKey: ["parties", "list"],
       });
@@ -201,14 +202,16 @@ export function useUpdatePartyLeader() {
     }: {
       partyId: number;
       data: ChangeLeader;
-    }): Promise<number> => {
+    }): Promise<UpdatePartyMemberResponse> => {
       return await partyService.updatePartyLeader(partyId, data);
     },
-    onSuccess: (partyId) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["party", "details"] });
-      queryClient.invalidateQueries({ queryKey: ["party-members", partyId] });
       queryClient.invalidateQueries({
-        queryKey: ["parties", "detail", partyId],
+        queryKey: ["party-members", data.partyId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", data.partyId],
       });
 
       notifications.show({
@@ -239,14 +242,16 @@ export function useUpdatePartyMembers() {
     }: {
       partyId: number;
       members: MemberUpdate[];
-    }): Promise<number> => {
+    }): Promise<UpdatePartyMemberResponse> => {
       return await partyService.updatePartyMembers(partyId, members);
     },
-    onSuccess: (partyId: number) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["party", "details"] });
-      queryClient.invalidateQueries({ queryKey: ["party-members", partyId] });
       queryClient.invalidateQueries({
-        queryKey: ["parties", "detail", partyId],
+        queryKey: ["party-members", data.partyId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", data.partyId],
       });
 
       notifications.show({
