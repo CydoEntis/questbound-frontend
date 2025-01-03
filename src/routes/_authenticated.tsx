@@ -12,7 +12,8 @@ export const Route = createFileRoute("/_authenticated")({
     }
 
     context.authState.loginUser();
-    context.userState.setUserId(storedUser.userId);
+    context.userState.setUserId(storedUser.userId)
+
   },
   component: AuthenticatedRoutes,
 });

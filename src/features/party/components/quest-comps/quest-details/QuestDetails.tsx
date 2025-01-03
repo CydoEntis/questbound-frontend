@@ -114,18 +114,6 @@ function QuestDetails({
           </Badge>
         </Group>
       </Stack>
-
-      <Stack gap={4}>
-        {commentsLoading ? (
-          <Text>Loading comments...</Text>
-        ) : (
-          <CommentSection
-            comments={commentsData?.items || []}
-            questId={questDetails.id}
-          />
-        )}
-      </Stack>
-
       <Group justify="end">
         {!questDetails.isCompleted && (
           <Button variant="light" color="violet" onClick={completeQuestHandler}>
@@ -133,6 +121,17 @@ function QuestDetails({
           </Button>
         )}
       </Group>
+      <Stack gap={4}>
+        {commentsLoading ? (
+          <Text>Loading comments...</Text>
+        ) : (
+          <CommentSection
+            partyMembers={questDetails.partyMembers}
+            comments={commentsData?.items || []}
+            questId={questDetails.id}
+          />
+        )}
+      </Stack>
     </Stack>
   );
 }
