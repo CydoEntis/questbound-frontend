@@ -8,29 +8,32 @@ import {
   ResetPasswordRequest,
   ChangePasswordRequest,
   AuthSuccessResponse,
+  AuthenticatedResponse,
 } from "../shared/auth.types";
 import localStorageService from "../../../api/services/localStorage.service";
 import { notifications } from "@mantine/notifications";
+import useUserStore from "../../../stores/useUserStore";
 
 export function useLogin() {
   const { loginUser } = useAuthStore();
+  const { setUserId } = useUserStore();
 
   return useMutation({
     mutationFn: async (
       credentials: LoginRequest
-    ): Promise<AuthSuccessResponse> => {
+    ): Promise<AuthenticatedResponse> => {
       return await authService.loginUser(credentials);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       loginUser();
 
-      const questbound = { isAuthenticated: true };
-
+      const questbound = { isAuthenticated: true, userId: data.userId };
+      setUserId(data.userId);
       localStorageService.setItem("questbound", questbound);
 
       notifications.show({
         title: "Success",
-        message: "Login successful!",
+        message: data.message,
         color: "green",
         position: "top-right",
       });
@@ -49,23 +52,24 @@ export function useLogin() {
 
 export function useRegister() {
   const { loginUser } = useAuthStore();
+  const { setUserId } = useUserStore();
 
   return useMutation({
     mutationFn: async (
       credentials: RegisterRequest
-    ): Promise<AuthSuccessResponse> => {
+    ): Promise<AuthenticatedResponse> => {
       return await authService.registerUser(credentials);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       loginUser();
-
-      const questbound = { isAuthenticated: true };
+      setUserId(data.userId);
+      const questbound = { isAuthenticated: true, userId: data.userId };
 
       localStorageService.setItem("questbound", questbound);
 
       notifications.show({
         title: "Success",
-        message: "Login successful!",
+        message: data.message,
         color: "green",
         position: "top-right",
       });

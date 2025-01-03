@@ -21,6 +21,7 @@ function CommentSection({
   comments,
 }: {
   questId: number;
+  partyMemberId: number;
   comments: QuestComment[];
 }) {
   const [newComment, setNewComment] = useState("");

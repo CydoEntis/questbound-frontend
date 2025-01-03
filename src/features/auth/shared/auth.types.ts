@@ -13,7 +13,11 @@ export type ForgotPasswordRequest = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordRequest = z.infer<typeof resetPasswordSchema>;
 export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
 
-
 export type AuthSuccessResponse = {
   message: string;
-}
+};
+
+export type AuthenticatedResponse = {
+  message: string;
+  userId: string;
+};

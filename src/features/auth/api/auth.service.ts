@@ -7,11 +7,12 @@ import {
   ResetPasswordRequest,
   ChangePasswordRequest,
   AuthSuccessResponse,
+  AuthenticatedResponse,
 } from "../shared/auth.types";
 
 const registerUser = async (
   credentials: RegisterRequest
-): Promise<AuthSuccessResponse> => {
+): Promise<AuthenticatedResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/register`, credentials)
   ).data;
@@ -21,7 +22,7 @@ const registerUser = async (
 
 const loginUser = async (
   credentials: LoginRequest
-): Promise<AuthSuccessResponse> => {
+): Promise<AuthenticatedResponse> => {
   const response = (
     await apiClient.post(`${endpoints.auth}/login`, credentials)
   ).data;

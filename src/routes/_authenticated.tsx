@@ -3,15 +3,16 @@ import localStorageService from "../api/services/localStorage.service";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async ({ context }) => {
-    const isAuthenticated = localStorageService.getItem<{
+    const storedUser = localStorageService.getItem<{
       isAuthenticated: boolean;
+      userId: string;
     }>("questbound");
-    if (!isAuthenticated) {
+    if (!storedUser?.isAuthenticated) {
       throw redirect({ to: "/login" });
     }
 
     context.authState.loginUser();
-
+    context.userState.setUserId(storedUser.userId);
   },
   component: AuthenticatedRoutes,
 });
