@@ -111,11 +111,17 @@ function UpdateQuestForm({
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Stack gap={16}>
         <TextInput
+          classNames={{
+            input: "input",
+          }}
           label="Quest Name"
           placeholder="The Name of your Quest"
           {...form.getInputProps("name")}
         />
         <Textarea
+          classNames={{
+            input: "input",
+          }}
           label="Quest Description"
           placeholder="Describe your quest"
           minRows={6}
@@ -127,6 +133,9 @@ function UpdateQuestForm({
           {form.values.steps.length > 0 && <Text>Steps</Text>}
           {form.values.steps.map((step: QuestStep, index: number) => (
             <TextInput
+              classNames={{
+                input: "input",
+              }}
               key={index}
               placeholder={`Describe step ${index + 1}`}
               value={step.description}
