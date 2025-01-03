@@ -125,11 +125,9 @@ export function useLogout() {
       return await authService.logoutUser();
     },
     onSuccess: (data) => {
-      logoutUser();
       localStorageService.removeItem("questbound");
-
-      // Delete cookies starting with "QB-"
       deleteQBCookies();
+      logoutUser();
 
       notifications.show({
         title: "Success",
@@ -158,8 +156,6 @@ export function useForgotPassword() {
       return await authService.forgotPassword(email);
     },
     onSuccess: (data) => {
-      (data);
-
       notifications.show({
         title: "Success",
         message: data.message,
@@ -187,8 +183,6 @@ export function useResetPassword() {
       return await authService.resetPassword(request);
     },
     onSuccess: (data) => {
-      (data);
-
       notifications.show({
         title: "Success",
         message: data.message,
