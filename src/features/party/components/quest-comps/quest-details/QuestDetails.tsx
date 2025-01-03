@@ -80,7 +80,7 @@ function QuestDetails({
             readOnly={questDetails.isCompleted}
             onChange={(e) => {
               if (!questDetails.isCompleted) {
-                handleCheckboxChange(step.id, e.currentTarget.checked);
+                handleCheckboxChange(step.id!, e.currentTarget.checked);
               }
             }}
           />

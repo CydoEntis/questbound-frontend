@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  AddCommentResponse,
   CreateQuestResponse,
+  DeleteCommentResponse,
   ModifedQuestResponse,
   NewQuest,
   QuestStepUpdate,
@@ -213,25 +215,25 @@ export function useAddComment() {
     }: {
       questId: number;
       content: string;
-    }): Promise<number> => {
+    }): Promise<AddCommentResponse> => {
       return await questService.addComment(questId, content);
     },
-    onSuccess: (questId) => {
-      console.log("Comment added for questId:", questId);
+    onSuccess: (data) => {
+      console.log("Comment added for questId:", data.questId);
 
       // Invalidate the query with the full query key including memoizedQueryParams
       queryClient.invalidateQueries({
-        queryKey: ["comments", "list", questId],
+        queryKey: ["comments", "list", data.questId],
       });
 
       // Manually refetch the comments to ensure updated data
       queryClient.refetchQueries({
-        queryKey: ["comments", "list", questId],
+        queryKey: ["comments", "list", data.questId],
       });
 
       // Invalidate the quest details and list to ensure consistency across the app
       queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
+        queryKey: ["quests", "detail", data.questId],
       });
       queryClient.invalidateQueries({
         queryKey: ["quests", "list"],
@@ -255,60 +257,6 @@ export function useAddComment() {
   });
 }
 
-export function useEditComment() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async ({
-      questId,
-      commentId,
-      content,
-    }: {
-      questId: number;
-      commentId: number;
-      content: string;
-    }): Promise<number> => {
-      return await questService.editComment(questId, commentId, content);
-    },
-    onSuccess: (questId) => {
-      console.log("Comment edited for questId:", questId);
-
-      // Invalidate the query with the full query key including memoizedQueryParams
-      queryClient.invalidateQueries({
-        queryKey: ["comments", "list", questId],
-      });
-
-      // Manually refetch the comments to ensure updated data
-      queryClient.refetchQueries({
-        queryKey: ["comments", "list", questId],
-      });
-
-      // Invalidate the quest details and list to ensure consistency across the app
-      queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["quests", "list"],
-      });
-
-      notifications.show({
-        title: "Success",
-        message: "Comment edited successfully!",
-        color: "green",
-        position: "top-right",
-      });
-    },
-    onError: () => {
-      notifications.show({
-        title: "Failed",
-        message: "Failed to edit comment.",
-        color: "red",
-        position: "top-right",
-      });
-    },
-  });
-}
-
 export function useDeleteComment() {
   const queryClient = useQueryClient();
 
@@ -319,22 +267,22 @@ export function useDeleteComment() {
     }: {
       questId: number;
       commentId: number;
-    }): Promise<number> => {
+    }): Promise<DeleteCommentResponse> => {
       return await questService.deleteComment(questId, commentId);
     },
-    onSuccess: (questId) => {
-      console.log("Comment deleted for questId:", questId);
+    onSuccess: (data) => {
+      console.log("Comment deleted for questId:", data.questId);
 
       queryClient.invalidateQueries({
-        queryKey: ["comments", "list", questId],
+        queryKey: ["comments", "list", data.questId],
       });
 
       queryClient.refetchQueries({
-        queryKey: ["comments", "list", questId],
+        queryKey: ["comments", "list", data.questId],
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["quests", "detail", questId],
+        queryKey: ["quests", "detail", data.questId],
       });
       queryClient.invalidateQueries({
         queryKey: ["quests", "list"],

@@ -2,7 +2,9 @@ import apiClient from "../../../../api/apiClient";
 import endpoints from "../../../../api/endpoints";
 import { QueryParams } from "../../../../shared/types";
 import {
+  AddCommentResponse,
   CreateQuestResponse,
+  DeleteCommentResponse,
   ModifedQuestResponse,
   NewQuest,
   PaginatedComments,
@@ -12,7 +14,9 @@ import {
   UpdateQuest,
 } from "../../shared/quest.types";
 
-const createQuest = async (newQuest: NewQuest): Promise<CreateQuestResponse> => {
+const createQuest = async (
+  newQuest: NewQuest
+): Promise<CreateQuestResponse> => {
   const response = (
     await apiClient.post(`${endpoints.parties}/quests`, newQuest)
   ).data;
@@ -115,7 +119,7 @@ const getPaginatedComments = async (
 const addComment = async (
   questId: number,
   content: string
-): Promise<number> => {
+): Promise<AddCommentResponse> => {
   const response = (
     await apiClient.post(`${endpoints.parties}/quests/${questId}/comments`, {
       content,
@@ -126,26 +130,10 @@ const addComment = async (
   return response.data;
 };
 
-const editComment = async (
-  questId: number,
-  commentId: number,
-  content: string
-): Promise<number> => {
-  const response = (
-    await apiClient.put(
-      `${endpoints.parties}/quests/${questId}/comments/${commentId}`,
-      { content }
-    )
-  ).data;
-
-  if (!response.success) throw new Error();
-  return response.data;
-};
-
 const deleteComment = async (
   questId: number,
   commentId: number
-): Promise<number> => {
+): Promise<DeleteCommentResponse> => {
   const response = (
     await apiClient.delete(
       `${endpoints.parties}/quests/${questId}/comments/${commentId}`
@@ -166,6 +154,5 @@ export default {
   deleteQuest,
   getPaginatedComments,
   addComment,
-  editComment,
   deleteComment,
 };

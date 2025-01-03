@@ -23,6 +23,7 @@ export type Quest = {
   dueDate: Date;
   expReward: number;
   goldReward: number;
+  commentCount: number;
 };
 
 export type PaginatedQuests = {
@@ -104,6 +105,16 @@ export type CreateQuestResponse = {
   message: string;
   questId: number;
   partyId: number;
+};
+
+export type AddCommentResponse = {
+  message: string;
+  questId: number;
+};
+
+export type DeleteCommentResponse = {
+  message: string;
+  questId: number;
 };
 
 export type ModifedQuestResponse = CreateQuestResponse;

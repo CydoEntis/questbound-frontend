@@ -56,10 +56,12 @@ function QuestCard({ quest, onClick }: QuestCardProps) {
             partyMembers={quest.partyMembers}
             totalMembers={quest.totalPartyMembers}
           />
-          <Group gap={2}>
-            <MessageCircle size={20} />
-            <Text size="md">3</Text>
-          </Group>
+          {quest.commentCount > 0 && (
+            <Group gap={2}>
+              <MessageCircle size={20} />
+              <Text size="md">{quest.commentCount}</Text>
+            </Group>
+          )}
         </Flex>
       </Stack>
     </Card>
