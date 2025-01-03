@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import partyService, { ChangeLeader } from "./services/party.service";
+import partyService from "./services/party.service";
 import { useMemo } from "react";
 import { QueryParams } from "../../../shared/types";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../shared/party.types";
 import { notifications } from "@mantine/notifications";
 import {
+  ChangeLeader,
   MemberUpdate,
   UpdatePartyMemberResponse,
 } from "../../party-member/shared/party-members.types";
