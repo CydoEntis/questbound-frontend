@@ -29,7 +29,7 @@ function ForgotPassword() {
       router.history.push(redirectTo);
       form.reset();
     } catch (error) {
-      console.log("Login Error: ", error);
+      ("Login Error: ", error);
       if (error instanceof AxiosError && error.response?.data?.errors) {
         const errors = error.response.data.errors;
         Object.entries(errors).forEach(([field, messages]) => {

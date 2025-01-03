@@ -41,7 +41,7 @@ const getPartyQuests = async (
     )
   ).data;
 
-  console.log(response);
+  (response);
 
   if (!response.success) throw new Error();
   return response.data;
@@ -59,7 +59,7 @@ const getQuestDetails = async (questId: number): Promise<QuestDetail> => {
 const updateStepStatus = async (
   questStep: QuestStepUpdate
 ): Promise<ModifedQuestResponse> => {
-  console.log(questStep);
+  (questStep);
   const response = (await apiClient.put(`${endpoints.steps}`, questStep)).data;
 
   if (!response.success) throw new Error();

@@ -105,7 +105,7 @@
 
 // 	const updateExistingQuest = async (data: QuestData) => {
 // 		if (partyId && quest) {
-// 			console.log("updating??");
+// 			("updating??");
 // 			const updatedQuest = {
 // 				id: quest.id,
 // 				partyId: Number(partyId),

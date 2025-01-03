@@ -93,7 +93,7 @@ function PartyFilter({
 
       handleCloseFilterModal();
     } else {
-      console.log("Validation failed", result.error.errors);
+      ("Validation failed", result.error.errors);
     }
   };
 

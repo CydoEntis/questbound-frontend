@@ -35,7 +35,6 @@ export function useUpdateUserDetails() {
       });
     },
     onError: (error: ApiError) => {
-      console.log(error);
 
       notifications.show({
         title: "Update Failed",

@@ -56,9 +56,9 @@ function PartyDateRangePicker() {
         }),
         replace: false,
       });
-      console.log("Date range applied:", result.data);
+      ("Date range applied:", result.data);
     } else {
-      console.log("Validation failed", result.error.errors);
+      ("Validation failed", result.error.errors);
     }
   };
 

@@ -50,7 +50,7 @@ function ResetPassword() {
     }
   }
 
-  console.log(form.errors);
+  (form.errors);
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>

@@ -158,7 +158,7 @@ export function useForgotPassword() {
       return await authService.forgotPassword(email);
     },
     onSuccess: (data) => {
-      console.log(data);
+      (data);
 
       notifications.show({
         title: "Success",
@@ -187,7 +187,7 @@ export function useResetPassword() {
       return await authService.resetPassword(request);
     },
     onSuccess: (data) => {
-      console.log(data);
+      (data);
 
       notifications.show({
         title: "Success",

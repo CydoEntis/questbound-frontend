@@ -90,6 +90,10 @@ export function useCompleteQuest() {
     },
     onSuccess: (questId) => {
       queryClient.invalidateQueries({
+        queryKey: ["user"],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["quests", "detail", questId],
       });
 
@@ -219,19 +223,14 @@ export function useAddComment() {
       return await questService.addComment(questId, content);
     },
     onSuccess: (data) => {
-      console.log("Comment added for questId:", data.questId);
-
-      // Invalidate the query with the full query key including memoizedQueryParams
       queryClient.invalidateQueries({
         queryKey: ["comments", "list", data.questId],
       });
 
-      // Manually refetch the comments to ensure updated data
       queryClient.refetchQueries({
         queryKey: ["comments", "list", data.questId],
       });
 
-      // Invalidate the quest details and list to ensure consistency across the app
       queryClient.invalidateQueries({
         queryKey: ["quests", "detail", data.questId],
       });
@@ -271,8 +270,6 @@ export function useDeleteComment() {
       return await questService.deleteComment(questId, commentId);
     },
     onSuccess: (data) => {
-      console.log("Comment deleted for questId:", data.questId);
-
       queryClient.invalidateQueries({
         queryKey: ["comments", "list", data.questId],
       });

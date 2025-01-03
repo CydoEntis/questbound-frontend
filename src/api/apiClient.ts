@@ -38,11 +38,9 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        console.log("Refreshing tokens?");
         await authService.refreshTokens();
         return apiClient(originalRequest); // Retry the original request
       } catch {
-        console.error("Token refresh failed. Logging out.");
         useAuthStore.getState().logoutUser();
         localStorageService.removeItem("questbound");
         window.location.href = "/login";

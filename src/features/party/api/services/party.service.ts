@@ -60,7 +60,7 @@ const updateParty = async (
   ).data;
   if (!response.success) throw new Error();
 
-  console.log(response.data);
+  (response.data);
 
   return response.data;
 };
@@ -99,7 +99,7 @@ const getPartyMembers = async (partyId: number): Promise<PartyMember[]> => {
   const response = (await apiClient.get(`${endpoints.partyMembers}/${partyId}`))
     .data;
 
-  console.log(response);
+  (response);
   if (!response.success) throw new Error();
 
   return response.data;

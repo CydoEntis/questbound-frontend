@@ -12,12 +12,12 @@ export function transformErrorsToCamelCase(errors: Errors): CamelCasedErrors {
   const camelCasedErrors: CamelCasedErrors = {};
 
   Object.entries(errors).forEach(([field, messages]) => {
-    console.log("field: ", field);
+    ("field: ", field);
     const camelCasedField = toCamelCase(field);
-    console.log(camelCasedField);
+    (camelCasedField);
     camelCasedErrors[camelCasedField] = messages.join(" ");
   });
 
-  console.log("camelCasedErrors: ", camelCasedErrors);
+  ("camelCasedErrors: ", camelCasedErrors);
   return camelCasedErrors;
 }

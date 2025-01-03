@@ -18,7 +18,7 @@ function PartiesPage() {
   const { data: parties, isPending, isError } = useGetParties(queryParams);
 
   const handlePageChange = (page: number) => {
-    console.log("Navigating to:", Route.fullPath);
+    ("Navigating to:", Route.fullPath);
     navigate({
       to: Route.fullPath,
       search: (prevSearch) => {

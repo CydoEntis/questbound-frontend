@@ -85,7 +85,7 @@ function PartyPage() {
       </Container>
     );
 
-  console.log(isPending);
+  (isPending);
   return (
     <>
       <CreateQuestModal

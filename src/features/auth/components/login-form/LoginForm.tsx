@@ -33,7 +33,7 @@ function LoginForm() {
 
   async function onSubmit(credentials: LoginRequest) {
     try {
-      console.log("Credentials: ", credentials);
+      ("Credentials: ", credentials);
       await login.mutateAsync(credentials);
       const searchParams = new URLSearchParams(window.location.search);
       const redirectTo = searchParams.get("redirect") || "/";

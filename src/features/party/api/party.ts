@@ -85,7 +85,7 @@ export function useUpdateParty() {
       return await partyService.updateParty(partyId, updatedParty);
     },
     onSuccess: (data) => {
-      console.log(data);
+      (data);
 
       queryClient.invalidateQueries({
         queryKey: ["parties", "list"],

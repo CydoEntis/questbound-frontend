@@ -29,7 +29,7 @@ function PartySearch() {
 
   const handleSearch = (search: SearchTerm) => {
     const result = searchSchema.safeParse(search);
-    console.log(result);
+    (result);
 
     if (result.success) {
       navigate({
@@ -41,7 +41,7 @@ function PartySearch() {
         replace: false,
       });
     } else {
-      console.log("Validation failed", result.error.errors);
+      ("Validation failed", result.error.errors);
     }
   };
 
