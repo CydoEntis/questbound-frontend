@@ -69,7 +69,7 @@ export type QuestFile = {
 };
 
 export type QuestStep = {
-  id: number;
+  id?: number;
   description: string;
   isCompleted: boolean;
 };

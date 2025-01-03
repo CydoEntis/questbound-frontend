@@ -21,27 +21,13 @@ export const newQuestSchema = z.object({
   dueDate: z.date(),
 });
 
-const userAvatarSchema = z.object({
-  id: z.number(),
-  name: z.string().min(1, "Avatar name cannot be empty"),
-  displayName: z.string().min(1, "Avatar display name cannot be empty"),
-  imageUrl: z.string().url("Invalid URL for avatar image"),
-});
 
 const questStepSchema = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   description: z.string().min(1, "Step description cannot be empty"),
   isCompleted: z.boolean(),
 });
 
-const partyMemberSchema = z.object({
-  userId: z.string(),
-  partyId: z.number(),
-  username: z.string().min(1, "Username cannot be empty"),
-  currentLevel: z.number().min(1, "Level must be at least 1"),
-  role: z.number().min(1).max(4),
-  avatar: userAvatarSchema,
-});
 
 export const updateQuestSchema = z.object({
   questId: z.number(),

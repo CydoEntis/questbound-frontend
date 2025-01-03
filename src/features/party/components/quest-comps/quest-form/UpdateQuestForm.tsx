@@ -22,6 +22,8 @@ import { useState, useRef } from "react";
 import UpdatePriorityLevelSelect from "../priorty-level-select/UpdatePriortyLevelSelect";
 import UpdatePartyMemberSelect from "../party-member-select/UpdatePartyMemberSelect";
 import { useUpdateQuest } from "../../../api/quest";
+import { ErrorResponse } from "../../../../../api/errors/error.types";
+import useFormErrorHandler from "../../../../../shared/hooks/useHandleErrors";
 
 type UpdateQuestFormProps = {
   questDetails: QuestDetail; // The quest object to update
@@ -35,6 +37,7 @@ function UpdateQuestForm({
   onCancel,
 }: UpdateQuestFormProps) {
   const updateQuest = useUpdateQuest();
+  const { handleFormErrors } = useFormErrorHandler<UpdateQuest>();
 
   const [dueDate, setDueDate] = useState<Date | null>(
     new Date(questDetails.dueDate)
@@ -62,7 +65,7 @@ function UpdateQuestForm({
   function addStep() {
     const steps = [
       ...form.values.steps,
-      { id: Date.now(), description: "", isCompleted: false },
+      { description: "", isCompleted: false },
     ];
     form.setFieldValue("steps", steps);
 
@@ -91,17 +94,18 @@ function UpdateQuestForm({
 
   async function onSubmit(updatedQuest: UpdateQuest) {
     try {
+      console.log("Updated quest:", updatedQuest);
+
       await updateQuest.mutateAsync({
         questId: questDetails.id,
         updateQuest: updatedQuest,
       });
       handleEditFormClose();
-    } catch (error) {
-      console.error("Failed to update quest:", error);
+    } catch (e) {
+      const error = e as ErrorResponse;
+      handleFormErrors(error, form);
     }
   }
-
-  console.log(questDetails.partyMembers);
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
@@ -123,7 +127,7 @@ function UpdateQuestForm({
           {form.values.steps.length > 0 && <Text>Steps</Text>}
           {form.values.steps.map((step: QuestStep, index: number) => (
             <TextInput
-              key={step.id}
+              key={index}
               placeholder={`Describe step ${index + 1}`}
               value={step.description}
               onChange={(e) => updateStep(index, e.target.value)}
@@ -151,7 +155,13 @@ function UpdateQuestForm({
           assignedMembers={questDetails.assignedMembers}
           form={form}
         />
-        <DueDatePicker dueDate={dueDate} setDueDate={setDueDate} />
+        <DueDatePicker
+          dueDate={dueDate}
+          setDueDate={(date) => {
+            setDueDate(date);
+            form.setFieldValue("dueDate", date!);
+          }}
+        />
 
         <Group gap={8} justify="end">
           <Button variant="light" color="violet" w={200} type="submit">
