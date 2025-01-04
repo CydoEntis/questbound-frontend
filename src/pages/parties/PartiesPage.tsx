@@ -1,5 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Box, Pagination } from "@mantine/core";
+import { Box, Center, Pagination, Paper, Stack, Text, Title } from "@mantine/core";
 import { useGetParties } from "../../features/party/api/party";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
@@ -18,7 +18,6 @@ function PartiesPage() {
   const { data: parties, isPending, isError } = useGetParties(queryParams);
 
   const handlePageChange = (page: number) => {
-    ("Navigating to:", Route.fullPath);
     navigate({
       to: Route.fullPath,
       search: (prevSearch) => {
@@ -31,13 +30,24 @@ function PartiesPage() {
     });
   };
 
-
   return (
     <>
       <PartiesHeader />
       <Box p={32}>
         {isPending && <PartiesLoadingSkeleton />}
-
+        {!isPending && !isError && parties?.items.length === 0 && (
+          <Center>
+            <Paper withBorder p={16} bg="card">
+              <Stack gap={12}>
+                <Title ta="center">UH OH!</Title>
+                <Text ta="center">No parties found!</Text>
+                <Text ta="center">
+                  It looks like you haven't created or joined any parties yet.
+                </Text>
+              </Stack>
+            </Paper>
+          </Center>
+        )}
         {!isPending && isError && (
           <p>Error loading parties. Please try again later.</p>
         )}
