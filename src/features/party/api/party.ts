@@ -13,6 +13,7 @@ import {
   MemberUpdate,
   UpdatePartyMemberResponse,
 } from "../../party-member/shared/party-members.types";
+import { useNavigate } from "@tanstack/react-router";
 
 export const useGetParties = (queryParams: QueryParams) => {
   const memoizedQueryParams = useMemo(() => queryParams, [queryParams]);
@@ -296,23 +297,41 @@ export function useInviteMember() {
 }
 
 export function useAcceptInvite() {
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
+
   return useMutation({
-    mutationFn: partyService.acceptInvite,
+    mutationFn: (token: string) => partyService.acceptInvite(token),
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["parties", "detail", data.partyId],
+      });
+
       notifications.show({
         title: "Success",
         message: "Invitation accepted!",
         color: "green",
         position: "top-right",
       });
+
+      const partyId = data?.partyId;
+      if (partyId) {
+        navigate({ to: `/parties/${partyId}`, search: { pageNumber: 1 } });
+      } else {
+        console.error("Party ID missing in response");
+      }
     },
     onError: (error) => {
       notifications.show({
         title: "Error",
-        message: error.message || "Failed to accept invitation.",
+        message: error?.message || "Failed to accept invitation.",
         color: "red",
         position: "top-right",
       });
+
+      // Navigate to the dashboard on error
+      navigate({ to: "/dashboard" });
     },
   });
 }

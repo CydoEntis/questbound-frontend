@@ -13,6 +13,7 @@ import {
   NewPartyCreator,
   PartyData,
   PartyModifiedResponse,
+  AcceptInviteResponse,
 } from "../../shared/party.types";
 
 const getAllParties = async (
@@ -158,7 +159,7 @@ const inviteMemberToParty = async ({
   }
 };
 
-const acceptInvite = async (token: string): Promise<void> => {
+const acceptInvite = async (token: string): Promise<AcceptInviteResponse> => {
   const response = (
     await apiClient.post(`${endpoints.partyMembers}/accept-invite`, { token })
   ).data;
@@ -168,7 +169,8 @@ const acceptInvite = async (token: string): Promise<void> => {
       response.errors?.join(", ") || "Failed to accept the invitation"
     );
   }
-
+  console.log("INVITE: ", response)
+  return response.data;
 };
 
 export default {
@@ -184,5 +186,5 @@ export default {
   updatePartyLeader,
   updatePartyMembers,
   inviteMemberToParty,
-  acceptInvite
+  acceptInvite,
 };

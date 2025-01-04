@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { notifications } from "@mantine/notifications";
-import useAuthStore from "../../../../../stores/useAuthStore";
 import { useAcceptInvite } from "../../../api/party";
 import PartiesPageLoadingSkeleton from "../parties-loader/PartiesPageLoadingSkeleton";
-import { Text, Button, Group, Paper, Stack, Box } from "@mantine/core";
+import { Text, Button, Paper, Stack, Box, Flex } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 const InvitePage = () => {
   const navigate = useNavigate();
   const acceptInviteMutation = useAcceptInvite();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 1090px)");
   const queryParams = new URLSearchParams(window.location.search);
   const token = queryParams.get("token");
 
-
   const acceptInvite = async () => {
+    console.log("Clicking...");
     if (!token) {
       notifications.show({
         title: "Failed",
@@ -27,10 +25,13 @@ const InvitePage = () => {
       return;
     }
 
-    await acceptInviteMutation.mutate(token);
+    await acceptInviteMutation.mutateAsync(token);
   };
 
-
+  const declineInvite = async () => {
+    navigate({ to: "/" });
+    return;
+  };
 
   return (
     <Box pos="relative">
@@ -39,7 +40,7 @@ const InvitePage = () => {
         pos="absolute"
         left="50%"
         style={{
-          top: isMobile ? "2%" : "30%",
+          top: isMobile ? "2%" : "10%",
           transform: "translateX(-50%)",
         }}
         miw={300}
@@ -47,16 +48,16 @@ const InvitePage = () => {
         p={32}
         withBorder
       >
-        <Stack gap={32} justify="center" align="center" mih={200}>
-          <Text>Are you sure you want to join the party?</Text>
-          <Group>
-            <Button variant="light" color="violet">
+        <Stack gap={16} justify="center" align="center" mih={200}>
+          <Text ta="center">Are you sure you want to join the party?</Text>
+          <Flex gap={8}>
+            <Button variant="light" color="violet" onClick={acceptInvite}>
               Accept Invite
             </Button>
-            <Button variant="light" color="violet">
-              Reject Invite
+            <Button variant="light" color="red" onClick={declineInvite}>
+              Decline Invite
             </Button>
-          </Group>
+          </Flex>
         </Stack>
       </Paper>
     </Box>

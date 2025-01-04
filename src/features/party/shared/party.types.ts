@@ -54,3 +54,9 @@ export type PartyModifiedResponse = {
   partyId: number;
 }
 
+export type AcceptInviteResponse = {
+  message: string;
+  partyId: number;
+  partyName: string;
+  partyDescription: string;
+}
