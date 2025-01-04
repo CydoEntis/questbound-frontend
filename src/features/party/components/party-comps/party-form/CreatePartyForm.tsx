@@ -26,8 +26,7 @@ function CreatePartyForm({ onClose }: CreatePartyProps) {
 
   const handleSubmit = async (data: PartyData) => {
     try {
-      const newlyCreatedParty = await createParty.mutateAsync(data);
-      (newlyCreatedParty);
+      await createParty.mutateAsync(data);
       onClose();
     } catch (e) {
       const error = e as ErrorResponse;

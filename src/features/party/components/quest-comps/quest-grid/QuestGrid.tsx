@@ -1,12 +1,9 @@
 import QuestCard from "../quest-card/QuestCard";
-import {
-  SimpleGrid,
-} from "@mantine/core";
-import { Quest} from "../../../shared/quest.types";
+import { SimpleGrid } from "@mantine/core";
+import { Quest } from "../../../shared/quest.types";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import QuestDetailsModal from "../quest-details/QuestDetailsModal";
-
 
 type QuestGridProps = {
   quests: Quest[];
@@ -23,8 +20,6 @@ function QuestGrid({ quests }: QuestGridProps) {
     setSelectedQuest(questId);
     openQuest();
   };
-
-    (quests);
 
   return (
     <>

@@ -29,7 +29,6 @@ function QuestSearch() {
 
   const handleSearch = (search: SearchTerm) => {
     const result = searchSchema.safeParse(search);
-    (result);
 
     if (result.success) {
       navigate({
@@ -38,8 +37,6 @@ function QuestSearch() {
           search: result.data.search,
         }),
       });
-    } else {
-      ("Validation failed", result.error.errors);
     }
   };
 

@@ -94,7 +94,6 @@ function UpdateQuestForm({
 
   async function onSubmit(updatedQuest: UpdateQuest) {
     try {
-      ("Updated quest:", updatedQuest);
 
       await updateQuest.mutateAsync({
         questId: questDetails.id,

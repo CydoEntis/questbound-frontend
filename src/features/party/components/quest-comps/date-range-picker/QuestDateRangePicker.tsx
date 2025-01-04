@@ -14,7 +14,7 @@ function QuestDateRangePicker() {
   );
 
   const useSearchParams = useSearch({
-    from: "/_authenticated/parties/$partyId", 
+    from: "/_authenticated/parties/$partyId",
   });
 
   const navigate = useNavigate({ from: Route.fullPath });
@@ -54,9 +54,6 @@ function QuestDateRangePicker() {
           endDate: result.data.endDate || undefined,
         }),
       });
-      ("Date range applied:", result.data);
-    } else {
-      ("Validation failed", result.error.errors);
     }
   };
 
