@@ -149,7 +149,7 @@ const inviteMemberToParty = async ({
 }): Promise<void> => {
   const response = (
     await apiClient.post(`${endpoints.partyMembers}/${partyId}/invite`, {
-      email,
+      inviteeEMail: email,
     })
   ).data;
 
