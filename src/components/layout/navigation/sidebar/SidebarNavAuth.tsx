@@ -44,6 +44,7 @@ function SidebarNavAuth({
     await logout.mutateAsync();
     navigate({
       to: "/login",
+      search: { redirect: undefined },
     });
     handleClose();
   };

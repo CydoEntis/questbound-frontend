@@ -77,15 +77,22 @@ function PartyPage() {
         <Center>
           <Paper p={32} withBorder bg="card">
             <Stack justify="center" align="center">
-            <Title>Unexpected Error Has Occured</Title>
-            <Anchor component={Link} to="/dashboard" size="sm" c="violet" variant="link">Return to Dashboard</Anchor>
+              <Title>Unexpected Error Has Occured</Title>
+              <Anchor
+                component={Link}
+                to="/dashboard"
+                size="sm"
+                c="violet"
+                variant="link"
+              >
+                Return to Dashboard
+              </Anchor>
             </Stack>
           </Paper>
         </Center>
       </Container>
     );
 
-  (isPending);
   return (
     <>
       <CreateQuestModal

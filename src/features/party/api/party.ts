@@ -281,6 +281,7 @@ export function useInviteMember() {
         title: "Success",
         message: "Invitation sent successfully!",
         color: "green",
+        position: "top-right",
       });
     },
     onError: (error) => {
@@ -288,6 +289,29 @@ export function useInviteMember() {
         title: "Error",
         message: error.message || "Failed to send invitation.",
         color: "red",
+        position: "top-right",
+      });
+    },
+  });
+}
+
+export function useAcceptInvite() {
+  return useMutation({
+    mutationFn: partyService.acceptInvite,
+    onSuccess: (data) => {
+      notifications.show({
+        title: "Success",
+        message: "Invitation accepted!",
+        color: "green",
+        position: "top-right",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to accept invitation.",
+        color: "red",
+        position: "top-right",
       });
     },
   });

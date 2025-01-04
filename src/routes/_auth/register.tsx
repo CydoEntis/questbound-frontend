@@ -1,31 +1,41 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, useSearch } from "@tanstack/react-router";
 import AuthCard from "../../features/auth/components/auth-card/AuthCard";
 import RegisterForm from "../../features/auth/components/register-form/RegisterForm";
-import localStorageService from "../../api/services/localStorage.service";
-import { Tokens } from "../../features/auth/shared/auth.types";
 
 export const Route = createFileRoute("/_auth/register")({
-  beforeLoad: () => {
-    const tokens = localStorageService.getItem<Tokens>("questbound");
-    if (tokens) {
-      throw redirect({ to: "/" });
-    }
-
-    return;
-  },
   component: RegisterPage,
+  validateSearch: (
+    params: Record<string, string | number>
+  ): { redirect: string | undefined } => {
+    return {
+      redirect: params.redirect as string | undefined,
+    };
+  },
 });
 
-type Props = {};
-function RegisterPage({}: Props) {
+function RegisterPage() {
+  const useSearchParams = useSearch({
+    from: "/_auth/register",
+  });
+
+  console.log(useSearchParams);
+
+  const redirectTo = useSearchParams.redirect ?? null;
+
+  console.log("Redirect to: ", redirectTo);
+
+  const loginUrl = redirectTo
+    ? `/login?redirect=${encodeURIComponent(redirectTo)}`
+    : "/login";
+
   return (
     <AuthCard
       title="Let's Get You Signed Up!"
       anchorLabel="Already Have An Account?"
       anchorText="Log In"
-      to="/login"
+      to={loginUrl}
     >
-      <RegisterForm />
+      <RegisterForm redirectTo={redirectTo} />
     </AuthCard>
   );
 }

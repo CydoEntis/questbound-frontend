@@ -9,7 +9,7 @@ import {
 import { AtSign, Lock } from "lucide-react";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useForm } from "@mantine/form";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 import { useLogin } from "../../api/auth";
 import { LoginRequest } from "../../shared/auth.types";
@@ -17,9 +17,10 @@ import { loginSchema } from "../../shared/auth.schemas";
 import { ErrorResponse } from "../../../../api/errors/error.types";
 import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
 
-function LoginForm() {
+function LoginForm({ redirectTo }: { redirectTo: string | null }) {
   const login = useLogin();
-  const router = useRouter();
+    const navigate = useNavigate();
+  
   const { error, handleAuthFormErrors, resetError } =
     useFormErrorHandler<LoginRequest>();
     
@@ -33,12 +34,11 @@ function LoginForm() {
 
   async function onSubmit(credentials: LoginRequest) {
     try {
-      ("Credentials: ", credentials);
       await login.mutateAsync(credentials);
-      const searchParams = new URLSearchParams(window.location.search);
-      const redirectTo = searchParams.get("redirect") || "/";
-      router.history.push(redirectTo);
+
       form.reset();
+      navigate({ to: redirectTo || "/" });
+
     } catch (err) {
       const error = err as ErrorResponse;
       handleAuthFormErrors(error, form);

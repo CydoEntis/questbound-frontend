@@ -1,3 +1,11 @@
+import { useNavigate } from "@tanstack/react-router";
+import { useForm, zodResolver } from "@mantine/form";
+import { useState } from "react";
+import { RegisterRequest } from "../../shared/auth.types";
+import { registerSchema } from "../../shared/auth.schemas";
+import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
+import { ErrorResponse } from "../../../../api/errors/error.types";
+import { ERROR_TYPES } from "../../../../api/errors/error.constants";
 import {
   Avatar,
   Button,
@@ -11,23 +19,13 @@ import {
 } from "@mantine/core";
 import { AtSign, Lock, User2, Check } from "lucide-react";
 
-import { zodResolver } from "mantine-form-zod-resolver";
-import { useForm } from "@mantine/form";
-import { useState } from "react";
 import MaleA from "../../../../assets/male_a.png";
 import MaleB from "../../../../assets/male_b.png";
 import FemaleA from "../../../../assets/female_a.png";
 import FemaleB from "../../../../assets/female_b.png";
-import { useNavigate } from "@tanstack/react-router";
-
 import { useRegister } from "../../api/auth";
-import { RegisterRequest } from "../../shared/auth.types";
-import { registerSchema } from "../../shared/auth.schemas";
-import ValidatedPasswordInput from "../validated-password-input/ValidatedPasswordInput";
-import { ErrorResponse } from "../../../../api/errors/error.types";
-import { ERROR_TYPES } from "../../../../api/errors/error.constants";
 
-function RegisterForm() {
+function RegisterForm({ redirectTo }: { redirectTo: string | null }) {
   const [selectedAvatar, setSelectedAvatar] = useState(1);
   const [error, setError] = useState("");
 
@@ -59,16 +57,17 @@ function RegisterForm() {
 
       await register.mutateAsync(newUser);
       form.reset();
-      navigate({ to: "/" });
+      // Redirect to the provided 'redirectTo' URL or default to home
+      navigate({ to: redirectTo || "/" });
     } catch (err) {
       const error = err as ErrorResponse;
       if (error.type === ERROR_TYPES.VALIDATION_ERROR) {
         form.setErrors(error.errors);
-      } else if (error.type == ERROR_TYPES.NOT_FOUND_ERROR) {
+      } else if (error.type === ERROR_TYPES.NOT_FOUND_ERROR) {
         form.setFieldError("email", "Invalid username or password");
-      } else if (error.type == ERROR_TYPES.UNEXPECTED_ERROR) {
+      } else if (error.type === ERROR_TYPES.UNEXPECTED_ERROR) {
         setError(
-          "An unexpected error has occured and we could not log you in."
+          "An unexpected error has occurred and we could not log you in."
         );
       }
     }
@@ -151,7 +150,7 @@ function RegisterForm() {
                     justifyContent: "center",
                   }}
                 >
-                  <Check size={20} />{" "}
+                  <Check size={20} />
                 </Paper>
               )}
               <Text size="xs" ta="center">

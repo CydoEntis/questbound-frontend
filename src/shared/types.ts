@@ -19,6 +19,7 @@ export type QueryParams = {
   startDate?: string;
   endDate?: string;
   partyId?: string;
+  token?: string;
 };
 
 export type MemberRole = (typeof MEMBER_ROLES)[keyof typeof MEMBER_ROLES];

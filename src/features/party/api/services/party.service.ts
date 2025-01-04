@@ -158,6 +158,19 @@ const inviteMemberToParty = async ({
   }
 };
 
+const acceptInvite = async (token: string): Promise<void> => {
+  const response = (
+    await apiClient.post(`${endpoints.partyMembers}/accept-invite`, { token })
+  ).data;
+
+  if (!response.success) {
+    throw new Error(
+      response.errors?.join(", ") || "Failed to accept the invitation"
+    );
+  }
+
+};
+
 export default {
   getAllParties,
   getRecentParties,
@@ -171,4 +184,5 @@ export default {
   updatePartyLeader,
   updatePartyMembers,
   inviteMemberToParty,
+  acceptInvite
 };
