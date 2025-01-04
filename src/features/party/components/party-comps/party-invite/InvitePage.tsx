@@ -9,48 +9,37 @@ import { useMediaQuery } from "@mantine/hooks";
 
 const InvitePage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
   const acceptInviteMutation = useAcceptInvite();
-  const [theToken, setTheToken] = useState<string | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  useEffect(() => {
-    const processInvite = async () => {
-      const queryParams = new URLSearchParams(window.location.search);
-      const token = queryParams.get("token");
+  const queryParams = new URLSearchParams(window.location.search);
+  const token = queryParams.get("token");
 
-      if (token) {
-        setTheToken(token);
-      }
 
-      //   if (!token) {
-      //     navigate({ to: "/" });
-      //     notifications.show({
-      //       title: "Failed",
-      //       message: "Invite could not be accepted",
-      //       color: "red",
-      //       position: "top-right",
-      //     });
-      //     return;
-      //   }
+  const acceptInvite = async () => {
+    if (!token) {
+      notifications.show({
+        title: "Failed",
+        message: "Invalid token",
+        color: "red",
+        position: "top-right",
+      });
+      navigate({ to: "/" });
+      return;
+    }
 
-      //   if (isAuthenticated) {
-      //     acceptInviteMutation.mutate(token); // Trigger the mutation to accept the invite
-      //   } else {
-      //     navigate({ to: `/login?redirect=/invite?token=${token}` });
-      //   }
-      // };
-    };
-    processInvite();
-  }, []);
+    await acceptInviteMutation.mutate(token);
+  };
+
+
 
   return (
     <Box pos="relative">
       <PartiesPageLoadingSkeleton />
       <Paper
         pos="absolute"
-        left="50%" 
+        left="50%"
         style={{
-          top: isMobile ? "2%" : "50%",
+          top: isMobile ? "2%" : "30%",
           transform: "translateX(-50%)",
         }}
         miw={300}
