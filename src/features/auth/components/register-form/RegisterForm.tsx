@@ -57,8 +57,7 @@ function RegisterForm({ redirectTo }: { redirectTo: string | null }) {
 
       await register.mutateAsync(newUser);
       form.reset();
-      // Redirect to the provided 'redirectTo' URL or default to home
-      navigate({ to: redirectTo || "/" });
+      navigate({ to: redirectTo || "/dashboard" });
     } catch (err) {
       const error = err as ErrorResponse;
       if (error.type === ERROR_TYPES.VALIDATION_ERROR) {

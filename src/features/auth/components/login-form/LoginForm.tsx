@@ -37,7 +37,7 @@ function LoginForm({ redirectTo }: { redirectTo: string | null }) {
       await login.mutateAsync(credentials);
 
       form.reset();
-      navigate({ to: redirectTo || "/" });
+      navigate({ to: redirectTo || "/dashboard" });
 
     } catch (err) {
       const error = err as ErrorResponse;
