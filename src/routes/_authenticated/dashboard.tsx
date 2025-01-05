@@ -116,7 +116,7 @@ function Index() {
         </Paper>
 
         <Stack gap={16}>
-          <SimpleGrid cols={3}>
+          <SimpleGrid cols={{ base: 1, md: 3 }}>
             <StatCard
               color="indigo"
               title="Total Quests"
@@ -133,7 +133,7 @@ function Index() {
               targetValue={userStats?.pastDueQuests || 0}
             />
           </SimpleGrid>
-          <SimpleGrid cols={4}>
+          <SimpleGrid cols={{ base: 1, md: 2, lg: 4 }}>
             <PriorityCard
               title="Low Priority Quests"
               color="blue"
@@ -157,10 +157,10 @@ function Index() {
           </SimpleGrid>
 
           <Grid>
-            <Grid.Col span={8}>
+            <Grid.Col span={{ base: 12, md: 8 }}>
               <MonthlyQuestBreakdownChart data={chartData} />
             </Grid.Col>
-            <Grid.Col span={4}>
+            <Grid.Col span={{ base: 12, md: 4 }}>
               <Stack>
                 <StatCard
                   color="violet"
