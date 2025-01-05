@@ -13,10 +13,10 @@ const TotalAvatarsCard = ({
 }: TotalAvatarsCardProps) => {
   const { isLightMode } = useGetColorTheme();
 
-  const lightBgColor = "#E4F1FC";
+  const lightBgColor = "#F8EDFB";
   const darkBgColor = "#3B2A40";
 
-  const lightTextColor = "#58C0FC";
+  const lightTextColor = "#BE4BDB";
   const darkTextColor = "#E599F7";
 
   const bgColor = isLightMode ? lightBgColor : darkBgColor;
@@ -33,7 +33,7 @@ const TotalAvatarsCard = ({
       }}
     >
       <Stack gap={8} justify="center" align="center" h={180}>
-        <Title style={{ color: textColor }}>Total Avatars</Title>
+        <Title ta="center" style={{ color: textColor }}>Total Avatars</Title>
         <Group>
           <AnimatedNumber targetValue={unlockedAvatarCount} color="grape" />
           <Text ta="center" style={{ color: textColor }} size="3rem">

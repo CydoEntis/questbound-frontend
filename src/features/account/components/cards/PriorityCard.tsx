@@ -1,4 +1,4 @@
-import { Group, Paper, Stack, Title } from "@mantine/core";
+import { Paper, Stack, Title } from "@mantine/core";
 import AnimatedNumber from "../../../../components/animation/AnimatedNumber";
 import useGetColorTheme from "../../../../components/theme/hooks/useGetColorScheme";
 
