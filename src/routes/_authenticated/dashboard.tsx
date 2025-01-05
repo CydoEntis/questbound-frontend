@@ -11,7 +11,7 @@ import {
   Flex,
   Image,
 } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useGetQuestBreakdown,
   useGetUserStats,
@@ -22,9 +22,9 @@ import StatCard from "../../features/account/components/cards/StatCard";
 import TotalAvatarsCard from "../../features/account/components/avatar-card/TotalAvatarsCard";
 import AvatarDisplay from "../../features/avatar/components/avatar-display/AvatarDisplay";
 import { getPercentage } from "../../shared/utils/account.utils";
-
 import Gold from "../../assets/gold.png";
 import PriorityCard from "../../features/account/components/cards/PriorityCard";
+import MonthlyQuestBreakdownChart from "../../features/account/components/charts/MonthlyQuestBreakdownChart";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Index,
@@ -44,10 +44,24 @@ function Index() {
     isLoading: isQuestBreakdownLoading,
   } = useGetQuestBreakdown(requestDto);
 
+  const [chartData, setChartData] = useState<{ date: number; value: number }[]>(
+    []
+  );
+
   useEffect(() => {
+    if (questBreakdown) {
+      const mappedData = Object.entries(questBreakdown).map(([key, value]) => ({
+        date: parseInt(key),
+        value: value,
+      }));
+
+      setChartData(mappedData);
+    }
+
     if (userStats) {
       console.log("User Stats:", userStats);
     }
+
     if (questBreakdown) {
       console.log("Quest Breakdown:", questBreakdown);
     }
@@ -55,12 +69,14 @@ function Index() {
     if (userStatsError) {
       console.error("Error fetching user stats:", userStatsError);
     }
+
     if (questBreakdownError) {
       console.error("Error fetching quest breakdown:", questBreakdownError);
     }
   }, [userStats, questBreakdown, userStatsError, questBreakdownError]);
 
-  if (isUserStatsLoading) return <div>Loading...</div>;
+  if (isUserStatsLoading || isQuestBreakdownLoading)
+    return <div>Loading...</div>;
 
   let percentage = 0;
   if (userStats) {
@@ -73,7 +89,7 @@ function Index() {
   return (
     <Box p={{ base: 16, md: 32 }}>
       <Stack gap={16}>
-        <Paper withBorder p={32}>
+        <Paper p={32}>
           <Group w="100%">
             <Stack gap={8} w="100%">
               <Flex justify={"space-between"} w="100%">
@@ -98,6 +114,7 @@ function Index() {
             />
           </Group>
         </Paper>
+
         <Stack gap={16}>
           <SimpleGrid cols={3}>
             <StatCard
@@ -141,7 +158,7 @@ function Index() {
 
           <Grid>
             <Grid.Col span={8}>
-              <Box bg="violet">Placeholder</Box>
+              <MonthlyQuestBreakdownChart data={chartData} />
             </Grid.Col>
             <Grid.Col span={4}>
               <Stack>
@@ -162,3 +179,5 @@ function Index() {
     </Box>
   );
 }
+
+export default Index;
