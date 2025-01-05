@@ -11,7 +11,6 @@ import {
   Flex,
   Image,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
 import {
   useGetQuestBreakdown,
   useGetUserStats,
@@ -31,60 +30,30 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Index() {
-  const {
-    data: userStats,
-    error: userStatsError,
-    isLoading: isUserStatsLoading,
-  } = useGetUserStats();
+  const { data: userStats, isLoading: isUserStatsLoading } = useGetUserStats();
 
-  const requestDto = { year: 2025, month: 1 };
-  const {
-    data: questBreakdown,
-    error: questBreakdownError,
-    isLoading: isQuestBreakdownLoading,
-  } = useGetQuestBreakdown(requestDto);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
 
-  const [chartData, setChartData] = useState<{ date: number; value: number }[]>(
-    []
-  );
+  const requestDto = { year: currentYear, month: currentMonth };
+  const { data: questBreakdown, isLoading: isQuestBreakdownLoading } =
+    useGetQuestBreakdown(requestDto);
 
-  useEffect(() => {
-    if (questBreakdown) {
-      const mappedData = Object.entries(questBreakdown).map(([key, value]) => ({
+  const chartData = questBreakdown
+    ? Object.entries(questBreakdown).map(([key, value]) => ({
         date: parseInt(key),
         value: value,
-      }));
+      }))
+    : [];
 
-      setChartData(mappedData);
-    }
-
-    if (userStats) {
-      console.log("User Stats:", userStats);
-    }
-
-    if (questBreakdown) {
-      console.log("Quest Breakdown:", questBreakdown);
-    }
-
-    if (userStatsError) {
-      console.error("Error fetching user stats:", userStatsError);
-    }
-
-    if (questBreakdownError) {
-      console.error("Error fetching quest breakdown:", questBreakdownError);
-    }
-  }, [userStats, questBreakdown, userStatsError, questBreakdownError]);
-
-  if (isUserStatsLoading || isQuestBreakdownLoading)
+  if (isUserStatsLoading || isQuestBreakdownLoading) {
     return <div>Loading...</div>;
-
-  let percentage = 0;
-  if (userStats) {
-    percentage = getPercentage(
-      userStats!.currentExperience,
-      userStats!.experienceToLevelUp
-    );
   }
+
+  const percentage = userStats
+    ? getPercentage(userStats.currentExperience, userStats.experienceToLevelUp)
+    : 0;
 
   return (
     <Box p={{ base: 16, md: 32 }}>
@@ -95,7 +64,7 @@ function Index() {
               <Flex justify={"space-between"} w="100%">
                 <Group gap={8}>
                   <AvatarDisplay avatar={userStats!.currentAvatar} size="xl" />
-                  <Title> {userStats?.username}</Title>
+                  <Title>{userStats?.username}</Title>
                 </Group>
                 <Group gap={4}>
                   <Text size="1.5rem">{userStats!.gold}</Text>
