@@ -30,8 +30,6 @@ function MonthlyQuestBreakdownChart({
 }: {
   data: { date: number; value: number }[];
 }) {
-  console.log("DATA: ", data);
-
   return (
     <Paper bg="card" p={32}>
       <Title order={3} mb={16}>

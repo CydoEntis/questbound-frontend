@@ -18,11 +18,7 @@ function RegisterPage() {
     from: "/_auth/register",
   });
 
-  console.log(useSearchParams);
-
   const redirectTo = useSearchParams.redirect ?? null;
-
-  console.log("Redirect to: ", redirectTo);
 
   const loginUrl = redirectTo
     ? `/login?redirect=${encodeURIComponent(redirectTo)}`

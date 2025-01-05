@@ -13,7 +13,6 @@ const InvitePage = () => {
   const token = queryParams.get("token");
 
   const acceptInvite = async () => {
-    console.log("Clicking...");
     if (!token) {
       notifications.show({
         title: "Failed",

@@ -169,7 +169,6 @@ const acceptInvite = async (token: string): Promise<AcceptInviteResponse> => {
       response.errors?.join(", ") || "Failed to accept the invitation"
     );
   }
-  console.log("INVITE: ", response)
   return response.data;
 };
 
