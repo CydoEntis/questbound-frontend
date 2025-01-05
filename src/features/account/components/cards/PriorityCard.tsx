@@ -58,12 +58,10 @@ const PriorityCard = ({ title, color, targetValue }: PriorityCardProps) => {
       }}
     >
       <Stack gap={8} justify="center" align="center" h={100}>
-        <Group>
-          <Title size="xl" style={{ color: textColor }}>
-            {title}
-          </Title>
-          <AnimatedNumber targetValue={targetValue} color={color} />
-        </Group>
+        <Title ta="center" size="xl" style={{ color: textColor }}>
+          {title}
+        </Title>
+        <AnimatedNumber targetValue={targetValue} color={color} />
       </Stack>
     </Paper>
   );

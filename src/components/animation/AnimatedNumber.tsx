@@ -81,7 +81,7 @@ const AnimatedNumber = ({
         borderRadius: "8px",
       }}
     >
-      <Text size="2.25rem" style={{ color: textColor }}>
+      <Text ta="center" size="2.25rem" style={{ color: textColor }}>
         {displayValue}
       </Text>
     </motion.div>

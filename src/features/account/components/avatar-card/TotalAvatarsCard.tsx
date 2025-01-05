@@ -36,7 +36,7 @@ const TotalAvatarsCard = ({
         <Title style={{ color: textColor }}>Total Avatars</Title>
         <Group>
           <AnimatedNumber targetValue={unlockedAvatarCount} color="grape" />
-          <Text style={{ color: textColor }} size="3rem">
+          <Text ta="center" style={{ color: textColor }} size="3rem">
             /
           </Text>
           <AnimatedNumber targetValue={totalAvatarCount} color="grape" />

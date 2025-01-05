@@ -62,7 +62,7 @@ const StatCard = ({ title, targetValue, color }: StatCardProps) => {
       }}
     >
       <Stack gap={8} justify="center" align="center" h={180}>
-        <Title style={{ color: textColor }}>{title}</Title>
+        <Title ta="center" style={{ color: textColor }}>{title}</Title>
         <Group>
           <AnimatedNumber targetValue={targetValue} color={color} />
         </Group>
