@@ -54,7 +54,6 @@ const StatCard = ({ title, targetValue, color }: StatCardProps) => {
   return (
     <Paper
       p={16}
-      withBorder
       style={{
         display: "flex",
         alignItems: "center",

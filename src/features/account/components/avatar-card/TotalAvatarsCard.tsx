@@ -25,7 +25,6 @@ const TotalAvatarsCard = ({
   return (
     <Paper
       p={16}
-      withBorder
       style={{
         backgroundColor: bgColor,
         display: "flex",
