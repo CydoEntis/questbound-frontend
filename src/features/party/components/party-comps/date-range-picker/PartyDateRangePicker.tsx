@@ -60,8 +60,8 @@ function PartyDateRangePicker() {
   };
 
   const reset = () => {
-    setValue([null, null]); // Reset local state
-    form.reset(); // Reset form fields
+    setValue([null, null]);
+    form.reset();
     navigate({
       search: (prevSearch) => ({
         ...prevSearch,

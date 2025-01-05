@@ -2,7 +2,11 @@ import { notifications } from "@mantine/notifications";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import accountService from "./account.service";
-import { UpdateUserRequest, UpdateUserResponse } from "../shared/account.types";
+import {
+  DateRangeRequest,
+  UpdateUserRequest,
+  UpdateUserResponse,
+} from "../shared/account.types";
 import { ApiError } from "../../../api/errors/error.types";
 
 export const useGetUser = () => {
@@ -35,7 +39,6 @@ export function useUpdateUserDetails() {
       });
     },
     onError: (error: ApiError) => {
-
       notifications.show({
         title: "Update Failed",
         message: error.error,
@@ -46,3 +49,19 @@ export function useUpdateUserDetails() {
     },
   });
 }
+
+export const useGetUserStats = () => {
+  return useQuery({
+    queryKey: ["userStats"],
+    queryFn: () => accountService.getUserStats(),
+    enabled: true,
+  });
+};
+
+export const useGetQuestBreakdown = (requestDto: DateRangeRequest) => {
+  return useQuery({
+    queryKey: ["questBreakdown", requestDto],
+    queryFn: () => accountService.getQuestBreakdown(requestDto),
+    enabled: !!requestDto,
+  });
+};

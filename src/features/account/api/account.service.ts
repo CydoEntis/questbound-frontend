@@ -1,4 +1,11 @@
-import { UpdateUserRequest, UpdateUserResponse, User } from "../shared/account.types";
+import {
+  DateRangeRequest,
+  MonthlyQuestBreakdown,
+  UpdateUserRequest,
+  UpdateUserResponse,
+  User,
+  UserStatsResponse,
+} from "../shared/account.types";
 import apiClient from "../../../api/apiClient";
 import endpoints from "../../../api/endpoints";
 
@@ -11,12 +18,30 @@ const updateUserDetails = async (
 };
 
 const getUserDetails = async (): Promise<User> => {
-  const response = (await apiClient.get(`${endpoints.user}`)).data
+  const response = (await apiClient.get(`${endpoints.user}`)).data;
+  if (!response.success) throw new Error();
+  return response.data;
+};
+
+const getUserStats = async (): Promise<UserStatsResponse> => {
+  const response = (await apiClient.get(`${endpoints.user}/stats`)).data;
+  if (!response.success) throw new Error();
+  return response.data;
+};
+
+const getQuestBreakdown = async (
+  requestDto: DateRangeRequest
+): Promise<MonthlyQuestBreakdown> => {
+  const response = (
+    await apiClient.get(`${endpoints.user}/quests`, { params: requestDto })
+  ).data;
   if (!response.success) throw new Error();
   return response.data;
 };
 
 export default {
   updateUserDetails,
-  getUserDetails
+  getUserDetails,
+  getUserStats,
+  getQuestBreakdown,
 };
