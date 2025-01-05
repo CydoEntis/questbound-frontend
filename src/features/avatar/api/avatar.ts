@@ -18,6 +18,10 @@ export function useUpdateAvatar() {
         queryKey: ["user",],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["userStats",],
+      });
+
       notifications.show({
         title: "Update Success",
         message: "Avatar updated.",

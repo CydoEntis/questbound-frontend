@@ -31,6 +31,12 @@ export function useUpdateUserDetails() {
         queryKey: ["user"],
       });
 
+
+      queryClient.invalidateQueries({
+        queryKey: ["userStats"],
+      });
+
+
       notifications.show({
         title: "Update Success",
         message: "User details updated.",
