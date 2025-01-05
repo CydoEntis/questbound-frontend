@@ -16,13 +16,6 @@ import {
   useGetQuestBreakdown,
   useGetUserStats,
 } from "../../features/account/api/account";
-import {
-  CalendarCheck,
-  CheckCheck,
-  LockKeyholeOpen,
-  Sparkle,
-  Users2,
-} from "lucide-react";
 
 import { createFileRoute } from "@tanstack/react-router";
 import StatCard from "../../features/account/components/cards/StatCard";
@@ -108,18 +101,18 @@ function Index() {
         <Stack gap={16}>
           <SimpleGrid cols={3}>
             <StatCard
+              color="indigo"
               title="Total Quests"
-              icon={<Sparkle size={32} />}
               targetValue={userStats?.totalQuests || 0}
             />
             <StatCard
+              color="lime"
               title="Completed Quests"
-              icon={<CheckCheck size={32} />}
               targetValue={userStats?.completedQuests || 0}
             />
             <StatCard
+              color="pink"
               title="Past Due Quests"
-              icon={<CalendarCheck size={32} />}
               targetValue={userStats?.pastDueQuests || 0}
             />
           </SimpleGrid>
@@ -153,12 +146,11 @@ function Index() {
             <Grid.Col span={4}>
               <Stack>
                 <StatCard
+                  color="violet"
                   title="Joined Parties"
-                  icon={<Users2 size={32} />}
                   targetValue={userStats?.partiesJoined || 0}
                 />
                 <TotalAvatarsCard
-                  icon={<LockKeyholeOpen size={32} />}
                   unlockedAvatarCount={userStats?.unlockedAvatarCount || 0}
                   totalAvatarCount={userStats?.totalAvatarCount || 0}
                 />

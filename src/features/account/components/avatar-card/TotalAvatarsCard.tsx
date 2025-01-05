@@ -1,39 +1,50 @@
 import { Paper, Title, Text, Group, Stack } from "@mantine/core";
 import AnimatedNumber from "../../../../components/animation/AnimatedNumber";
-import { ReactNode } from "react";
+import useGetColorTheme from "../../../../components/theme/hooks/useGetColorScheme";
 
 interface TotalAvatarsCardProps {
   unlockedAvatarCount: number;
   totalAvatarCount: number;
-  icon: ReactNode;
 }
 
 const TotalAvatarsCard = ({
   unlockedAvatarCount,
   totalAvatarCount,
-  icon
-}: TotalAvatarsCardProps) => (
-  <Paper
-    p={16}
-    withBorder
-    bg="card"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <Stack gap={8} justify="center" align="center" h={180}>
-      <Title>Total Avatars</Title>
-      <Group>
-        {icon}
-        <AnimatedNumber targetValue={unlockedAvatarCount} />
-        <Text size="3rem">/</Text>
-        <AnimatedNumber targetValue={totalAvatarCount} />
-        <Text size="1.5rem">avatars</Text>
-      </Group>
-    </Stack>
-  </Paper>
-);
+}: TotalAvatarsCardProps) => {
+  const { isLightMode } = useGetColorTheme();
+
+  const lightBgColor = "#E4F1FC";
+  const darkBgColor = "#3B2A40";
+
+  const lightTextColor = "#58C0FC";
+  const darkTextColor = "#E599F7";
+
+  const bgColor = isLightMode ? lightBgColor : darkBgColor;
+  const textColor = isLightMode ? lightTextColor : darkTextColor;
+
+  return (
+    <Paper
+      p={16}
+      withBorder
+      style={{
+        backgroundColor: bgColor,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Stack gap={8} justify="center" align="center" h={180}>
+        <Title style={{ color: textColor }}>Total Avatars</Title>
+        <Group>
+          <AnimatedNumber targetValue={unlockedAvatarCount} color="grape" />
+          <Text style={{ color: textColor }} size="3rem">
+            /
+          </Text>
+          <AnimatedNumber targetValue={totalAvatarCount} color="grape" />
+        </Group>
+      </Stack>
+    </Paper>
+  );
+};
 
 export default TotalAvatarsCard;

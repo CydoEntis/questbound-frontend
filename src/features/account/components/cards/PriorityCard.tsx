@@ -11,28 +11,45 @@ type PriorityCardProps = {
 const PriorityCard = ({ title, color, targetValue }: PriorityCardProps) => {
   const { isLightMode } = useGetColorTheme();
 
-  const lightColorMapping = {
+  const lightBgColorMapping = {
     blue: "#E4F1FC",
     yellow: "#FEF7E5",
     orange: "#FFF2E7",
     red: "#FEEDED",
   };
 
-  const darkColorMapping = {
+  const darkBgColorMapping = {
     blue: "#24394B",
     yellow: "#443920",
     orange: "#453222",
     red: "#442B2B",
   };
 
+  const lightTextColorMapping = {
+    blue: "#58C0FC",
+    yellow: "#FFE066",
+    orange: "#FFC078",
+    red: "#FFA8A8",
+  };
+
+  const darkTextColorMapping = {
+    blue: "#228BE6",
+    yellow: "#FAB005",
+    orange: "#FD7E14",
+    red: "#FB5252",
+  };
+
   const bgColor = isLightMode
-    ? lightColorMapping[color]
-    : darkColorMapping[color];
+    ? lightBgColorMapping[color]
+    : darkBgColorMapping[color];
+
+  const textColor = isLightMode
+    ? lightTextColorMapping[color]
+    : darkTextColorMapping[color];
 
   return (
     <Paper
       p={16}
-      withBorder
       style={{
         display: "flex",
         alignItems: "center",
@@ -42,10 +59,10 @@ const PriorityCard = ({ title, color, targetValue }: PriorityCardProps) => {
     >
       <Stack gap={8} justify="center" align="center" h={100}>
         <Group>
-          <Title size="xl" style={{ color: "white" }}>
+          <Title size="xl" style={{ color: textColor }}>
             {title}
           </Title>
-          <AnimatedNumber targetValue={targetValue} />
+          <AnimatedNumber targetValue={targetValue} color={color} />
         </Group>
       </Stack>
     </Paper>
