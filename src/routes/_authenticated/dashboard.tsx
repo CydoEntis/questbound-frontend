@@ -1,52 +1,41 @@
 import {
   Box,
+  Grid,
+  Group,
   Paper,
   SimpleGrid,
   Stack,
   Title,
   Text,
-  Group,
+  Progress,
+  Flex,
+  Image,
 } from "@mantine/core";
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   useGetQuestBreakdown,
   useGetUserStats,
 } from "../../features/account/api/account";
-import { Users2 } from "lucide-react";
-import { motion } from "framer-motion";
+import {
+  CalendarCheck,
+  CheckCheck,
+  LockKeyholeOpen,
+  Sparkle,
+  Users2,
+} from "lucide-react";
 
-// Create the route
+import { createFileRoute } from "@tanstack/react-router";
+import StatCard from "../../features/account/components/cards/StatCard";
+import TotalAvatarsCard from "../../features/account/components/avatar-card/TotalAvatarsCard";
+import AvatarDisplay from "../../features/avatar/components/avatar-display/AvatarDisplay";
+import { getPercentage } from "../../shared/utils/account.utils";
+
+import Gold from "../../assets/gold.png";
+import PriorityCard from "../../features/account/components/cards/PriorityCard";
+
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Index,
 });
-
-// Reusable Animated Number Component
-const AnimatedNumber = ({ targetValue }: { targetValue: number }) => {
-  const [displayValue, setDisplayValue] = useState<number>(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDisplayValue((prevValue) => {
-        const nextValue = Math.min(prevValue + 1, targetValue);
-        if (nextValue === targetValue) clearInterval(interval);
-        return nextValue;
-      });
-    }, 50); // Adjust this interval for different speed of animation
-
-    return () => clearInterval(interval);
-  }, [targetValue]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <Text size="2.5rem">{displayValue}</Text>
-    </motion.div>
-  );
-};
 
 function Index() {
   const {
@@ -78,67 +67,105 @@ function Index() {
     }
   }, [userStats, questBreakdown, userStatsError, questBreakdownError]);
 
+  if (isUserStatsLoading) return <div>Loading...</div>;
+
+  let percentage = 0;
+  if (userStats) {
+    percentage = getPercentage(
+      userStats!.currentExperience,
+      userStats!.experienceToLevelUp
+    );
+  }
+
   return (
     <Box p={{ base: 16, md: 32 }}>
       <Stack gap={16}>
-        <SimpleGrid cols={4}>
-          <Paper
-            p={16}
-            withBorder
-            bg="card"
-            h={200}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Stack gap={8} justify="center" align="center" h={180}>
-              <Title>Joined Parties</Title>
-              <Group>
-                <Users2 size={32} />
-                {/* Animate the number from 0 to the actual value */}
-                <AnimatedNumber targetValue={userStats?.partiesJoined || 0} />
-              </Group>
+        <Paper withBorder p={32}>
+          <Group w="100%">
+            <Stack gap={8} w="100%">
+              <Flex justify={"space-between"} w="100%">
+                <Group gap={8}>
+                  <AvatarDisplay avatar={userStats!.currentAvatar} size="xl" />
+                  <Title> {userStats?.username}</Title>
+                </Group>
+                <Group gap={4}>
+                  <Text size="1.5rem">{userStats!.gold}</Text>
+                  <Image src={Gold} w={40} />
+                </Group>
+              </Flex>
+              <Text>Level: {userStats?.currentLevel}</Text>
             </Stack>
-          </Paper>
+            <Progress
+              w="100%"
+              radius="md"
+              value={percentage}
+              size="md"
+              animated
+              color="violet"
+            />
+          </Group>
+        </Paper>
+        <Stack gap={16}>
+          <SimpleGrid cols={3}>
+            <StatCard
+              title="Total Quests"
+              icon={<Sparkle size={32} />}
+              targetValue={userStats?.totalQuests || 0}
+            />
+            <StatCard
+              title="Completed Quests"
+              icon={<CheckCheck size={32} />}
+              targetValue={userStats?.completedQuests || 0}
+            />
+            <StatCard
+              title="Past Due Quests"
+              icon={<CalendarCheck size={32} />}
+              targetValue={userStats?.pastDueQuests || 0}
+            />
+          </SimpleGrid>
+          <SimpleGrid cols={4}>
+            <PriorityCard
+              title="Low Priority Quests"
+              color="blue"
+              targetValue={userStats?.lowQuests || 0}
+            />
+            <PriorityCard
+              title="Medium Priority Quests"
+              color="yellow"
+              targetValue={userStats?.mediumQuests || 0}
+            />
+            <PriorityCard
+              title="High Priority Quests"
+              color="orange"
+              targetValue={userStats?.highQuests || 0}
+            />
+            <PriorityCard
+              title="Critical Priority Quests"
+              color="red"
+              targetValue={userStats?.criticalQuests || 0}
+            />
+          </SimpleGrid>
 
-          <Paper p={16} withBorder bg="card">
-            <Title>Total Quests</Title>
-            <AnimatedNumber targetValue={userStats?.totalQuests || 0} />
-          </Paper>
-
-          <Paper p={16} withBorder bg="card">
-            <Title>Completed Quests</Title>
-            <AnimatedNumber targetValue={userStats?.completedQuests || 0} />
-          </Paper>
-
-          <Paper p={16} withBorder bg="card">
-            <Title>Past Due Quests</Title>
-            <AnimatedNumber targetValue={userStats?.pastDueQuests || 0} />
-          </Paper>
-        </SimpleGrid>
-
-        <SimpleGrid cols={2}>
-          <Box bg="violet">Placeholder</Box>
-          <Stack>
-            <Paper p={16} withBorder bg="card">
-              <Title>Unlocked Avatars</Title>
-              <AnimatedNumber targetValue={userStats?.unlockedAvatarCount || 0} />
-            </Paper>
-            <Paper p={16} withBorder bg="card">
-              <Title>Total Avatars</Title>
-              <Text>
-                <AnimatedNumber
-                  targetValue={userStats?.unlockedAvatarCount || 0}
-                />{" "}
-                /{" "}
-                <AnimatedNumber targetValue={userStats?.totalAvatarCount || 0} />
-                {" "}avatars
-              </Text>
-            </Paper>
-          </Stack>
-        </SimpleGrid>
+          <Grid>
+            <Grid.Col span={8}>
+              <Box bg="violet">Placeholder</Box>
+            </Grid.Col>
+            <Grid.Col span={4}>
+              <Stack>
+                <StatCard
+                  title="Joined Parties"
+                  icon={<Users2 size={32} />}
+                  targetValue={userStats?.partiesJoined || 0}
+                />
+                <TotalAvatarsCard
+                  icon={<LockKeyholeOpen size={32} />}
+                  unlockedAvatarCount={userStats?.unlockedAvatarCount || 0}
+                  totalAvatarCount={userStats?.totalAvatarCount || 0}
+                />
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </Stack>
       </Stack>
     </Box>
   );

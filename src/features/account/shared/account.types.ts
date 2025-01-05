@@ -39,6 +39,8 @@ export type MonthlyQuestBreakdown = {
 
 export type UserStatsResponse = {
   userId: string;
+  currentAvatar: UserAvatar;
+  username: string;
   currentLevel: number;
   currentExperience: number;
   experienceToLevelUp: number;
@@ -49,6 +51,10 @@ export type UserStatsResponse = {
   partiesJoined: number;
   unlockedAvatarCount: number;
   totalAvatarCount: number;
+  lowQuests: number;
+  mediumQuests: number;
+  highQuests: number;
+  criticalQuests: number;
 }
 
 export type UpdateAccount = z.infer<typeof updateAccountSchema>;
