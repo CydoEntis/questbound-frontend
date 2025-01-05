@@ -12,7 +12,7 @@ function PageHeader({ children }: PageHeaderProps) {
   return (
     <Box
       bg="secondary"
-      px={32}
+      px={{ base: 16, md: 32 }}
       py={16}
       style={{
         borderBottom: isLightMode ? "1px solid #DCDEE0" : "1px solid #3A3A3A",

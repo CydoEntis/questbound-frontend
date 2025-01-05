@@ -27,7 +27,7 @@ function PartyHeader({
   deleteHandler,
   editHandler,
   partyManagementHandler,
-  newQuestHandler
+  newQuestHandler,
 }: PartyHeaderProps) {
   return (
     <PageHeader>
@@ -76,11 +76,15 @@ function PartyHeader({
       </Flex>
       <Flex align="end" justify="space-between">
         <Group align="end">
-          <QuestSearch />
-          <QuestSortMenu />
+          <Group align="end">
+            <QuestSearch />
+          </Group>
           <QuestDateRangePicker />
-          <QuestOrderToggle />
-          <ClearFilters />
+          <Group gap={8}>
+            <QuestSortMenu />
+            <QuestOrderToggle />
+            <ClearFilters />
+          </Group>
         </Group>
       </Flex>
     </PageHeader>

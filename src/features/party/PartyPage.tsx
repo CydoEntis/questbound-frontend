@@ -36,7 +36,10 @@ function PartyPage() {
     isPending,
     isError,
   } = useGetPartyDetails(Number(partyId), { enabled: true });
-  const { data: quests, isPending: isQuestsPending } = useGetPartyQuests(Number(partyId), queryParams);
+  const { data: quests, isPending: isQuestsPending } = useGetPartyQuests(
+    Number(partyId),
+    queryParams
+  );
 
   const handlePageChange = (page: number) => {
     navigate({
@@ -119,7 +122,7 @@ function PartyPage() {
         partyManagementHandler={openPartyManagement}
         newQuestHandler={openNewQuest}
       />
-      <Box p={32}>
+      <Box p={{ base: 16, md: 32 }}>
         {isQuestsPending && !quests && <QuestsLoadingSkeleton />}
         {!isQuestsPending && quests && quests.items.length === 0 && (
           <NoQuestsAssigned />

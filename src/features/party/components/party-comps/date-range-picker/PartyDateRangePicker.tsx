@@ -76,9 +76,9 @@ function PartyDateRangePicker() {
       <Text size="sm" mb={4}>
         Select a Date Range
       </Text>
-      <Group>
+      <Group gap={8}>
         <DatePickerInput
-          w={320}
+          w={210}
           type="range"
           placeholder="Select date range"
           value={value}

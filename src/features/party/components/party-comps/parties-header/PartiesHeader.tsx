@@ -12,11 +12,15 @@ function PartiesHeader() {
       <Title>Your Joined Parties</Title>
       <Flex align="end" justify="space-between">
         <Group align="end">
-          <PartySearch />
-          <PartySortMenu />
+          <Group>
+            <PartySearch />
+          </Group>
           <PartyDateRangePicker />
-          <PartyOrderToggle />
-          <ClearFilters />
+          <Group gap={8}>
+            <PartySortMenu />
+            <PartyOrderToggle />
+            <ClearFilters />
+          </Group>
         </Group>
       </Flex>
     </PageHeader>
