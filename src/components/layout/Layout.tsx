@@ -11,7 +11,7 @@ import useAuthStore from "../../stores/useAuthStore";
 
 export function Layout() {
   const { user, checkIsAuthenticated } = useAuthStore();
-  const isLightMode = useGetColorTheme();
+  const { isLightMode } = useGetColorTheme();
   const [opened, { toggle, close }] = useDisclosure();
   const location = useLocation();
 
@@ -58,8 +58,10 @@ export function Layout() {
       ) : null}
 
       <AppShell.Main
-        style={{ backgroundColor: isLightMode ? "#FFF" : "#1A1B1E" }}
+        style={{ backgroundColor: isLightMode ? "#F5F4F4" : "#111111" }}
         w="100%"
+        mih="calc(100vh - 60px)"
+        h="100%"
       >
         <SlideInRightTransition key={location.pathname}>
           <Outlet />
