@@ -89,17 +89,17 @@ export default function Index() {
         </Stack>
         <Grid gutter={32}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
-            <Paper withBorder radius="lg">
+            <Paper withBorder radius="sm">
               <Image 
                 src={isLightMode ? PartyPageLight : PartyPageDark} 
                 w="100%" 
-                radius="lg" 
+                radius="sm" 
               />
             </Paper>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
             <Stack gap={16}>
-              <Paper p={8} radius="md" bg="violet" w={40} my={8}>
+              <Paper p={8} radius="sm" bg="violet" w={40} my={8}>
                 <Text ta="center" fw="bold" c="white">
                   01
                 </Text>
@@ -120,7 +120,7 @@ export default function Index() {
         <Grid gutter={32}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 1 }}>
             <Stack gap={16}>
-              <Paper p={8} radius="md" bg="violet" w={40} my={8}>
+              <Paper p={8} radius="sm" bg="violet" w={40} my={8}>
                 <Text ta="center" fw="bold" c="white">
                   02
                 </Text>
@@ -138,28 +138,28 @@ export default function Index() {
             </Stack>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 2 }}>
-            <Paper withBorder radius="lg">
+            <Paper withBorder radius="sm">
               <Image 
                 src={isLightMode ? QuestLight : QuestDark} 
                 w="100%" 
-                radius="lg" 
+                radius="sm" 
               />
             </Paper>
           </Grid.Col>
         </Grid>
         <Grid gutter={32}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
-            <Paper withBorder radius="lg">
+            <Paper withBorder radius="sm">
               <Image 
                 src={isLightMode ? AvatarShopLight : AvatarShopDark} 
                 w="100%" 
-                radius="lg" 
+                radius="sm" 
               />
             </Paper>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
             <Stack gap={16}>
-              <Paper p={8} radius="md" bg="violet" w={40} my={8}>
+              <Paper p={8} radius="sm" bg="violet" w={40} my={8}>
                 <Text ta="center" fw="bold" c="white">
                   03
                 </Text>
@@ -195,7 +195,7 @@ export default function Index() {
           </Text>
         </Stack>
         <SimpleGrid cols={{ base: 1, md: 4 }} spacing={32}>
-          <Paper p={16} radius="md" withBorder bg="card">
+          <Paper p={16} radius="sm" withBorder bg="card">
             <Stack gap={16}>
               <Title size="1.65rem">Party Up! </Title>
               <Text>
@@ -207,7 +207,7 @@ export default function Index() {
             </Stack>
           </Paper>
 
-          <Paper p={16} radius="md" withBorder bg="card">
+          <Paper p={16} radius="sm" withBorder bg="card">
             <Stack gap={16}>
               <Title size="1.65rem">Quest Masters </Title>
               <Text>
@@ -219,7 +219,7 @@ export default function Index() {
             </Stack>
           </Paper>
 
-          <Paper p={16} radius="md" withBorder bg="card">
+          <Paper p={16} radius="sm" withBorder bg="card">
             <Stack gap={16}>
               <Title size="1.65rem">Epic Avatars</Title>
               <Text>
@@ -230,7 +230,7 @@ export default function Index() {
             </Stack>
           </Paper>
 
-          <Paper p={16} radius="md" withBorder bg="card">
+          <Paper p={16} radius="sm" withBorder bg="card">
             <Stack gap={16}>
               <Title size="1.65rem">Party Management</Title>
               <Text>
