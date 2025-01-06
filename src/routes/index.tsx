@@ -67,7 +67,11 @@ export default function Index() {
           </Group>
         </Stack>
         <Paper withBorder radius="sm">
-          <Image src={QuestPageDark} w="100%" radius="sm" />
+          <Image 
+            src={isLightMode ? QuestPageLight : QuestPageDark} 
+            w="100%" 
+            radius="sm" 
+          />
         </Paper>
       </Stack>
 
@@ -86,13 +90,17 @@ export default function Index() {
         <Grid gutter={32}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
             <Paper withBorder radius="lg">
-              <Image src={PartyPageDark} w="100%" radius="lg" />
+              <Image 
+                src={isLightMode ? PartyPageLight : PartyPageDark} 
+                w="100%" 
+                radius="lg" 
+              />
             </Paper>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
             <Stack gap={16}>
               <Paper p={8} radius="md" bg="violet" w={40} my={8}>
-                <Text ta="center" fw="bold">
+                <Text ta="center" fw="bold" c="white">
                   01
                 </Text>
               </Paper>
@@ -113,7 +121,7 @@ export default function Index() {
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 1 }}>
             <Stack gap={16}>
               <Paper p={8} radius="md" bg="violet" w={40} my={8}>
-                <Text ta="center" fw="bold">
+                <Text ta="center" fw="bold" c="white">
                   02
                 </Text>
               </Paper>
@@ -131,20 +139,28 @@ export default function Index() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 2 }}>
             <Paper withBorder radius="lg">
-              <Image src={QuestDark} w="100%" radius="lg" />
+              <Image 
+                src={isLightMode ? QuestLight : QuestDark} 
+                w="100%" 
+                radius="lg" 
+              />
             </Paper>
           </Grid.Col>
         </Grid>
         <Grid gutter={32}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 2, md: 1 }}>
             <Paper withBorder radius="lg">
-              <Image src={AvatarShopDark} w="100%" radius="lg" />
+              <Image 
+                src={isLightMode ? AvatarShopLight : AvatarShopDark} 
+                w="100%" 
+                radius="lg" 
+              />
             </Paper>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 2 }}>
             <Stack gap={16}>
               <Paper p={8} radius="md" bg="violet" w={40} my={8}>
-                <Text ta="center" fw="bold">
+                <Text ta="center" fw="bold" c="white">
                   03
                 </Text>
               </Paper>
