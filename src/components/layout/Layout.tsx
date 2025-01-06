@@ -1,19 +1,23 @@
 import { AppShell } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Outlet, useLocation } from "@tanstack/react-router";
+import { useEffect } from "react";
 
-import TopBar from "./navigation/header/Header";
+import Header from "./navigation/header/Header";
 import useGetColorTheme from "../theme/hooks/useGetColorScheme";
 import Sidebar from "./navigation/sidebar/Sidebar";
 import SlideInRightTransition from "../transitions/SlideInRightTransition";
 import useAuthStore from "../../stores/useAuthStore";
-import { useEffect } from "react";
 
 export function Layout() {
   const { user, checkIsAuthenticated } = useAuthStore();
   const isLightMode = useGetColorTheme();
   const [opened, { toggle, close }] = useDisclosure();
   const location = useLocation();
+
+  // Check if the current route is "/" (hide sidebar for index route)
+  const isAuthenticated = checkIsAuthenticated();
+  const hideSidebar = location.pathname === "/";
 
   useEffect(() => {
     checkIsAuthenticated();
@@ -23,7 +27,7 @@ export function Layout() {
     <AppShell
       header={{ height: 60 }}
       navbar={
-        checkIsAuthenticated()
+        isAuthenticated && !hideSidebar
           ? {
               width: { base: 200, md: 300 },
               breakpoint: "sm",
@@ -33,30 +37,30 @@ export function Layout() {
       }
     >
       <AppShell.Header>
-        <TopBar
-          isAuthenticated={checkIsAuthenticated()}
+        <Header
+          isAuthenticated={isAuthenticated}
           opened={opened}
           toggle={toggle}
         />
       </AppShell.Header>
 
-      {checkIsAuthenticated() ? (
+      {isAuthenticated && !hideSidebar ? (
         <AppShell.Navbar
           p="md"
-          bg="secondary"
           style={{
-            navbar: {
-              borderColor: isLightMode ? "#DCDEE0" : "#3A3A3A",
-              overflowY: "auto",
-              height: "100vh",
-            },
+            borderColor: isLightMode ? "#DCDEE0" : "#3A3A3A",
+            overflowY: "auto",
+            height: "100vh",
           }}
         >
           <Sidebar onClose={close} />
         </AppShell.Navbar>
       ) : null}
 
-      <AppShell.Main bg="primary" pos="relative">
+      <AppShell.Main
+        style={{ backgroundColor: isLightMode ? "#FFF" : "#1A1B1E" }}
+        w="100%"
+      >
         <SlideInRightTransition key={location.pathname}>
           <Outlet />
         </SlideInRightTransition>

@@ -3,10 +3,8 @@ import { Notifications } from "@mantine/notifications";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Center, Container, Title, Text, Button } from "@mantine/core";
 import { createRootRouteWithContext, Link } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Layout } from "../components/layout/Layout";
 import theme from "../components/theme/theme.config";
 import { AuthState } from "../stores/useAuthStore";
@@ -51,8 +49,7 @@ function RootComponent() {
     <MantineProvider theme={theme} defaultColorScheme="auto">
       <Notifications />
       <Layout />
-      <ReactQueryDevtools buttonPosition="bottom-right" />
-      <TanStackRouterDevtools />
+ 
     </MantineProvider>
   );
 }

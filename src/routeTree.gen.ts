@@ -13,7 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
 import { Route as AuthResetPasswordImport } from './routes/_auth/reset-password'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
@@ -35,10 +35,10 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthenticatedRoute,
+  getParentRoute: () => rootRoute,
 } as any)
 
 const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
@@ -96,6 +96,13 @@ const AuthenticatedPartiesPartyIdRoute =
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -145,13 +152,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_authenticated/parties/$partyId': {
       id: '/_authenticated/parties/$partyId'
       path: '/parties/$partyId'
@@ -196,7 +196,6 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedPartiesPartyIdRoute: typeof AuthenticatedPartiesPartyIdRoute
   AuthenticatedPartiesInviteRoute: typeof AuthenticatedPartiesInviteRoute
   AuthenticatedPartiesIndexRoute: typeof AuthenticatedPartiesIndexRoute
@@ -204,7 +203,6 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedPartiesPartyIdRoute: AuthenticatedPartiesPartyIdRoute,
   AuthenticatedPartiesInviteRoute: AuthenticatedPartiesInviteRoute,
   AuthenticatedPartiesIndexRoute: AuthenticatedPartiesIndexRoute,
@@ -215,26 +213,26 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/': typeof AuthenticatedIndexRoute
   '/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/parties/invite': typeof AuthenticatedPartiesInviteRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '': typeof AuthRouteWithChildren
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/': typeof AuthenticatedIndexRoute
   '/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/parties/invite': typeof AuthenticatedPartiesInviteRoute
   '/parties': typeof AuthenticatedPartiesIndexRoute
@@ -242,6 +240,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
@@ -249,7 +248,6 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/parties/$partyId': typeof AuthenticatedPartiesPartyIdRoute
   '/_authenticated/parties/invite': typeof AuthenticatedPartiesInviteRoute
   '/_authenticated/parties/': typeof AuthenticatedPartiesIndexRoute
@@ -258,30 +256,31 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | ''
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/reset-password'
     | '/dashboard'
-    | '/'
     | '/parties/$partyId'
     | '/parties/invite'
     | '/parties'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | ''
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/reset-password'
     | '/dashboard'
-    | '/'
     | '/parties/$partyId'
     | '/parties/invite'
     | '/parties'
   id:
     | '__root__'
+    | '/'
     | '/_auth'
     | '/_authenticated'
     | '/_auth/forgot-password'
@@ -289,7 +288,6 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_auth/reset-password'
     | '/_authenticated/dashboard'
-    | '/_authenticated/'
     | '/_authenticated/parties/$partyId'
     | '/_authenticated/parties/invite'
     | '/_authenticated/parties/'
@@ -297,11 +295,13 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
 }
@@ -316,9 +316,13 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/_auth",
         "/_authenticated"
       ]
+    },
+    "/": {
+      "filePath": "index.tsx"
     },
     "/_auth": {
       "filePath": "_auth.tsx",
@@ -333,7 +337,6 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/dashboard",
-        "/_authenticated/",
         "/_authenticated/parties/$partyId",
         "/_authenticated/parties/invite",
         "/_authenticated/parties/"
@@ -357,10 +360,6 @@ export const routeTree = rootRoute
     },
     "/_authenticated/dashboard": {
       "filePath": "_authenticated/dashboard.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/": {
-      "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/parties/$partyId": {

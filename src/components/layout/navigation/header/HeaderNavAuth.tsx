@@ -1,5 +1,4 @@
 import { Flex, Group, Image } from "@mantine/core";
-import { Link } from "@tanstack/react-router";
 import { ReactElement } from "react";
 
 import Logo from "../../../../assets/logo.png";
