@@ -18,6 +18,12 @@ import AvatarShopDark from "../assets/avatar-shop-dark.png";
 import QuestDark from "../assets/quest-dark.png";
 import PartyPageDark from "../assets/party-page-dark.png";
 
+import QuestPageLight from "../assets/quest-page-light.png";
+import AvatarShopLight from "../assets/avatar-shop-light.png";
+import QuestLight from "../assets/quest-light.png";
+import PartyPageLight from "../assets/party-page-light.png";
+import useGetColorTheme from "../components/theme/hooks/useGetColorScheme";
+
 export const Route = createFileRoute("/")({
   component: Index,
 });
@@ -25,7 +31,8 @@ export const Route = createFileRoute("/")({
 export default function Index() {
   const { checkIsAuthenticated } = useAuthStore();
   const navigate = useNavigate();
-
+  const { isLightMode } = useGetColorTheme();
+  
   useEffect(() => {
     if (checkIsAuthenticated()) {
       navigate({ to: "/dashboard" });
