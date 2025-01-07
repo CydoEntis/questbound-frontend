@@ -1,5 +1,4 @@
 import { Badge } from "@mantine/core";
-import React from "react";
 
 type PriorityBadgeProps = {
   priorityLevel: number;
@@ -20,7 +19,11 @@ function PriorityBadge({ priorityLevel }: PriorityBadgeProps) {
     text: "Unknown",
   };
 
-  return <Badge variant="light" color={color}>{text}</Badge>;
+  return (
+    <Badge variant="light" color={color}>
+      {text}
+    </Badge>
+  );
 }
 
 export default PriorityBadge;

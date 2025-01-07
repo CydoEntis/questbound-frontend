@@ -23,11 +23,14 @@ const registerUser = async (
 const loginUser = async (
   credentials: LoginRequest
 ): Promise<AuthenticatedResponse> => {
+  console.log("Logging in");
   const response = (
     await apiClient.post(`${endpoints.auth}/login`, credentials)
   ).data;
 
   if (!response.success) throw new Error("Login unsuccessful!");
+
+  console.log(response.data);
 
   return response.data;
 };
