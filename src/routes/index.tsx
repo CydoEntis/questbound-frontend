@@ -23,6 +23,7 @@ import AvatarShopLight from "../assets/avatar-shop-light.png";
 import QuestLight from "../assets/quest-light.png";
 import PartyPageLight from "../assets/party-page-light.png";
 import useGetColorTheme from "../components/theme/hooks/useGetColorScheme";
+import { useDocumentTitle } from "@mantine/hooks";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -32,6 +33,7 @@ export default function Index() {
   const { checkIsAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const { isLightMode } = useGetColorTheme();
+  useDocumentTitle("Questbound");
   
   useEffect(() => {
     if (checkIsAuthenticated()) {

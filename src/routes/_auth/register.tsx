@@ -1,6 +1,7 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import AuthCard from "../../features/auth/components/auth-card/AuthCard";
 import RegisterForm from "../../features/auth/components/register-form/RegisterForm";
+import { useDocumentTitle } from "@mantine/hooks";
 
 export const Route = createFileRoute("/_auth/register")({
   component: RegisterPage,
@@ -17,6 +18,8 @@ function RegisterPage() {
   const useSearchParams = useSearch({
     from: "/_auth/register",
   });
+
+  useDocumentTitle("Questbound | Register");
 
   const redirectTo = useSearchParams.redirect ?? null;
 

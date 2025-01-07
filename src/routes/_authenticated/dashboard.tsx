@@ -24,6 +24,7 @@ import { getPercentage } from "../../shared/utils/account.utils";
 import Gold from "../../assets/gold.png";
 import PriorityCard from "../../features/account/components/cards/PriorityCard";
 import MonthlyQuestBreakdownChart from "../../features/account/components/charts/MonthlyQuestBreakdownChart";
+import { useDocumentTitle } from "@mantine/hooks";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Index,
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function Index() {
   const { data: userStats, isLoading: isUserStatsLoading } = useGetUserStats();
+    useDocumentTitle("Questbound | Dashboard");
+  
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();

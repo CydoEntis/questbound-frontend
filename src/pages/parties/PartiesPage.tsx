@@ -1,15 +1,25 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Box, Center, Pagination, Paper, Stack, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Center,
+  Pagination,
+  Paper,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useGetParties } from "../../features/party/api/party";
 import PartyGrid from "../../features/party/components/party-comps/party-grid/PartyGrid";
 import { Route } from "../../routes/_authenticated/parties/";
 
 import PartiesHeader from "../../features/party/components/party-comps/parties-header/PartiesHeader";
 import PartiesLoadingSkeleton from "../../features/party/components/party-comps/parties-loader/PartiesLoadingSkeleton";
+import { useDocumentTitle } from "@mantine/hooks";
 
 function PartiesPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/" });
   const navigate = useNavigate({ from: Route.fullPath });
+  useDocumentTitle("Questbound | Parties");
 
   const currentPage = Number(searchParams.pageNumber) || 1;
 

@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useDeleteParty, useGetPartyDetails } from "./api/party";
 import { Route } from "../../routes/_authenticated/parties/$partyId";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useDocumentTitle } from "@mantine/hooks";
 import { useGetPartyQuests } from "./api/quest";
 import QuestGrid from "./components/quest-comps/quest-grid/QuestGrid";
 import CreateQuestModal from "./components/quest-comps/create-quest-modal/CreateQuestModal";
@@ -26,6 +26,8 @@ function PartyPage() {
   const searchParams = useSearch({ from: "/_authenticated/parties/$partyId" });
   const navigate = useNavigate({ from: Route.fullPath });
   const deleteParty = useDeleteParty();
+  useDocumentTitle("Questbound | Quests");
+
 
   const { partyId } = Route.useParams();
   const currentPage = Number(searchParams.pageNumber) || 1;
