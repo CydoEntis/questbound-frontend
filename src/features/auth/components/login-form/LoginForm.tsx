@@ -5,6 +5,7 @@ import {
   PasswordInput,
   TextInput,
   Alert,
+  Flex,
 } from "@mantine/core";
 import { AtSign, Lock } from "lucide-react";
 import { zodResolver } from "mantine-form-zod-resolver";
@@ -19,11 +20,11 @@ import useFormErrorHandler from "../../../../shared/hooks/useHandleErrors";
 
 function LoginForm({ redirectTo }: { redirectTo: string | null }) {
   const login = useLogin();
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   const { error, handleAuthFormErrors, resetError } =
     useFormErrorHandler<LoginRequest>();
-    
+
   const form = useForm<LoginRequest>({
     validate: zodResolver(loginSchema),
     initialValues: {
@@ -38,7 +39,22 @@ function LoginForm({ redirectTo }: { redirectTo: string | null }) {
 
       form.reset();
       navigate({ to: redirectTo || "/dashboard" });
+    } catch (err) {
+      const error = err as ErrorResponse;
+      handleAuthFormErrors(error, form);
+    }
+  }
 
+  async function handleDemoLogin() {
+    const demoCredentials = {
+      email: "demo@demo.com",
+      password: "Demo123*",
+    };
+
+    try {
+      await login.mutateAsync(demoCredentials);
+      form.reset();
+      navigate({ to: redirectTo || "/dashboard" });
     } catch (err) {
       const error = err as ErrorResponse;
       handleAuthFormErrors(error, form);
@@ -93,9 +109,19 @@ function LoginForm({ redirectTo }: { redirectTo: string | null }) {
           Forgot password?
         </Anchor>
       </Group>
-      <Button fullWidth mt="xl" color="violet" variant="light" type="submit">
-        Sign in
-      </Button>
+      <Flex mt="xl" gap="sm">
+        <Button w="100%" color="violet" variant="light" type="submit">
+          Login
+        </Button>
+        <Button
+          w="100%"
+          color="violet"
+          variant="light"
+          onClick={handleDemoLogin}
+        >
+          Login as Demo User
+        </Button>
+      </Flex>
     </form>
   );
 }
